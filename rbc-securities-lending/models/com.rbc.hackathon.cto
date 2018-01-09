@@ -19,8 +19,7 @@ abstract asset Instrument identified by id {
   --> Bank bank
 }
 
-asset Bond  extends Instrument {
-
+asset Bond extends Instrument {
 }
 
 asset SecurityLandingContract identified by id {
@@ -34,12 +33,27 @@ asset SecurityLandingContract identified by id {
   --> Bank bank
   --> Borrower borrower
 }
+asset SecurityLandingOffer identified by id {
+  o String id
+  o String expirationDate
+  o Double interestRate
+  --> SecurityLandingContract securityLandingContract
+  --> Bank bank
+}
 
 transaction LendingRequest {
-  o String id
   o String startDate
   o String endDate
   o Double quantity
   --> Instrument instrument
   --> Borrower borrower
+}
+transaction LendingOffer {
+  o String expirationDate
+  o Double interestRate
+  --> SecurityLandingContract securityLandingContract
+  --> Bank bank
+}
+transaction LendingOfferAgreement {
+  --> SecurityLandingOffer securityLandingOffer
 }
