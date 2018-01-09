@@ -4,16 +4,28 @@
 
 namespace com.rbc.hackathon
 
-participant User identified by email {
-  o String email
+participant Bank identified by id {
+  o Integer id
+}
+participant Borrower identified by id {
+  o Integer id
 }
 
-asset SampleAsset identified by assetId {
-  o String assetId
+asset Bond identified by id {
+  o String id
+  o String isin
   o String value
+  --> Bank bank
 }
 
-transaction ChangeAssetValue {
+transaction Lending identified by id {
+  o Integer id
   o String newValue
-  --> Asset relatedAsset
+  o String startDate
+  o String endDate
+  o Double quantity
+  o Double interestRate
+  o Boolean valid
+  --> Bond bond
+  --> Borrower borrower
 }
