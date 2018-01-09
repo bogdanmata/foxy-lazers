@@ -4,6 +4,16 @@
 
 namespace com.rbc.hackathon
 
+/**
+ * The status of a secLending
+ */
+enum SecurityLandingContractStatus {
+  o REQUESTED
+  o ACCEPTED
+  o ENDED  
+  o EXPIRED
+}
+
 participant Bank identified by id {
   o String id
 }
@@ -27,8 +37,8 @@ asset SecurityLandingContract identified by id {
   o String startDate
   o String endDate
   o Double quantity
-  o String status
-  o Double interestRate
+  o SecurityLandingContractStatus status
+  o Double fees
   --> Instrument instrument
   --> Bank bank
   --> Borrower borrower
@@ -56,4 +66,10 @@ transaction LendingOffer {
 }
 transaction LendingOfferAgreement {
   --> SecurityLandingOffer securityLandingOffer
+}
+
+/**
+ * JUST FOR INITIALIZING A DEMO
+ */
+transaction SetupDemo {
 }
