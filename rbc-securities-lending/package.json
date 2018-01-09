@@ -1,0 +1,22 @@
+{
+  "name": "rbc-securities-lending",
+  "version": "0.0.1",
+  "description": "rbc securities lending",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "rbc",
+  "email": "kader.timzorane@rbc.com",
+  "license": "MIT",
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}
