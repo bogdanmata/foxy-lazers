@@ -28,13 +28,17 @@ asset SecurityLandingContract identified by id {
   o String endDate
   o Double quantity
   o String status
+  o Double interestRate
   --> Instrument instrument
+  --> Bank bank
+  --> Borrower borrower
 }
 
-transaction Lending {
+transaction LendingRequest {
   o String id
-  o String newValue
-  o Boolean valid
+  o String startDate
+  o String endDate
+  o Double quantity
   --> Instrument instrument
   --> Borrower borrower
 }
