@@ -14,6 +14,13 @@ enum SecurityLandingContractStatus {
   o EXPIRED
 }
 
+enum FeesFrequency {
+  o AT_CONTRACT_END
+  o SEC_10
+  o SEC_20
+  o SEC_30
+}
+
 participant Bank identified by id {
   o String id
 }
@@ -23,7 +30,7 @@ participant Borrower identified by id {
 }
 
 abstract asset Instrument identified by id {
-   o String id
+  o String id
   o String isin
   o String value
   --> Bank bank
@@ -32,13 +39,23 @@ abstract asset Instrument identified by id {
 asset Bond extends Instrument {
 }
 
+abstract asset Collateral identified by id {
+  o String id
+}
+
+asset CollateralCash extends Collateral {
+  o Double amount
+}
+
 asset SecurityLandingContract identified by id {
   o String id
   o String startDate
   o String endDate
   o Double quantity
+  o Collateral collateral
   o SecurityLandingContractStatus status
   o Double fees
+  o FeesFrequency feesFrequency 
   --> Instrument instrument
   --> Bank bank
   --> Borrower borrower
@@ -46,7 +63,8 @@ asset SecurityLandingContract identified by id {
 asset SecurityLandingOffer identified by id {
   o String id
   o String expirationDate
-  o Double interestRate
+  o Double fees
+  o FeesFrequency feesFrequency 
   --> SecurityLandingContract securityLandingContract
   --> Bank bank
 }
@@ -60,7 +78,8 @@ transaction LendingRequest {
 }
 transaction LendingOffer {
   o String expirationDate
-  o Double interestRate
+  o Double fees
+  o FeesFrequency feesFrequency 
   --> SecurityLandingContract securityLandingContract
   --> Bank bank
 }
