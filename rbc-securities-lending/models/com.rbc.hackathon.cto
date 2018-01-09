@@ -12,21 +12,29 @@ participant Borrower identified by id {
   o String id
 }
 
-asset Bond identified by id {
+abstract concept Instrument identified by id {
   o String id
   o String isin
   o String value
   --> Bank bank
 }
 
-transaction Lending  {
+asset Bond extends Instrument {
+}
+
+asset SecurityLandingContract identified by id {
   o String id
-  o String newValue
   o String startDate
   o String endDate
   o Double quantity
-  o Double interestRate
+  o String status
+  --> Instrument instrument
+}
+
+transaction Lending {
+  o String id
+  o String newValue
   o Boolean valid
-  --> Bond bond
+  --> Instrument instrument
   --> Borrower borrower
 }
