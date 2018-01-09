@@ -1,0 +1,22 @@
+{
+  "name": "foxy-lazer-client",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "The cliet application for the blockchain",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blockchain"
+  ],
+  "author": "Bogdan MATA",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^3.0.2",
+    "gulp-riot": "^1.1.1",
+    "gulp-rm": "^1.0.4",
+    "gulp-plumber": "^1.2.0",
+    "gulp-util": "^3.0.8"
+  }
+}
