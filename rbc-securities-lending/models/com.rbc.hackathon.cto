@@ -5,10 +5,11 @@
 namespace com.rbc.hackathon
 
 participant Bank identified by id {
-  o Integer id
+  o String id
 }
+
 participant Borrower identified by id {
-  o Integer id
+  o String id
 }
 
 asset Bond identified by id {
@@ -18,8 +19,8 @@ asset Bond identified by id {
   --> Bank bank
 }
 
-transaction Lending identified by id {
-  o Integer id
+transaction Lending  {
+  o String id
   o String newValue
   o String startDate
   o String endDate
