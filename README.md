@@ -1,5 +1,7 @@
 # foxy-lazers
 
+https://bogdanmata.github.io/foxy-lazers
+
 Install
 
 # UI
