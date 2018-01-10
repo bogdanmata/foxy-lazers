@@ -9,48 +9,49 @@
  * @transaction
  */
 function requestLending(lendingRequest){
-    var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract','1');
-
-    securityLendingContract.startDate = lendingRequest.startDate ;
-    securityLendingContract.endDate   = lendingRequest.endDate  ;
-    securityLendingContract.quantity  = lendingRequest.quantity ;
-    securityLendingContract.instrument  = lendingRequest.instrument ;
-    securityLendingContract.borrower  = lendingRequest.borrower ;
-
-    securityLendingContract.status      = 'REQUESTED' ;
-    securityLendingContract.collateral  = null ;
-    securityLendingContract.fees        = null ;
-    securityLendingContract.feesFrequency = null ;
-    securityLendingContract.bank = null ;
     
+    var NS = 'com.rbc.hackathon';
+
     return getAssetRegistry(NS + '.SecurityLendingContract')
-        .then(function (securityLendingContractRegistry) { 
-    return securityLendingContractRegistry.add(securityLendingContract);
-    });
+        .then(function (SLContractRegistry){
+            var ContractColl = SLContractRegistry.getAll();
+            
+
+            var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', +ContractColl[ContractColl.length].id + 1);
+
+            securityLendingContract.startDate = lendingRequest.startDate ;
+            securityLendingContract.endDate   = lendingRequest.endDate  ;
+            securityLendingContract.quantity  = lendingRequest.quantity ;
+            securityLendingContract.instrument  = lendingRequest.instrument ;
+            securityLendingContract.borrower  = lendingRequest.borrower ;
+
+            securityLendingContract.status      = 'REQUESTED' ;
+            securityLendingContract.collateral  = null ;
+            securityLendingContract.fees        = null ;
+            securityLendingContract.feesFrequency = null ;
+            securityLendingContract.bank = null ;
+            
+            SLContractRegistry.add(securityLendingContract);
+        });
 }
+
 /**
- * A request for Sec lending has been received
- * @param {com.rbc.hackathon.LendingRequest} lendingRequest - the LendingRequest transaction
+ * An offer on lending will be created
+ * @param {com.rbc.hackathon.LendingOffer} lendingOffer - the LendingRequest transaction
  * @transaction
  */
-function onSecurityLendingReception(lendingRequest) {  // eslint-disable-line no-unused-vars
+function offerLending(lendingOffer){
+    
+    // need to tested to know if this a relationship or the real object behind
+     
+    var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer','1');
 
-    var instrument = lendingRequest.instrument;
-    var borrower   = lendingRequest.borrower;
+    securityLendingOffer.expirationDate = lendingOffer.expirationDate;
+    securityLendingOffer.fees = lendingOffer.fees;
+    securityLendingOffer.feesFrequency = lendingOffer.feesFrequency;
+    securityLendingOffer.securityLendingContract = lendingOffer.securityLendingContract;
+    securityLendingOffer.bank = lendingOffer.bank;
 
-    console.log('Lending request received on instrument ' + instrument.isin + ' done by ' + borrower.name);
-}
-
-/**
- * An offer for Sec lending has been received
- * @param {com.rbc.hackathon.LendingOffer} lendingOffer - the lendingOffer transaction
- * @transaction
- */
-function onLendingOfferReception(lendingOffer) {  // eslint-disable-line no-unused-vars
-
-    var bank   = lendingRequest.bank;
-
-    console.log('Lending offer received from '  + bank.name);
 }
 
 /**
