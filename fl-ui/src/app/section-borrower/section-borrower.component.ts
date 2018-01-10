@@ -57,4 +57,8 @@ export class SectionBorrowerComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  feesPerSecond(): number {
+    return 10;
+  }
 }
