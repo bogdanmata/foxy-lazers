@@ -27,12 +27,13 @@ participant Bank identified by id {
 
 participant Borrower identified by id {
   o String id
+  o String name
 }
 
 abstract asset Instrument identified by id {
   o String id
   o String isin
-  o String value
+  o String description
   --> Bank bank
 }
 
