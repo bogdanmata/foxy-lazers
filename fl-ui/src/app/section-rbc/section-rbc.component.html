@@ -1,7 +1,7 @@
 <form class="rbc-form">
   <mat-form-field class="full-width">
-    <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
+    <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput  [matAutocomplete]="autoInstitutions">
+    <mat-autocomplete #autoInstitutions="matAutocomplete">
       <mat-option *ngFor="let institution of institutions" [value]="institution">
         {{ institution }}
       </mat-option>
@@ -9,8 +9,8 @@
   </mat-form-field>
 
   <mat-form-field class="full-width">
-    <input type="text" placeholder="Pick a instrument" aria-label="Instrument" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
+    <input type="text" placeholder="Pick a instrument" aria-label="Instrument" matInput [matAutocomplete]="autoInstruments">
+    <mat-autocomplete #autoInstruments="matAutocomplete">
       <mat-option *ngFor="let instrument of instruments" [value]="instrument">
         {{ instrument }}
       </mat-option>
