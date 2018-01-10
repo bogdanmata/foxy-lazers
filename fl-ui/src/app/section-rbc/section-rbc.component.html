@@ -1,61 +1,102 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link routerLink="/" routerLinkActive="active">Back home</a>
-</nav>
+<div class="top-bar">
+  <span class="app-name">Bank app</span>
+  <span class="login">Logged in as <span class="login-name">RBC</span></span> -
+  <a mat-tab-link routerLink="/">Logout</a>
+</div>
 
-<form class="rbc-form">
-  <mat-form-field class="full-width">
-    <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput  [matAutocomplete]="autoInstitutions">
-    <mat-autocomplete #autoInstitutions="matAutocomplete">
-      <mat-option *ngFor="let institution of institutions" [value]="institution">
-        {{ institution }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+<div class="below-topbar">
 
-  <mat-form-field class="full-width">
-    <input type="text" placeholder="Pick a instrument" aria-label="Instrument" matInput [matAutocomplete]="autoInstruments">
-    <mat-autocomplete #autoInstruments="matAutocomplete">
-      <mat-option *ngFor="let instrument of instruments" [value]="instrument">
-        {{ instrument }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div>
+    <h2>All offers</h2>
+    <div class="rbc-page-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+        </ng-container>
 
-  <mat-form-field class="full-width">
-    <input matInput placeholder="Collateral" type="text">
-    <!-- <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of options" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete> -->
-  </mat-form-field>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+        </ng-container>
 
-  <mat-form-field class="full-width">
-    <input matInput placeholder="Start date" type="datetime-local">
-  </mat-form-field>
+        <ng-container matColumnDef="isin">
+          <mat-header-cell *matHeaderCellDef> ISIN</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.isin}}</mat-cell>
+        </ng-container>
 
-  <mat-form-field class="full-width">
-    <input matInput placeholder="End date" type="datetime-local">
-  </mat-form-field>
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
+        </ng-container>
 
-  <mat-form-field class="full-width">
-    <input matInput placeholder="Quantity" type="number">
-  </mat-form-field>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
 
-  <mat-form-field class="full-width">
-    <input matInput placeholder="Fees" type="number">
-  </mat-form-field>
+  <div>
+    <div class="rbc-page-container mat-elevation-z8">
+      <form class="rbc-form">
+        <mat-form-field class="full-width">
+          <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput
+                 [matAutocomplete]="autoInstitutions">
+          <mat-autocomplete #autoInstitutions="matAutocomplete">
+            <mat-option *ngFor="let institution of institutions" [value]="institution">
+              {{ institution }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <mat-radio-group class="radio-group">
-      <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
-      <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
-      <mat-radio-button class="radio-button" value="SEC_20">Every 20 seconds</mat-radio-button>
-      <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
-    </mat-radio-group>
-  </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Pick a instrument" type="text" readonly value="something">
+        </mat-form-field>
 
-</form>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Collateral" type="text" readonly value="Some quaranty">
+          <!-- <mat-autocomplete #auto="matAutocomplete">
+			<mat-option *ngFor="let option of options" [value]="option">
+			  {{ option }}
+			</mat-option>
+		  </mat-autocomplete> -->
+        </mat-form-field>
 
-<button mat-raised-button color="primary">Create new offer</button>
-<button mat-raised-button color="warn">Cancel</button>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Start date" type="datetime-local" readonly value="2017-06-01T08:30">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="End date" type="datetime-local" readonly value="2018-01-10T16:00">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Expiration date of the offer" type="datetime-local" min="2017-06-01T08:30">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Quantity" type="number" readonly value="10">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Fees" type="number">
+        </mat-form-field>
+
+        <!-- <mat-form-field class="full-width"> -->
+        <mat-radio-group class="radio-group">
+          <h3 mat-subheader>Fee frequency:</h3>
+          <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
+          <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
+          <mat-radio-button class="radio-button" value="SEC_20">Every 20 seconds</mat-radio-button>
+          <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
+        </mat-radio-group>
+        <!-- </mat-form-field> -->
+        <div style="padding: 10px;">
+          <button mat-raised-button color="primary">Create new offer</button>
+          <button mat-raised-button color="warn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
