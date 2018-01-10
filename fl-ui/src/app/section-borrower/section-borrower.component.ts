@@ -1,10 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
   {id: '2', name: 'Helium', isin: '456', quantity: 100}
+];
+
+const ACTIVE_OFFERS: SecurityLandingContract[] = [
+  {
+    id: '1',
+    startDate: '??',
+    endDate: '??',
+    quantity: 156,
+    collateral: '?',
+    status: 'ACTIVE',
+    fees: 50,
+    feesFrequency: 'SEC_10'
+  }
 ];
 
 export interface Element {
@@ -12,6 +25,18 @@ export interface Element {
   name: string;
   isin: string;
   quantity: number;
+}
+
+
+export interface SecurityLandingContract {
+  id: string;
+  startDate: string;
+  endDate: string;
+  quantity: number;
+  collateral: string;
+  status: string;
+  fees: number;
+  feesFrequency: string;
 }
 
 @Component({
@@ -23,10 +48,17 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
+  displayedColumnsActiveOffers = ['id', 'quantity'];
+  dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+
   instruments = [
     {value: 1, viewValue: 'Coca-Cola - ISIN US1912161007'},
     {value: 2, viewValue: 'Airbus - NL0000235190'}
   ];
+
+  newOfferForm = new FormGroup({
+    frequency: new FormControl()
+  });
 
   constructor() {
   }
