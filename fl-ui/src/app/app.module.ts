@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatRadioModule, MatInputModule, MatFormFieldModule, MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule,  } from '@angular/material/datepicker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { SectionRbcComponent } from './section-rbc/section-rbc.component';
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     ),
-    MatTableModule
+    MatTableModule, MatRadioModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

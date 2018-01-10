@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
@@ -22,7 +23,8 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

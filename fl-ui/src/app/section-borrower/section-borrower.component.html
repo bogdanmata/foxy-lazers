@@ -19,30 +19,31 @@
     </div>
 
     <div>
-      Frequency
-      <input id="s10" type="radio" value="10" name="frequency" />
-      <label for="s10">10s</label>
-
-      <input id="s20" type="radio" value="20" name="frequency" />
-      <label for="s20">20s</label>
-
-      <input id="s30" type="radio" value="30" name="frequency" />
-      <label for="s30">30s</label>
+      <label>Frequency: </label>
+      <mat-radio-group formControlName="floatLabel">
+        <mat-radio-button value="10">10s</mat-radio-button>
+        <mat-radio-button value="20">20s</mat-radio-button>
+        <mat-radio-button value="30">30s</mat-radio-button>
+      </mat-radio-group>
     </div>
 
     <div>
       Quantity
-      <input type="text" />
+      <input type="text"/>
     </div>
 
     <div>
       Start date
-      <input type="text" />
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <div>
       End date
-      <input type="text" />
+      <input type="text"/>
     </div>
 
     <button>Create new offer</button>
@@ -59,23 +60,23 @@
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="isin">
-        <mat-header-cell *matHeaderCellDef> ISIN </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.isin}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> ISIN</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.isin}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
