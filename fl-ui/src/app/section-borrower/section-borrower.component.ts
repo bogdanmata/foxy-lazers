@@ -8,7 +8,7 @@ import {
 } from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
 import {BusinessUser} from "../model/business-user.model";
-import {environment} from "../../environments/environment";
+import {CommonService} from "../common.service";
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
@@ -50,6 +50,8 @@ export interface FeesDue {
   atContractEnd: number
 }
 
+export const REFRESH_INTERVAL = 4000;
+
 @Component({
   selector: 'app-section-borrower',
   templateUrl: './section-borrower.component.html',
@@ -70,39 +72,29 @@ export class SectionBorrowerComponent implements OnInit {
 
   public businessUser: BusinessUser;
 
-  constructor(private http: HttpClient) {
+  constructor(private commonService: CommonService) {
   }
 
   ngOnInit() {
     // Retrieve available bonds
-    this.updateBonds();
-
-    // Get business user
-    this.updateBusinessUser();
-  }
-
-  /**
-   * Retrieve list of bonds
-   */
-  updateBonds(): void {
-    this.http.get<Instrument[]>(environment.blockchain_api_path + 'com.rbc.hackathon.Bond').subscribe(data => {
+    this.commonService.getBonds().subscribe(data => {
       this.instruments = data;
     });
+
+    // Get business user
+    this.commonService.updateBusinessUser().subscribe(data => {
+      this.businessUser = data;
+    });
+
+    // Setup automatic refresh
+    setInterval(() => {
+      this.commonService.updateBusinessUser().subscribe(data => {
+        this.businessUser = data;
+      });
+    }, REFRESH_INTERVAL);
   }
 
-  /**
-   * Retrieve business user with its balance and portfolio
-   */
-  updateBusinessUser(): void {
-    this.businessUser = {
-      accountBalance: 2000,
-      name: '??'
-    };
 
-    // TODO Retrieve from backend
-    // this.http.get<Instrument[]>('?').subscribe(data => {
-    // });
-  }
 
   /**
    * Computes number of tokens per seconds that the borrower owes to the bank
