@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-section-rbc',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SectionRbcComponent implements OnInit {
 
+  rbcComponentControl: FormControl = new FormControl();
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  options = [
+    'RBC',
+    'Bank two',
+    'Bank three'
+   ];
 
 }
