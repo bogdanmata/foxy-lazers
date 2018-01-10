@@ -6,10 +6,14 @@
 
 <div>
   <h2>Your balance</h2>
-  -{{ feesDue().perSecond }} foxy/second / -{{ feesDue().atContractEnd }} foxy at contract end
+  <div class="fees">
+    <span class="fees-container"><span class="fees-value">-{{ feesDue().perSecond }} $</span>/second</span>
+      <span class="fees-container"><span class="fees-value">-{{ feesDue().atContractEnd }} $</span> at contract end</span>
+  </div>
 </div>
 
 <div>
+  <h2>Create new offer</h2>
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -23,13 +27,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
-        <mat-radio-group formControlName="frequency">
-          <label>Frequency:</label>
-          <mat-radio-button value="10">10s</mat-radio-button>
-          <mat-radio-button value="20">20s</mat-radio-button>
-          <mat-radio-button value="30">30s</mat-radio-button>
-        </mat-radio-group>
 
         <mat-form-field>
           <input type="number" matInput placeholder="Quantity">
@@ -47,7 +44,7 @@
           <mat-datepicker #endDatePicker></mat-datepicker>
         </mat-form-field>
 
-        <button mat-raised-button>Create new offer</button>
+        <button mat-raised-button>Create lending request</button>
       </form>
     </mat-expansion-panel>
   </mat-accordion>
