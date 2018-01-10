@@ -26,7 +26,7 @@ function onLendingOfferReception(lendingOffer) {  // eslint-disable-line no-unus
     var bank   = lendingRequest.bank;
 
     console.log('Lending offer received from '  + bank.name);
-
+}
 
 /**
  * Initialize some test assets and participants useful for running a demo.
@@ -95,22 +95,21 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     return getParticipantRegistry(NS + '.Borrower')
         .then(function (borrowerRegistry) {
-            // add the growers
+            // add the borrowers
             return borrowerRegistry.addAll([borrower1, borrower2]);
         })
         .then(function() {
             return getParticipantRegistry(NS + '.Bank');
         })
         .then(function (bankRegistry) {
-            // add the growers
+            // add the banks
             return bankRegistry.addAll([bank1, bank2]);
         })
         .then(function() {
             return getAssetRegistry(NS + '.Bond');
         })
         .then(function (bondRegistry) {
-            // add the growers
+            // add the bonds
             return bondRegistry.addAll([bond2, bond5]);
         });
-    }
 }
