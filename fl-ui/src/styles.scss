@@ -25,3 +25,25 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+// Navigation
+nav {
+  margin-top: 1rem;
+  text-align: center;
+
+  a {
+    cursor: pointer;
+    display: inline-block;
+    color: $color4;
+    background-color: $color2;
+    padding: 1rem 2rem;
+    width: 8rem;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $color3;
+      color: $color1;
+    }
+  }
+}
