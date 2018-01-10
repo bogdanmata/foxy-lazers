@@ -1,5 +1,7 @@
 @import "../../variables";
 
+$nav-border-width: 0.3rem;
+
 div.home {
   text-align: center;
   position: absolute;
@@ -7,8 +9,22 @@ div.home {
   left: 0;
   height: 100%;
   width: 100%;
+
+  .menu-item-left {
+    border-top: $nav-border-width solid $color2;
+    &:hover {
+      border-top: $nav-border-width solid #F8FF4C;
+    }
+  }
+  .menu-item-right {
+    border-top: $nav-border-width solid $color2;
+    &:hover {
+      border-top: $nav-border-width solid #43F354;
+    }
+  }
 }
 
 img {
   margin: 2rem;
+  width: 200px;
 }

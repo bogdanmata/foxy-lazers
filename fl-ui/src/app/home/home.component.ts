@@ -6,12 +6,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  public isInPicture: boolean = false;
+  public hovered: string = '';
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  mouseOver(hovered: string): void {
+    this.hovered = hovered;
+  }
+
+  mouseLeave(): void {
+    this.hovered = '';
+  }
+
+  foxDouble(): void {
+    this.hovered = '_x';
+    setTimeout(() => {
+      this.hovered = '';
+    }, 700);
+
+  }
 }

@@ -13,3 +13,7 @@ Module is `fl-ui`. UI application based on Angular 4.
 To start UI, use `npm run start`
 
 ![](img/ui-config.jpg)
+
+# Foxy
+
+Foxy has been made on [Piskel](https://www.piskelapp.com/)
