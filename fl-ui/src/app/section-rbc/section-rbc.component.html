@@ -1,3 +1,51 @@
-<p>
-  section-rbc works!
-</p>
+<form class="rbc-form">
+  <mat-form-field class="full-width">
+    <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let institution of institutions" [value]="institution">
+        {{ institution }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="text" placeholder="Pick a instrument" aria-label="Instrument" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let instrument of instruments" [value]="instrument">
+        {{ instrument }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Collateral" type="text">
+    <!-- <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete> -->
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Start date" type="datetime-local">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="End date" type="datetime-local">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Quantity" type="number">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Fees" type="number">
+  </mat-form-field>
+
+  <mat-radio-group class="radio-group">
+    <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
+    <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
+    <mat-radio-button class="radio-button" value="SEC_20">Every 20 seconds</mat-radio-button>
+    <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
+  </mat-radio-group>
+</form>

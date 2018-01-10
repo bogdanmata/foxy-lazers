@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 h1 {
@@ -17,4 +18,10 @@ p {
 
 body {
   background-color: $color-body;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
 }

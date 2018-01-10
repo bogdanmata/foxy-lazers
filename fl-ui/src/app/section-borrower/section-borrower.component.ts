@@ -23,10 +23,14 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
+  instruments = [
+    {value: 1, viewValue: 'Coca-Cola - ISIN US1912161007'},
+    {value: 2, viewValue: 'Airbus - NL0000235190'}
+  ];
+
   constructor() {
   }
 
   ngOnInit() {
   }
-
 }
