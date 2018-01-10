@@ -9,9 +9,10 @@
   <div>
     <h2>Your balance</h2>
     <div class="fees">
-      <span class="fees-container"><span class="fees-value">-{{ feesDue().perSecond }} $</span> / second</span>
+      <span class="fees-container">Your balance: <span class="fees-value positive">{{ balance }} $</span></span>
+      <span class="fees-container"><span class="fees-value negative">-{{ feesDue().perSecond }} $</span> / second</span>
       <span class="fees-container"><span
-        class="fees-value">-{{ feesDue().atContractEnd }} $</span> at contract end</span>
+        class="fees-value negative">-{{ feesDue().atContractEnd }} $</span> at contract end</span>
     </div>
   </div>
 

@@ -62,9 +62,11 @@ export class SectionBorrowerComponent implements OnInit {
 
   public instruments: Instrument[] = [];
 
-  newOfferForm = new FormGroup({
+  public newOfferForm = new FormGroup({
     frequency: new FormControl()
   });
+
+  public balance = 2000; // TODO Retrieve from backend
 
   constructor(private http: HttpClient){
   }
