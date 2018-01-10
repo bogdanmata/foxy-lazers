@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .example-container {
   display: flex;
   flex-direction: column;
@@ -13,3 +15,22 @@
 .form {
   width: 300px;
 }
+
+
+.fees {
+  span.fees-container {
+    display: inline-block;
+    //background-color: $color4;
+    border: 0.3rem solid $color3;
+    padding: 1rem 2rem;
+    margin-right: 0.5rem;
+    color: $color3;
+    font-weight: 400;
+
+    span.fees-value {
+      color: $color4;
+      font-weight: 800;
+    }
+  }
+}
+
