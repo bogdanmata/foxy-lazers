@@ -24,20 +24,25 @@ enum FeesFrequency {
   o SEC_30
 }
 
-participant Bank identified by id {
-  o String id
+/**
+ * An abstract participant type in this business network
+ */
+abstract participant BusinessUser identified by name {
+  o String name
+  o Double accountBalance
+  o Instrument[] instruments optional
 }
 
-participant Borrower identified by id {
-  o String id
-  o String name
+participant Bank extends BusinessUser {
+}
+
+participant Borrower extends BusinessUser {
 }
 
 abstract asset Instrument identified by id {
   o String id
   o String isin
   o String description
-  --> Bank bank
 }
 
 asset Bond extends Instrument {
