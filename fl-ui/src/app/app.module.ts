@@ -5,7 +5,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatTableModule, MatRadioModule, MatInputModule, MatFormFieldModule, MatNativeDateModule } from '@angular/material';
+import {
+  MatTableModule, MatRadioModule, MatInputModule, MatFormFieldModule, MatNativeDateModule,
+  MatExpansionModule
+} from '@angular/material';
 import { MatDatepickerModule,  } from '@angular/material/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,7 +40,8 @@ const appRoutes: Routes = [
       { enableTracing: false } // <-- debugging purposes only
     ),
     MatTableModule, MatRadioModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule,
-    BrowserAnimationsModule, MatSelectModule, MatAutocompleteModule, MatButtonModule, FormsModule, ReactiveFormsModule
+    BrowserAnimationsModule, MatSelectModule, MatAutocompleteModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
