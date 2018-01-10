@@ -21,6 +21,16 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     status: ContractStatus.ACTIVE,
     fees: 50,
     feesFrequency: FeesFrequency.SEC_10
+  },
+  {
+    id: '2',
+    startDate: '??',
+    endDate: '??',
+    quantity: 333,
+    collateral: '?',
+    status: ContractStatus.ACTIVE,
+    fees: 1233,
+    feesFrequency: FeesFrequency.AT_CONTRACT_END
   }
 ];
 
@@ -29,6 +39,11 @@ export interface Element {
   name: string;
   isin: string;
   quantity: number;
+}
+
+export interface FeesDue {
+  perSecond: number,
+  atContractEnd: number
 }
 
 @Component({
@@ -58,7 +73,37 @@ export class SectionBorrowerComponent implements OnInit {
   ngOnInit() {
   }
 
-  feesPerSecond(): number {
-    return 10;
+  /**
+   * Computes number of tokens per seconds that the borrower owes to the bank
+   * @returns {number}
+   */
+  feesDue(): FeesDue {
+    let fees: FeesDue = {
+      perSecond: 0,
+      atContractEnd: 0
+    };
+
+    ACTIVE_OFFERS.forEach(contract => {
+      let divisor = 0;
+      switch (contract.feesFrequency) {
+        case FeesFrequency.SEC_10:
+          divisor = 10;
+          break;
+        case FeesFrequency.SEC_20:
+          divisor = 20;
+          break;
+        case FeesFrequency.SEC_30:
+          divisor = 30;
+          break;
+        case FeesFrequency.AT_CONTRACT_END:
+          fees.atContractEnd += contract.fees;
+          break;
+      }
+      if (divisor !== 0) {
+        fees.perSecond += contract.fees / divisor;
+      }
+    });
+
+    return fees;
   }
 }
