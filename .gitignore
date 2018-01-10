@@ -2,3 +2,10 @@ web-app/node_modules/
 rbc-securities-lending/node_modules/
 app
 .DS_Store
+
+# Angular
+node_modules
+
+# IntelliJ
+.idea
+*.iml

@@ -4,16 +4,95 @@
 
 namespace com.rbc.hackathon
 
-participant User identified by email {
-  o String email
+/**
+ * The status of a secLending
+ */
+enum SecurityLandingContractStatus {
+  o REQUESTED
+  o RESPONDED
+  o ACCEPTED
+  o REJECTED 
+  o EXPIRED
+  o ACTIVE  
+  o ENDED
 }
 
-asset SampleAsset identified by assetId {
-  o String assetId
-  o String value
+enum FeesFrequency {
+  o AT_CONTRACT_END
+  o SEC_10
+  o SEC_20
+  o SEC_30
 }
 
-transaction ChangeAssetValue {
-  o String newValue
-  --> Asset relatedAsset
+participant Bank identified by id {
+  o String id
+}
+
+participant Borrower identified by id {
+  o String id
+  o String name
+}
+
+abstract asset Instrument identified by id {
+  o String id
+  o String isin
+  o String description
+  --> Bank bank
+}
+
+asset Bond extends Instrument {
+}
+
+abstract asset Collateral identified by id {
+  o String id
+}
+
+asset CollateralCash extends Collateral {
+  o Double amount
+}
+
+asset SecurityLandingContract identified by id {
+  o String id
+  o String startDate
+  o String endDate
+  o Double quantity
+  o Collateral collateral
+  o SecurityLandingContractStatus status
+  o Double fees
+  o FeesFrequency feesFrequency 
+  --> Instrument instrument
+  --> Bank bank
+  --> Borrower borrower
+}
+asset SecurityLandingOffer identified by id {
+  o String id
+  o String expirationDate
+  o Double fees
+  o FeesFrequency feesFrequency 
+  --> SecurityLandingContract securityLandingContract
+  --> Bank bank
+}
+
+transaction LendingRequest {
+  o String startDate
+  o String endDate
+  o Double quantity
+  --> Instrument instrument
+  --> Borrower borrower
+}
+transaction LendingOffer {
+  o String expirationDate
+  o Double fees
+  o FeesFrequency feesFrequency 
+  --> SecurityLandingContract securityLandingContract
+  --> Bank bank
+}
+transaction LendingOfferAgreement {
+  --> SecurityLandingOffer securityLandingOffer
+}
+
+/**
+ * JUST FOR INITIALIZING A DEMO
+ */
+transaction SetupDemo {
 }
