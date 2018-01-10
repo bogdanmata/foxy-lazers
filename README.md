@@ -10,4 +10,4 @@ Module is `fl-ui`. UI application based on Angular 4.
 
 To start UI, use `npm run start`
 
-![](docs/ui-config.jpg)
+![](img/ui-config.jpg)
