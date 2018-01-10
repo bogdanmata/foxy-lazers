@@ -9,9 +9,12 @@ namespace com.rbc.hackathon
  */
 enum SecurityLandingContractStatus {
   o REQUESTED
+  o RESPONDED
   o ACCEPTED
-  o ENDED  
+  o REJECTED 
   o EXPIRED
+  o ACTIVE  
+  o ENDED
 }
 
 enum FeesFrequency {
