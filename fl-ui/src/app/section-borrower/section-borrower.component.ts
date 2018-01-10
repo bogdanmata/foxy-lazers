@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {
+  FeesFrequency, SecurityLandingContract,
+  ContractStatus
+} from "../model/security-landing-contract.model";
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
@@ -14,9 +18,9 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     endDate: '??',
     quantity: 156,
     collateral: '?',
-    status: 'ACTIVE',
+    status: ContractStatus.ACTIVE,
     fees: 50,
-    feesFrequency: 'SEC_10'
+    feesFrequency: FeesFrequency.SEC_10
   }
 ];
 
@@ -25,18 +29,6 @@ export interface Element {
   name: string;
   isin: string;
   quantity: number;
-}
-
-
-export interface SecurityLandingContract {
-  id: string;
-  startDate: string;
-  endDate: string;
-  quantity: number;
-  collateral: string;
-  status: string;
-  fees: number;
-  feesFrequency: string;
 }
 
 @Component({
