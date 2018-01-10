@@ -1,3 +1,85 @@
-<p>
-  section-borrower works!
-</p>
+<a routerLink="/" routerLinkActive="active">Back home</a>
+
+<h1>Borrower app</h1>
+
+<div>
+  <h2>Your balance</h2>
+  35/second
+</div>
+
+<div>
+  <h2>Create new offer</h2>
+  <div>
+    <div>
+      Instrument
+      <select name="cars">
+        <option value="">Coca-Cola - ISIN US1912161007</option>
+        <option value="">Airbus - NL0000235190
+      </select>
+    </div>
+
+    <div>
+      Frequency
+      <input id="s10" type="radio" value="10" name="frequency" />
+      <label for="s10">10s</label>
+
+      <input id="s20" type="radio" value="20" name="frequency" />
+      <label for="s20">20s</label>
+
+      <input id="s30" type="radio" value="30" name="frequency" />
+      <label for="s30">30s</label>
+    </div>
+
+    <div>
+      Quantity
+      <input type="text" />
+    </div>
+
+    <div>
+      Start date
+      <input type="text" />
+    </div>
+
+    <div>
+      End date
+      <input type="text" />
+    </div>
+
+    <button>Create new offer</button>
+  </div>
+</div>
+
+<div>
+  <h2>Offers awaiting validation</h2>
+  ...
+</div>
+
+<div>
+  <h2>All offers</h2>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="isin">
+        <mat-header-cell *matHeaderCellDef> ISIN </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.isin}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

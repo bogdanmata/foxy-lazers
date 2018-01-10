@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
+import { MatTableModule } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { SectionRbcComponent } from './section-rbc/section-rbc.component';
 import { SectionBorrowerComponent } from './section-borrower/section-borrower.component';
@@ -25,8 +27,9 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )
+      { enableTracing: false } // <-- debugging purposes only
+    ),
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
