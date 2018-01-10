@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "build:pages:win": "ng build --prod --output-path ../docs --base-href \"/foxy-lazers/\" && copy \"..\\docs\\index.html\" \"..\\docs\\404.html\"",
-    "build:pages:unix": "ng build --prod --output-path ../docs --base-href /foxy-lazers/ && cp \"../docs/index.html\" \"../docs/404.html\"",
+    "build:pages:unix": "ng build --prod --output-path ../docs --base-href \"/foxy-lazers/\" && cp \"../docs/index.html\" \"../docs/404.html\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
