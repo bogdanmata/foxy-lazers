@@ -2,7 +2,10 @@
   <div>
     <h1>Foxy Lazers</h1>
     <p>Blockchain Securities Lending demonstration</p>
-    <img width="200" src="assets/img/fox.png">
+    <span (mouseenter) ="isInPicture = true"  (mouseleave) ="isInPicture = false">
+      <img *ngIf="!isInPicture" width="200" src="assets/img/fox.png">
+      <img *ngIf="isInPicture" width="200" src="assets/img/foxy_lazer.png">
+    </span>
   </div>
   <nav>
     <a routerLink="/rbc" routerLinkActive="active">RBC app</a>
