@@ -44,8 +44,7 @@ concept PortfolioItem {
   --> Instrument instrument
  } 
 
-abstract asset Instrument identified by id {
-  o String id
+abstract asset Instrument identified by isin {
   o String isin
   o String description
 }
