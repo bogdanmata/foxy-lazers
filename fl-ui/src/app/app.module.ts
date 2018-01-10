@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatTableModule, MatRadioModule, MatInputModule, MatFormFieldModule, MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule,  } from '@angular/material/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { SectionRbcComponent } from './section-rbc/section-rbc.component';
@@ -32,7 +33,7 @@ const appRoutes: Routes = [
       { enableTracing: false } // <-- debugging purposes only
     ),
     MatTableModule, MatRadioModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule, MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
