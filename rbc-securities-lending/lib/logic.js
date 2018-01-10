@@ -60,7 +60,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Banks');
     // create the banks
-    var bank1 = factory.newResource(NS, 'bank' ,'RBC Investor and Treasuary Services');
+    var bank1 = factory.newResource(NS, 'Bank' ,'RBC Investor and Treasuary Services');
     bank1.accountBalance = 2000;
     
 
@@ -76,16 +76,18 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
 
     console.log('___Attach Porfolio bank1');
+    bank1.portfolio=[];
     bank1.portfolio.push(portfolioItem_RBC1);
     bank1.portfolio.push(portfolioItem_RBC2);
 
 
-    var bank2 = factory.newResource(NS, 'bank', 'bank2');
+    var bank2 = factory.newResource(NS, 'Bank', 'bank2');
     bank2.accountBalance = 2000;
     var portfolioItem1 = factory.newConcept(NS, 'PortfolioItem');
     portfolioItem1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2YGOV');
     portfolioItem1.quantity = 10 ;
 
+    bank2.portfolio=[];
     bank2.portfolio.push(portfolioItem1);
 
     console.log('-------Done--------');
