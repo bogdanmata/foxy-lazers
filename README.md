@@ -1,6 +1,6 @@
 # foxy-lazers
 
-https://bogdanmata.github.io/foxy-lazers/foxy-lazers/foxy-lazers
+https://bogdanmata.github.io/foxy-lazers/
 
 Install
 
