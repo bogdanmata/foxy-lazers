@@ -61,7 +61,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Banks');
     // create the banks
-    var bank1 = factory.newResource(NS, 'Bank' ,'RBC Investor and Treasuary Services');
+    var bank1 = factory.newResource(NS, 'Bank' ,'RBC Investor and Treasury Services');
     bank1.accountBalance = 2000;
     
 
