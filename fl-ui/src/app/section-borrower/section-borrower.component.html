@@ -7,7 +7,7 @@
 <div>
   <h2>Your balance</h2>
   <div class="fees">
-    <span class="fees-container"><span class="fees-value">-{{ feesDue().perSecond }} $</span>/second</span>
+    <span class="fees-container"><span class="fees-value">-{{ feesDue().perSecond }} $</span> / second</span>
       <span class="fees-container"><span class="fees-value">-{{ feesDue().atContractEnd }} $</span> at contract end</span>
   </div>
 </div>
@@ -22,8 +22,8 @@
       <form [formGroup]="newOfferForm" novalidate class="form">
         <mat-form-field>
           <mat-select placeholder="Instrument">
-            <mat-option *ngFor="let instrument of instruments" [value]="instrument.value">
-              {{ instrument.viewValue }}
+            <mat-option *ngFor="let instrument of instruments" [value]="instrument.isin">
+              {{ instrument.isin }} ({{ instrument.description }})
             </mat-option>
           </mat-select>
         </mat-form-field>
