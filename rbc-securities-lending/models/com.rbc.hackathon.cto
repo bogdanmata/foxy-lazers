@@ -7,7 +7,7 @@ namespace com.rbc.hackathon
 /**
  * The status of a secLending
  */
-enum SecurityLandingContractStatus {
+enum SecurityLendingContractStatus {
   o REQUESTED
   o RESPONDED
   o ACCEPTED
@@ -60,44 +60,44 @@ asset CollateralCash extends Collateral {
   o Double amount
 }
 
-asset SecurityLandingContract identified by id {
+asset SecurityLendingContract identified by id {
   o String id
-  o String startDate
-  o String endDate
+  o DateTime startDate
+  o DateTime endDate
   o Double quantity
   o Collateral collateral
-  o SecurityLandingContractStatus status
+  o SecurityLendingContractStatus status
   o Double fees
   o FeesFrequency feesFrequency 
   --> Instrument instrument
   --> Bank bank
   --> Borrower borrower
 }
-asset SecurityLandingOffer identified by id {
+asset SecurityLendingOffer identified by id {
   o String id
-  o String expirationDate
+  o DateTime expirationDate
   o Double fees
   o FeesFrequency feesFrequency 
-  --> SecurityLandingContract securityLandingContract
+  --> SecurityLendingContract securityLendingContract
   --> Bank bank
 }
 
 transaction LendingRequest {
-  o String startDate
-  o String endDate
+  o DateTime startDate
+  o DateTime endDate
   o Double quantity
   --> Instrument instrument
   --> Borrower borrower
 }
 transaction LendingOffer {
-  o String expirationDate
+  o DateTime expirationDate
   o Double fees
   o FeesFrequency feesFrequency 
-  --> SecurityLandingContract securityLandingContract
+  --> SecurityLendingContract securityLendingContract
   --> Bank bank
 }
 transaction LendingOfferAgreement {
-  --> SecurityLandingOffer securityLandingOffer
+  --> SecurityLendingOffer securityLendingOffer
 }
 
 /**

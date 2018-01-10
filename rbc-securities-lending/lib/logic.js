@@ -3,6 +3,31 @@
  * Write your transction processor functions here
  */
 
+ /**
+ * A request for Sec lending will be created
+ * @param {com.rbc.hackathon.LendingRequest} lendingRequest - the LendingRequest transaction
+ * @transaction
+ */
+function requestLending(lendingRequest){
+    var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract','1');
+
+    securityLendingContract.startDate = lendingRequest.startDate ;
+    securityLendingContract.endDate   = lendingRequest.endDate  ;
+    securityLendingContract.quantity  = lendingRequest.quantity ;
+    securityLendingContract.instrument  = lendingRequest.instrument ;
+    securityLendingContract.borrower  = lendingRequest.borrower ;
+
+    securityLendingContract.status      = 'REQUESTED' ;
+    securityLendingContract.collateral  = null ;
+    securityLendingContract.fees        = null ;
+    securityLendingContract.feesFrequency = null ;
+    securityLendingContract.bank = null ;
+    
+    return getAssetRegistry(NS + '.SecurityLendingContract')
+        .then(function (securityLendingContractRegistry) { 
+    return securityLendingContractRegistry.add(securityLendingContract);
+    });
+}
 /**
  * A request for Sec lending has been received
  * @param {com.rbc.hackathon.LendingRequest} lendingRequest - the LendingRequest transaction
