@@ -2,9 +2,9 @@
   <a mat-tab-link routerLink="/" routerLinkActive="active">Back home</a>
 </nav>
 
-<!-- <div> -->
+<div>
   <h2>All offers</h2>
-  <!-- <div class="example-container mat-elevation-z8"> -->
+  <div class="rbc-page-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
@@ -29,10 +29,11 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-  <!-- </div> -->
-<!-- </div> -->
+  </div>
+</div>
 
 <div>
+  <div class="rbc-page-container mat-elevation-z8">
   <form class="rbc-form">
     <mat-form-field class="full-width">
       <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput  [matAutocomplete]="autoInstitutions">
@@ -77,7 +78,7 @@
     </mat-form-field>
 
     <!-- <mat-form-field class="full-width"> -->
-    <mat-radio-group class="radio-group" [(ngModel)]="feesFrequency">
+    <mat-radio-group class="radio-group">
       <h3 mat-subheader>Fee frequency:</h3>
       <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
       <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
@@ -90,4 +91,5 @@
       <button mat-raised-button color="warn">Cancel</button>
     </div>
   </form>
+</div>
 </div>
