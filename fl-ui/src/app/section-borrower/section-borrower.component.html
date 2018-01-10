@@ -12,7 +12,7 @@
 
 <div>
   <h2>Create new offer</h2>
-  <div class="form">
+  <form [formGroup]="newOfferForm" novalidate class="form">
     <mat-form-field>
       <mat-select placeholder="Instrument">
         <mat-option *ngFor="let instrument of instruments" [value]="instrument.value">
@@ -21,7 +21,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-radio-group formControlName="floatLabel">
+    <mat-radio-group formControlName="frequency">
       <label>Frequency:</label>
       <mat-radio-button value="10">10s</mat-radio-button>
       <mat-radio-button value="20">20s</mat-radio-button>
@@ -45,7 +45,7 @@
     </mat-form-field>
 
     <button mat-raised-button>Create new offer</button>
-  </div>
+  </form>
 </div>
 
 <div>
@@ -55,7 +55,22 @@
 
 <div>
   <h2>Offers active</h2>
-  ...
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSourceActiveOffers">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsActiveOffers"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsActiveOffers;"></mat-row>
+    </mat-table>
+  </div>
 </div>
 
 <div>
