@@ -50,11 +50,11 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Bonds');
 
-    var bond2  = factory.newResource(NS, 'Bond','GTDEM2Y:GOV');
+    var bond2  = factory.newResource(NS, 'Bond','GTDEM2YGOV');
     bond2.description='Germany Bund 2 Year Yield';
-    var bond5  = factory.newResource(NS, 'Bond', 'GTDEM5Y:GOV');
+    var bond5  = factory.newResource(NS, 'Bond', 'GTDEM5YGOV');
     bond5.description = 'Germany Bund 5 Year Yield';
-    var bond10 = factory.newResource(NS, 'GTDEM10Y:GOV');
+    var bond10 = factory.newResource(NS, 'GTDEM10YGOV');
     bond10.description = 'Germany Bund 10 Year Yield';
 
 
@@ -67,11 +67,11 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     console.log('___Creating Porfolio bank1');
     // portfolio creation
     var portfolioItem_RBC1 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2Y:GOV');
+    portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2YGOV');
     portfolioItem_RBC1.quantity = 200 ;
 
     var portfolioItem_RBC2 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM5Y:GOV');
+    portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM5YGOV');
     portfolioItem_RBC2.quantity = 1000 ;
 
 
@@ -83,7 +83,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     var bank2 = factory.newResource(NS, 'bank', 'bank2');
     bank2.accountBalance = 2000;
     var portfolioItem1 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2Y:GOV');
+    portfolioItem1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2YGOV');
     portfolioItem1.quantity = 10 ;
 
     bank2.portfolio.push(portfolioItem1);
