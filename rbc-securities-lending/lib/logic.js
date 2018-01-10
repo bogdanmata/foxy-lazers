@@ -8,14 +8,14 @@
  * @param {com.rbc.hackathon.LendingRequest} lendingRequest - the LendingRequest transaction
  * @transaction
  */
-function requestLending(startDate, endDate, quantity, instrument, borrower){
+function requestLending(lendingRequest){
     var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract','1');
 
-    securityLendingContract.startDate = startDate ;
-    securityLendingContract.endDate   = endDate  ;
-    securityLendingContract.quantity  = quantity ;
-    securityLendingContract.instrument  = instrument ;
-    securityLendingContract.borrower  = borrower ;
+    securityLendingContract.startDate = lendingRequest.startDate ;
+    securityLendingContract.endDate   = lendingRequest.endDate  ;
+    securityLendingContract.quantity  = lendingRequest.quantity ;
+    securityLendingContract.instrument  = lendingRequest.instrument ;
+    securityLendingContract.borrower  = lendingRequest.borrower ;
 
     securityLendingContract.status      = 'REQUESTED' ;
     securityLendingContract.collateral  = null ;
