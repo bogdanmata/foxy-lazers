@@ -1,20 +1,20 @@
 <form class="rbc-form">
   <mat-form-field class="full-width">
-    <input matInput placeholder="Bank" type="text">
-    <!-- <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of options" [value]="option">
-        {{ option }}
+    <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let institution of institutions" [value]="institution">
+        {{ institution }}
       </mat-option>
-    </mat-autocomplete> -->
+    </mat-autocomplete>
   </mat-form-field>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="Instrument" type="text">
-    <!-- <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of options" [value]="option">
-        {{ option }}
+    <input type="text" placeholder="Pick a instrument" aria-label="Instrument" matInput [formControl]="rbcComponentControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let instrument of instruments" [value]="instrument">
+        {{ instrument }}
       </mat-option>
-    </mat-autocomplete> -->
+    </mat-autocomplete>
   </mat-form-field>
 
   <mat-form-field class="full-width">
