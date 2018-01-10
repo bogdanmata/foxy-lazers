@@ -54,8 +54,8 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     bond2.description='Germany Bund 2 Year Yield';
     var bond5  = factory.newResource(NS, 'Bond', 'GTDEM5YGOV');
     bond5.description = 'Germany Bund 5 Year Yield';
-    var bond10 = factory.newResource(NS, 'GTDEM10YGOV');
-    bond10.description = 'Germany Bund 10 Year Yield';
+    // var bond10 = factory.newResource(NS, 'GTDEM10YGOV');
+    // bond10.description = 'Germany Bund 10 Year Yield';
 
 
     console.log('Creating Banks');
