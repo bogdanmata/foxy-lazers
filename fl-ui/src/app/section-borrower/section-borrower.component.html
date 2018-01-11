@@ -67,6 +67,11 @@
           <mat-cell *matCellDef="let element">{{ element.instrument.isin }} - {{ element.instrument.description }}</mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="bank">
+          <mat-header-cell *matHeaderCellDef> Bank </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.bank.name }} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="startDate">
           <mat-header-cell *matHeaderCellDef> Start date </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.startDate }}</mat-cell>
