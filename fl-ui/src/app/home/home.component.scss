@@ -13,13 +13,13 @@ div.home {
   .menu-item-left {
     border-top: $nav-border-width solid $color2;
     &:hover {
-      border-top: $nav-border-width solid #F8FF4C;
+      border-top: $nav-border-width solid $color-bank;
     }
   }
   .menu-item-right {
     border-top: $nav-border-width solid $color2;
     &:hover {
-      border-top: $nav-border-width solid #43F354;
+      border-top: $nav-border-width solid $color-borrower;
     }
   }
 }
