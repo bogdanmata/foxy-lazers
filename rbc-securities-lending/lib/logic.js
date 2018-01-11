@@ -54,13 +54,14 @@ function offerLending(lendingOffer){
               // var lend = lendingRequest;
             var id = (OfferColl.length | 0) + 1;
 
-            var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer',id);
+            var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer',"" + id);
             securityLendingOffer.expirationDate = lendingOffer.expirationDate;
             securityLendingOffer.fees = lendingOffer.fees;
             securityLendingOffer.feesFrequency = lendingOffer.feesFrequency;
             securityLendingOffer.securityLendingContract = lendingOffer.securityLendingContract;
             securityLendingOffer.bank = lendingOffer.bank;
-            SLOfferRegistry.add(securityLendingOffer);   
+
+            SLOfferRegistry.add(securityLendingOffer);
         })
     });
 }
@@ -74,15 +75,20 @@ function acceptOffer(lendingOfferAgreement) {
     var NS = 'com.rbc.hackathon';
     return getAssetRegistry(NS + '.SecurityLendingOffer')
     .then(function (SLOfferRegistry){
-        relatedSecurityLendingOffer = SLOfferRegistry.get(lendingOfferAgreement.id);
-        return getAssetRegistry(NS + '.SecurityLendingContract')})
-    .then(function (SLContractRegistry){
-        var CurrentContract = SLContractRegistry.get(relatedSecurityLendingOffer.securityLendingContract.id);
-        CurrentContract.fees = relatedSecurityLendingOffer.fees
-        CurrentContract.feesFrequency = relatedSecurityLendingOffer.feesFrequency
-        CurrentContract.bank = relatedSecurityLendingOffer.bank
-        CurrentContract.status = 'ACCEPTED'
-        SLContractRegistry.update(CurrentContract)
+        return SLOfferRegistry.get(lendingOfferAgreement.securityLendingOffer.id);
+    })
+    .then(function(relatedSecurityLendingOffer){
+        getAssetRegistry(NS + '.SecurityLendingContract').then(function(SLContractRegistry){
+          SLContractRegistry.get(relatedSecurityLendingOffer.securityLendingContract.id).then(function(CurrentContract){
+            CurrentContract.fees = relatedSecurityLendingOffer.fees;
+            CurrentContract.feesFrequency = relatedSecurityLendingOffer.feesFrequency;
+            CurrentContract.bank = relatedSecurityLendingOffer.bank;
+            CurrentContract.status = 'ACCEPTED';
+            SLContractRegistry.update(CurrentContract);
+            var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted');
+            emit(eventOfferAccepted);
+          });
+        });
     });
 }
 
@@ -123,7 +129,19 @@ function updateContract(contract)
 
 function collectFees(contract)
 {
-    if (date.now-contract.lastCollectedFeesTimestamp>=contrat.feesFrequency)
+    var feesFrequency = -1;
+    switch (contrat.feesFrequency) {
+      case 'SEC_10':
+        feesFrequency = 10;
+        break;
+      case 'SEC_20':
+        feesFrequency = 20;
+        break;
+      case 'SEC_30':
+        feesFrequency = 30;
+        break;
+    }
+    if ((date.now - contract.lastCollectedFeesTimestamp >= feesFrequency * 1000) && (feesFrequency > 0)) // the timestamp is in milisec
     {
         var NS = 'com.rbc.hackathon';
         return getAssetRegistry(NS +".BusinessUser")
@@ -147,8 +165,8 @@ function collectFees(contract)
 function ExecuteContracts(executeContracts)
 {
     var NS = 'com.rbc.hackathon';
-    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.id == _$bankId)');
-    return query(queryContracts, { bankId: executeContracts.bank.id })
+    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.name == _$bankId)');
+    return query(queryContracts, { bankId: executeContracts.bank.name })
       .then(function (contracts) {
         contracts.forEach(function (contract) {
             switch (contract.status) {
@@ -167,18 +185,6 @@ function ExecuteContracts(executeContracts)
                     if (contract.endDate>=Date.now)
                     {
                         contract.status='ENDED'
-                        if (contract.feesFrequency=='AT_CONTRACT_END')
-                        {
-                            return getAssetRegistry(NS +".BusinessUser")
-                            .then(function (businessUserRegistry){
-                                borrower = businessUserRegistry.get(contract.borrower.id);
-                                bank = businessUserRegistry.get(contract.bank.id);
-                                borrower.accountBalance -= contract.fees;
-                                bank.accountBalance += contract.fees;
-                                contract.lastCollectedFeesTimestamp=Date.now;
-                                businessUserRegistry.updateAll([bank, borrower]);
-                            });
-                        }
                         changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
                         updateContract(contract);
                     }
