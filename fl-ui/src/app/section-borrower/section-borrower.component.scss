@@ -38,3 +38,10 @@
   }
 }
 
+mat-table mat-row mat-icon.action {
+  display: none;
+}
+
+mat-table mat-row:hover mat-icon.action {
+  display: inline;
+}
