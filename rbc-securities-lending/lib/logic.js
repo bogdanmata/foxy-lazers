@@ -13,15 +13,19 @@ function requestLending(lendingRequest){
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
 
-    return getAssetRegistry(NS + '.SecurityLendingContract')
+     getAssetRegistry(NS + '.SecurityLendingContract')
         .then(function (SLContractRegistry){
             var ContractColl = SLContractRegistry.getAll();
-            var idx = 1;
+  /*          var idx = 1;
             if (ContractColl.length>0)
             {
                 idx = (+ContractColl[ContractColl.length-1].id + 1);
             }
-            var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', idx.toString()); 
+*/
+            if (ContractColl==null){
+                ContractColl = [];
+              }
+            var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', ContractColl.length.toString()); 
             securityLendingContract.startDate = lendingRequest.startDate ;
             securityLendingContract.endDate   = lendingRequest.endDate  ;
             securityLendingContract.quantity  = lendingRequest.quantity ;
@@ -63,6 +67,11 @@ function offerLending(lendingOffer){
     });
 }
 
+/**
+ * An offer on lending will be created
+ * @param {com.rbc.hackathon.LendingOfferAgreement} lendingOfferAgreement - the lendingOfferAgreement transaction
+ * @transaction
+ */
 function acceptOffer(lendingOfferAgreement) {
     var NS = 'com.rbc.hackathon';
     return getAssetRegistry(NS + '.SecurityLendingOffer')
@@ -208,9 +217,9 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Bonds');
 
-    var bond2  = factory.newResource(NS, 'Bond','GTDEM2Y:GOV');
+    var bond2  = factory.newResource(NS, 'Bond','bond1');
     bond2.description='Germany Bund 2 Year Yield';
-    var bond5  = factory.newResource(NS, 'Bond', 'GTDEM5Y:GOV');
+    var bond5  = factory.newResource(NS, 'Bond', 'bond2');
     bond5.description = 'Germany Bund 5 Year Yield';
     // var bond10 = factory.newResource(NS, 'GTDEM10Y:GOV');
     // bond10.description = 'Germany Bund 10 Year Yield';
@@ -218,18 +227,18 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Banks');
     // create the banks
-    var bank1 = factory.newResource(NS, 'Bank' ,'RBC Investor and Treasury Services');
+    var bank1 = factory.newResource(NS, 'Bank' ,'bank1');
     bank1.accountBalance = 2000;
     
 
     console.log('___Creating Porfolio bank1');
     // portfolio creation
     var portfolioItem_RBC1 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2Y:GOV');
+    portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
     portfolioItem_RBC1.quantity = 200 ;
 
     var portfolioItem_RBC2 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM5Y:GOV');
+    portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItem_RBC2.quantity = 1000 ;
 
 
