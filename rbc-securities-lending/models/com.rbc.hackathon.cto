@@ -65,13 +65,13 @@ asset SecurityLendingContract identified by id {
   o DateTime startDate
   o DateTime endDate
   o Double quantity
-  o Collateral collateral
+  o Collateral collateral optional
   o SecurityLendingContractStatus status
-  o Double fees
-  o FeesFrequency feesFrequency 
-  o DateTime lastCollectedFeesTimestamp
+  o Double fees optional
+  o FeesFrequency feesFrequency optional
+  o DateTime lastCollectedFeesTimestamp optional
   --> Instrument instrument
-  --> Bank bank
+  --> Bank bank optional
   --> Borrower borrower
 }
 asset SecurityLendingOffer identified by id {

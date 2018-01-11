@@ -16,15 +16,12 @@ function requestLending(lendingRequest){
     return getAssetRegistry(NS + '.SecurityLendingContract')
         .then(function (SLContractRegistry){
             var ContractColl = SLContractRegistry.getAll();
-            var securityLendingContract = null;
+            var idx = 1;
             if (ContractColl.length>0)
             {
-                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', (+ContractColl[ContractColl.length].id + 1).toString());
+                idx = (+ContractColl[ContractColl.length-1].id + 1);
             }
-            else
-            {
-                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', '1');                
-            }
+            var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', idx.toString()); 
             securityLendingContract.startDate = lendingRequest.startDate ;
             securityLendingContract.endDate   = lendingRequest.endDate  ;
             securityLendingContract.quantity  = lendingRequest.quantity ;
