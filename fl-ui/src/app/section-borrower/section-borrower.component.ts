@@ -72,7 +72,7 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
-  displayedColumnsAwaitingValidationOffers = ['instrument', 'startDate', 'endDate', 'fees', 'feesFrequency', 'actions'];
+  displayedColumnsAwaitingValidationOffers = ['instrument', 'bank', /*'startDate', 'endDate', */'fees', 'feesFrequency', 'actions'];
   dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
   public creationInProgress = false;
