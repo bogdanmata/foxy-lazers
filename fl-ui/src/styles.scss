@@ -1,5 +1,5 @@
 @import "variables.scss";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 h1 {
@@ -68,6 +68,7 @@ mat-table {
 }
 mat-cell {
   color: $color4 !important;
+  font-size: 0.8rem !important;
 }
 mat-expansion-panel {
   background-color: rgba(180, 180, 180, 0.3) !important;
@@ -83,9 +84,11 @@ mat-expansion-panel {
     margin-right: 0.2rem;
     color: $color3;
     font-weight: 400;
+    font-size: 0.8rem;
 
     .fees-value {
       color: $color4;
+      font-weight: 600;
     }
   }
 }
