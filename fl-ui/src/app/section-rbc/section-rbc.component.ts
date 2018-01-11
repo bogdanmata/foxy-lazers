@@ -5,7 +5,7 @@ import {
   Collateral, ContractStatus, FeesFrequency,
   SecurityLandingContract
 } from "../model/security-landing-contract.model";
-import {Bank, BusinessUser} from "../model/business-user.model";
+import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 
@@ -66,9 +66,9 @@ export class SectionRbcComponent implements OnInit {
   public businessUser: BusinessUser;
   rbcComponentControl: FormControl = new FormControl();
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
-  public securityLandingContracts = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+  public securityLandingContracts: MatTableDataSource<SecurityLandingContract>;
   public selectedSecurityLandingContract: SecurityLandingContract;
-  private RBC: Bank = new Bank('RBC');
+  public creationInProgress: boolean;
 
   constructor(private commonService: CommonService) {
   }
@@ -78,6 +78,10 @@ export class SectionRbcComponent implements OnInit {
     this.commonService.updateBusinessUser().subscribe(data => {
       this.businessUser = data;
     });
+
+    this.commonService.getSecurityLendingContracts().subscribe((data) => {
+      this.securityLandingContracts = new MatTableDataSource<SecurityLandingContract>(data);
+    })
   }
 
   public selectSecurityLandingContracts(row: SecurityLandingContract): void {
@@ -99,7 +103,13 @@ export class SectionRbcComponent implements OnInit {
       securityLendingContract: `com.rbc.hackathon.SecurityLendingContract#${this.selectedSecurityLandingContract.id}`
     };
 
-    this.commonService.createLendingOffer(offer).subscribe();
+    this.creationInProgress = true;
+    this.commonService.createLendingOffer(offer).subscribe(() => {
+      this.creationInProgress = false;
+      this.selectedSecurityLandingContract = undefined;
+
+      this.ngOnInit();
+    });
   }
 
 }

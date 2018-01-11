@@ -60,7 +60,10 @@
           <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
         </mat-radio-group>
         <div style="padding: 10px;">
-          <button mat-raised-button color="primary" type="submit">Create new offer</button>
+          <button mat-raised-button color="primary" type="submit">
+            Create new offer
+            <app-fl-spinner [showSpinner]="creationInProgress"></app-fl-spinner>
+          </button>
           <button mat-raised-button color="warn" (click)="selectedSecurityLandingContract = undefined">Cancel</button>
         </div>
       </form>
