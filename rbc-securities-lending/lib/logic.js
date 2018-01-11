@@ -10,6 +10,7 @@
  */
 function requestLending(lendingRequest){
     
+    var factory = getFactory();
     var NS = 'com.rbc.hackathon';
 
     return getAssetRegistry(NS + '.SecurityLendingContract')
@@ -42,7 +43,7 @@ function requestLending(lendingRequest){
  * @transaction
  */
 function offerLending(lendingOffer){
-    
+    var factory = getFactory();
     var NS = 'com.rbc.hackathon';
     // need to tested to know if this a relationship or the real object behind
      
