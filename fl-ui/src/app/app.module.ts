@@ -5,8 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {
-  MatTableModule, MatRadioModule, MatInputModule, MatFormFieldModule, MatNativeDateModule,
-  MatExpansionModule, MatToolbarModule
+  MatExpansionModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatProgressSpinnerModule,
+  MatRadioModule, MatTableModule, MatToolbarModule
 } from '@angular/material';
 import {MatDatepickerModule,} from '@angular/material/datepicker';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,8 +20,8 @@ import {SectionRbcComponent} from './section-rbc/section-rbc.component';
 import {SectionBorrowerComponent} from './section-borrower/section-borrower.component';
 import {HomeComponent} from './home/home.component';
 import {CommonService} from "./common.service";
-import { FlHeaderComponent } from './fl-header/fl-header.component';
-import { FlSpinnerComponent } from './fl-spinner/fl-spinner.component';
+import {FlHeaderComponent} from './fl-header/fl-header.component';
+import {FlSpinnerComponent} from './fl-spinner/fl-spinner.component';
 
 const appRoutes: Routes = [
   {path: 'bank', component: SectionRbcComponent},
@@ -46,7 +46,7 @@ const appRoutes: Routes = [
     ),
     MatTableModule, MatRadioModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule,
     BrowserAnimationsModule, MatSelectModule, MatAutocompleteModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatExpansionModule, MatToolbarModule, MatIconModule
+    MatExpansionModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule
   ],
   providers: [CommonService],
   bootstrap: [AppComponent]

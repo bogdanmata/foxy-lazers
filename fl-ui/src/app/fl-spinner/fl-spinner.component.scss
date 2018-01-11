@@ -1,5 +1,13 @@
 .spinner {
-  img {
-    width: 20px;
+  ::ng-deep svg,
+  mat-spinner {
+    height: 1rem !important;
+    width: 1rem !important;
+  }
+
+  mat-spinner {
+    display: inline;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 }
