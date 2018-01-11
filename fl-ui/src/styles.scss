@@ -70,6 +70,9 @@ mat-cell {
   color: $color4 !important;
   font-size: 0.8rem !important;
 }
+mat-header-row {
+  background-color: rgba(115, 96, 56, 0.3) !important;
+}
 mat-expansion-panel {
   background-color: rgba(180, 180, 180, 0.3) !important;
 }
