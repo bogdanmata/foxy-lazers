@@ -65,6 +65,9 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
+  displayedColumnsAwaitingValidationOffers = ['fees', 'actions'];
+  dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+
   public creationInProgress = false;
   public instruments: Instrument[] = [];
   public currentBorrower: string = "borrower1";
@@ -118,6 +121,14 @@ export class SectionBorrowerComponent implements OnInit {
         this.businessUser = data;
       });
     }, REFRESH_INTERVAL);
+  }
+
+  validateOffer(offer: SecurityLandingContract): void {
+    console.log('Validating offer: ', offer);
+  }
+
+  rejectOffer(offer: SecurityLandingContract): void {
+    console.log('Rejecting offer: ', offer);
   }
 
 
