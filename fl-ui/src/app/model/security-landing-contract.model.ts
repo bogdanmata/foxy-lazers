@@ -1,7 +1,7 @@
 import {Instrument} from "./instrument.model";
 import {Bank, Borrower} from "./business-user.model";
 
-export interface SecurityLandingContract {
+export interface SecurityLendingContract {
   id: string;
   startDate: string;
   endDate: string;
@@ -31,8 +31,8 @@ export enum ContractStatus {
 }
 
 export enum FeesFrequency {
-  AT_CONTRACT_END,
-  SEC_10,
-  SEC_20,
-  SEC_30
+  AT_CONTRACT_END = "AT_CONTRACT_END",
+  SEC_10 = "SEC_10",
+  SEC_20 = "SEC_20",
+  SEC_30 = "SEC_30"
 }

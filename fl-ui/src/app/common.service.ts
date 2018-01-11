@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {LendingRequest} from "./model/lending-request.model";
-import {SecurityLandingContract} from './model/security-landing-contract.model';
+import {SecurityLendingContract} from './model/security-landing-contract.model';
 import {LendingOffer, SecurityLendingOffer} from './model/security-landing-offer.model';
 
 @Injectable()
@@ -20,8 +20,8 @@ export class CommonService {
     return this.http.get<Instrument[]>(environment.blockchain_api_path + 'com.rbc.hackathon.Bond');
   }
 
-  getSecurityLendingContracts(): Observable<SecurityLandingContract[]> {
-    return this.http.get<SecurityLandingContract[]>(environment.blockchain_api_path + 'com.rbc.hackathon.SecurityLendingContract');
+  getSecurityLendingContracts(): Observable<SecurityLendingContract[]> {
+    return this.http.get<SecurityLendingContract[]>(environment.blockchain_api_path + 'com.rbc.hackathon.SecurityLendingContract');
   }
 
   getSecurityLendingOffers(): Observable<SecurityLendingOffer[]> {
@@ -33,6 +33,13 @@ export class CommonService {
    */
   createLendingRequest(lendingRequest: LendingRequest): Observable<LendingRequest> {
     return this.http.post<LendingRequest>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingRequest', lendingRequest);
+  }
+
+  /**
+   * Get lending offers (from banks)
+   */
+  getLendingOffers(): Observable<LendingOffer[]> {
+    return this.http.get<LendingOffer[]>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOffer');
   }
 
   // updateLendingOffer() {

@@ -1,4 +1,4 @@
-import {SecurityLandingContract} from './security-landing-contract.model';
+import {SecurityLendingContract} from './security-landing-contract.model';
 import {Bank} from "./business-user.model";
 
 export class SecurityLendingOffer {
@@ -8,7 +8,7 @@ export class SecurityLendingOffer {
   expirationDate: string;
   fees: number;
   feesFrequency: FeesFrequency;
-  securityLendingContract: SecurityLandingContract;
+  securityLendingContract: SecurityLendingContract;
   bank: Bank;
 }
 

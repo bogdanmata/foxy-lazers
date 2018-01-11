@@ -3,21 +3,22 @@ import {HttpClient} from '@angular/common/http';
 import {MatTableDataSource} from '@angular/material';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
-  FeesFrequency, SecurityLandingContract,
+  FeesFrequency, SecurityLendingContract,
   ContractStatus, Collateral
 } from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
 import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
+import {LendingOffer, SecurityLendingOffer} from "../model/security-landing-offer.model";
 
-const ACTIVE_OFFERS: SecurityLandingContract[] = [
+const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
     id: '1',
     startDate: '??',
     endDate: '??',
     quantity: 156,
-    collateral: <Collateral> { id: '?' },
+    collateral: <Collateral> {id: '?'},
     status: ContractStatus.ACTIVE,
     fees: 50,
     feesFrequency: FeesFrequency.SEC_10,
@@ -38,7 +39,7 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     startDate: '??',
     endDate: '??',
     quantity: 333,
-    collateral: <Collateral> { id: '?' },
+    collateral: <Collateral> {id: '?'},
     status: ContractStatus.ACTIVE,
     fees: 1233,
     feesFrequency: FeesFrequency.AT_CONTRACT_END,
@@ -70,10 +71,13 @@ export const REFRESH_INTERVAL = 4000;
 })
 export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
-  dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+  dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(ACTIVE_OFFERS);
 
-  displayedColumnsAwaitingValidationOffers = ['instrument', 'bank', /*'startDate', 'endDate', */'fees', 'feesFrequency', 'actions'];
-  dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+  // Offers waiting validation
+  private offersAwaitingValidation: LendingOffer[] = [];
+  // displayedColumnsAwaitingValidationOffers = ['instrument', 'bank', /*'startDate', 'endDate', */'fees', 'feesFrequency', 'actions'];
+  displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
+  dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
 
   public creationInProgress = false;
   public instruments: Instrument[] = [];
@@ -88,11 +92,12 @@ export class SectionBorrowerComponent implements OnInit {
   });
 
   public businessUser: BusinessUser;
-  private securityLendingContracts: SecurityLandingContract[];
+  private securityLendingContracts: SecurityLendingContract[];
 
-  private requestedSecurityLendingContracts: SecurityLandingContract[];
+  // Contract
+  private requestedSecurityLendingContracts: SecurityLendingContract[];
   displayedColumnsRequestsEmitted = ['instrument', 'quantity', 'startDate', 'endDate'];
-  dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
+  dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
 
   constructor(private commonService: CommonService) {
   }
@@ -113,8 +118,13 @@ export class SectionBorrowerComponent implements OnInit {
       this.securityLendingContracts = data;
       this.requestedSecurityLendingContracts = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.REQUESTED);
-      console.log(this.requestedSecurityLendingContracts);
-      this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
+      this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
+    });
+
+    // Retrieve lending offers
+    this.commonService.getLendingOffers().subscribe(data => {
+      this.offersAwaitingValidation = data;
+      this.dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
     });
 
     // Init form with default values
@@ -135,11 +145,11 @@ export class SectionBorrowerComponent implements OnInit {
     }, REFRESH_INTERVAL);
   }
 
-  validateOffer(offer: SecurityLandingContract): void {
+  validateOffer(offer: SecurityLendingContract): void {
     console.log('Validating offer: ', offer);
   }
 
-  rejectOffer(offer: SecurityLandingContract): void {
+  rejectOffer(offer: SecurityLendingContract): void {
     console.log('Rejecting offer: ', offer);
   }
 

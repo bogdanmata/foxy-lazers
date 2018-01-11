@@ -3,13 +3,13 @@ import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
 import {
   Collateral, ContractStatus, FeesFrequency,
-  SecurityLandingContract
+  SecurityLendingContract
 } from "../model/security-landing-contract.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 
-const ACTIVE_OFFERS: SecurityLandingContract[] = [
+const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
     id: '1',
     startDate: '??',
@@ -67,8 +67,8 @@ export class SectionRbcComponent implements OnInit {
   rbcComponentControl: FormControl = new FormControl();
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   displayedColumnsSecurityLandingContracts = ['borrower', 'instrument', 'quantity', 'startDate', 'endDate'];
-  public securityLandingContracts: MatTableDataSource<SecurityLandingContract>;
-  public selectedSecurityLandingContract: SecurityLandingContract;
+  public securityLandingContracts: MatTableDataSource<SecurityLendingContract>;
+  public selectedSecurityLandingContract: SecurityLendingContract;
   public creationInProgress: boolean;
 
   constructor(private commonService: CommonService) {
@@ -81,11 +81,11 @@ export class SectionRbcComponent implements OnInit {
     });
 
     this.commonService.getSecurityLendingContracts().subscribe((data) => {
-      this.securityLandingContracts = new MatTableDataSource<SecurityLandingContract>(data);
+      this.securityLandingContracts = new MatTableDataSource<SecurityLendingContract>(data);
     })
   }
 
-  public selectSecurityLandingContracts(row: SecurityLandingContract): void {
+  public selectSecurityLandingContracts(row: SecurityLendingContract): void {
     this.selectedSecurityLandingContract = row;
 
     this.newOffer = new FormGroup({
