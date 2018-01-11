@@ -75,7 +75,6 @@ export class SectionBorrowerComponent implements OnInit {
 
   // Offers waiting validation
   private offersAwaitingValidation: LendingOffer[] = [];
-  // displayedColumnsAwaitingValidationOffers = ['instrument', 'bank', /*'startDate', 'endDate', */'fees', 'feesFrequency', 'actions'];
   displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
   dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
 
@@ -103,14 +102,33 @@ export class SectionBorrowerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getDataFromServer();
+
+    // Init form with default values
+    let currentDate: Date = new Date();
+    let currentDateStr: string = this.commonService.dateToISOString(currentDate);
+    this.newLendingForm.get('startDate').setValue(currentDateStr);
+
+    let endDate: Date = new Date(currentDate.getTime() + 2 * 60 * 1000); // +2 minutes;
+    this.newLendingForm.get('endDate').setValue(this.commonService.dateToISOString(endDate));
+
+    this.newLendingForm.get('quantity').setValue("100");
+
+    // Setup automatic refresh
+    setInterval(() => {
+      this.getDataFromServer();
+    }, REFRESH_INTERVAL);
+  }
+
+  getDataFromServer(): void {
     // Retrieve available bonds
     this.commonService.getBonds().subscribe(data => {
       this.instruments = data;
     });
 
     // Get business user
-    this.commonService.updateBusinessUser().subscribe(data => {
-      this.businessUser = data;
+    this.commonService.getBorrowers().subscribe(data => {
+      this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
     });
 
     // Retrieve lending contracts
@@ -126,23 +144,6 @@ export class SectionBorrowerComponent implements OnInit {
       this.offersAwaitingValidation = data;
       this.dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
     });
-
-    // Init form with default values
-    let currentDate: Date = new Date();
-    let currentDateStr: string = this.commonService.dateToISOString(currentDate);
-    this.newLendingForm.get('startDate').setValue(currentDateStr);
-
-    let endDate: Date = new Date(currentDate.getTime() + 2 * 60 * 1000); // +2 minutes;
-    this.newLendingForm.get('endDate').setValue(this.commonService.dateToISOString(endDate));
-
-    this.newLendingForm.get('quantity').setValue("100");
-
-    // Setup automatic refresh
-    setInterval(() => {
-      this.commonService.updateBusinessUser().subscribe(data => {
-        this.businessUser = data;
-      });
-    }, REFRESH_INTERVAL);
   }
 
   validateOffer(offer: SecurityLendingContract): void {
