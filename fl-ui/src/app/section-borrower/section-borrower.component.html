@@ -55,12 +55,32 @@
 
   <div>
     <h2>Requests emitted</h2>
-    ...
+    <div class="example-container mat-elevation-z2">
+      <mat-table #table [dataSource]="dataSourceRequestsEmitted">
+        <ng-container matColumnDef="instrument">
+          <mat-header-cell *matHeaderCellDef> Instrument </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.instrument.isin }} - {{ element.instrument.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef> Start date </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.startDate }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef> End date </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.endDate }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsRequestsEmitted"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsRequestsEmitted;"></mat-row>
+      </mat-table>
+    </div>
   </div>
 
   <div>
     <h2>Offers awaiting validation</h2>
-    <div class="example-container mat-elevation-z8">
+    <div class="example-container mat-elevation-z2">
       <mat-table #table [dataSource]="dataSourceAwaitingValidationOffers">
         <ng-container matColumnDef="instrument">
           <mat-header-cell *matHeaderCellDef> Instrument </mat-header-cell>
@@ -108,7 +128,7 @@
 
   <div>
     <h2>Offers active</h2>
-    <div class="example-container mat-elevation-z8">
+    <div class="example-container mat-elevation-z2">
       <mat-table #table [dataSource]="dataSourceActiveOffers">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>

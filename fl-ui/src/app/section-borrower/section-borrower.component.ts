@@ -89,7 +89,10 @@ export class SectionBorrowerComponent implements OnInit {
 
   public businessUser: BusinessUser;
   private securityLendingContracts: SecurityLandingContract[];
+
   private requestedSecurityLendingContracts: SecurityLandingContract[];
+  displayedColumnsRequestsEmitted = ['instrument', 'startDate', 'endDate'];
+  dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
 
   constructor(private commonService: CommonService) {
   }
@@ -110,6 +113,7 @@ export class SectionBorrowerComponent implements OnInit {
       this.securityLendingContracts = data;
       this.requestedSecurityLendingContracts = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.REQUESTED);
+      this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
     });
 
     // Init form with default values

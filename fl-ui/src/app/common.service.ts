@@ -35,6 +35,10 @@ export class CommonService {
     return this.http.post<LendingRequest>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingRequest', lendingRequest);
   }
 
+  // updateLendingOffer() {
+  //   return this.http.post<LendingRequest>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOfferAgreement', lendingRequest);
+  // }
+
   /**
    * Create new SecurityLendingOffer
    */

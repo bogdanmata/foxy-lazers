@@ -21,13 +21,13 @@ export interface Collateral {
 }
 
 export enum ContractStatus {
-  REQUESTED,
-  RESPONDED,
-  ACCEPTED,
-  REJECTED,
-  EXPIRED,
-  ACTIVE,
-  ENDED
+  REQUESTED = "REQUESTED",
+  RESPONDED = "RESPONDED",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  EXPIRED = "EXPIRED",
+  ACTIVE = "ACTIVE",
+  ENDED = "ENDED"
 }
 
 export enum FeesFrequency {
