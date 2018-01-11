@@ -10,6 +10,14 @@ export class SecurityLendingOffer {
   bank: Bank;
 }
 
+export class LendingOffer {
+  expirationDate: string;
+  fees: number;
+  feesFrequency: FeesFrequency;
+  securityLendingContract: string;
+  bank: string;
+}
+
 export enum ContractStatus {
   REQUESTED,
   RESPONDED,

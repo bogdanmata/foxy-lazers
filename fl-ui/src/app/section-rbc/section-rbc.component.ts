@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
-import { FormControl } from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {
-  FeesFrequency, SecurityLandingContract,
-  ContractStatus, Collateral
+  Collateral, ContractStatus, FeesFrequency,
+  SecurityLandingContract
 } from "../model/security-landing-contract.model";
-import {BusinessUser} from "../model/business-user.model";
+import {Bank, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
+import {LendingOffer} from '../model/security-landing-offer.model';
 
 const ACTIVE_OFFERS: SecurityLandingContract[] = [
   {
@@ -14,7 +15,7 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     startDate: '??',
     endDate: '??',
     quantity: 156,
-    collateral: <Collateral> { id: '?' },
+    collateral: <Collateral> {id: '?'},
     status: ContractStatus.ACTIVE,
     fees: 50,
     feesFrequency: FeesFrequency.SEC_10,
@@ -36,7 +37,7 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     startDate: '??',
     endDate: '??',
     quantity: 333,
-    collateral: <Collateral> { id: '?' },
+    collateral: <Collateral> {id: '?'},
     status: ContractStatus.ACTIVE,
     fees: 1233,
     feesFrequency: FeesFrequency.AT_CONTRACT_END,
@@ -61,6 +62,14 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
 })
 export class SectionRbcComponent implements OnInit {
 
+  public newOffer: FormGroup;
+  public businessUser: BusinessUser;
+  rbcComponentControl: FormControl = new FormControl();
+  displayedColumns = ['id', 'name', 'isin', 'quantity'];
+  public securityLandingContracts = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+  public selectedSecurityLandingContract: SecurityLandingContract;
+  private RBC: Bank = new Bank('RBC');
+
   constructor(private commonService: CommonService) {
   }
 
@@ -71,23 +80,26 @@ export class SectionRbcComponent implements OnInit {
     });
   }
 
-  public businessUser: BusinessUser;
-  rbcComponentControl: FormControl = new FormControl();
+  public selectSecurityLandingContracts(row: SecurityLandingContract): void {
+    this.selectedSecurityLandingContract = row;
 
-  institutions = [
-    'RBC',
-    'Bank two',
-    'Bank three'
-  ]; // TODO obtain this from the block chain (the players declared as institutions)
+    this.newOffer = new FormGroup({
+      expirationDate: new FormControl(),
+      fees: new FormControl(),
+      feesFrequency: new FormControl(),
+    });
+  }
 
-  instruments = [
-    'Sec 1',
-    'Sec 2',
-    'Sec 3',
-    'Sec 4'
-  ]; // TODO obtain this from block chain (the products)
+  public submitOffer(newOffer: FormGroup): void {
+    let offer: LendingOffer = {
+      expirationDate: newOffer.get('expirationDate').value,
+      fees: newOffer.get('fees').value,
+      feesFrequency: newOffer.get('feesFrequency').value,
+      bank: `com.rbc.hackathon.Bank#bank1`,
+      securityLendingContract: `com.rbc.hackathon.SecurityLendingContract#${this.selectedSecurityLandingContract.id}`
+    };
 
-  displayedColumns = ['id', 'name', 'isin', 'quantity'];
-  dataSource = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
+    this.commonService.createLendingOffer(offer).subscribe();
+  }
 
 }
