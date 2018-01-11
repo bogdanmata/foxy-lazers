@@ -1,4 +1,12 @@
 <app-fl-header appName="Bank app" login="RBC" className="bank">
+  <div>
+    <h2>Your balance</h2>
+    <div class="fees">
+      <span class="fees-container">
+        Your balance: <span class="fees-value positive">{{ businessUser.accountBalance }} $</span>
+      </span>
+    </div>
+  </div>
 
   <div>
     <h2>All offers</h2>
@@ -30,67 +38,66 @@
     </div>
   </div>
 
-  <div>
-    <div class="rbc-page-container mat-elevation-z8">
-      <form class="rbc-form">
-        <mat-form-field class="full-width">
-          <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput
-                 [matAutocomplete]="autoInstitutions">
-          <mat-autocomplete #autoInstitutions="matAutocomplete">
-            <mat-option *ngFor="let institution of institutions" [value]="institution">
-              {{ institution }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+  <h2>Answer to offer &laquo; xxx &raquo;</h2>
+  <div class="offer-answer-form mat-elevation-z8">
+    <form class="rbc-form">
+      <mat-form-field class="full-width">
+        <input type="text" placeholder="Pick an institution" aria-label="Institution" matInput
+               [matAutocomplete]="autoInstitutions">
+        <mat-autocomplete #autoInstitutions="matAutocomplete">
+          <mat-option *ngFor="let institution of institutions" [value]="institution">
+            {{ institution }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Pick a instrument" type="text" readonly value="something">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Pick a instrument" type="text" readonly value="something">
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Collateral" type="text" readonly value="Some quaranty">
-          <!-- <mat-autocomplete #auto="matAutocomplete">
-			<mat-option *ngFor="let option of options" [value]="option">
-			  {{ option }}
-			</mat-option>
-		  </mat-autocomplete> -->
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Collateral" type="text" readonly value="Some quaranty">
+        <!-- <mat-autocomplete #auto="matAutocomplete">
+		  <mat-option *ngFor="let option of options" [value]="option">
+			{{ option }}
+		  </mat-option>
+		</mat-autocomplete> -->
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Start date" type="datetime-local" readonly value="2017-06-01T08:30">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Start date" type="datetime-local" readonly value="2017-06-01T08:30">
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="End date" type="datetime-local" readonly value="2018-01-10T16:00">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="End date" type="datetime-local" readonly value="2018-01-10T16:00">
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Expiration date of the offer" type="datetime-local" min="2017-06-01T08:30">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Expiration date of the offer" type="datetime-local" min="2017-06-01T08:30">
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Quantity" type="number" readonly value="10">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Quantity" type="number" readonly value="10">
+      </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Fees" type="number">
-        </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Fees" type="number">
+      </mat-form-field>
 
-        <!-- <mat-form-field class="full-width"> -->
-        <mat-radio-group class="radio-group">
-          <h3 mat-subheader>Fee frequency:</h3>
-          <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
-          <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
-          <mat-radio-button class="radio-button" value="SEC_20">Every 20 seconds</mat-radio-button>
-          <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
-        </mat-radio-group>
-        <!-- </mat-form-field> -->
-        <div style="padding: 10px;">
-          <button mat-raised-button color="primary">Create new offer</button>
-          <button mat-raised-button color="warn">Cancel</button>
-        </div>
-      </form>
-    </div>
+      <!-- <mat-form-field class="full-width"> -->
+      <mat-radio-group class="radio-group">
+        <h3 mat-subheader>Fee frequency:</h3>
+        <mat-radio-button class="radio-button" value="AT_CONTRACT_END">At the end of the contract</mat-radio-button>
+        <mat-radio-button class="radio-button" value="SEC_10">Every 10 seconds</mat-radio-button>
+        <mat-radio-button class="radio-button" value="SEC_20">Every 20 seconds</mat-radio-button>
+        <mat-radio-button class="radio-button" value="SEC_30">Every 30 seconds</mat-radio-button>
+      </mat-radio-group>
+      <!-- </mat-form-field> -->
+      <div style="padding: 10px;">
+        <button mat-raised-button color="primary">Create new offer</button>
+        <button mat-raised-button color="warn">Cancel</button>
+      </div>
+    </form>
   </div>
 
 </app-fl-header>

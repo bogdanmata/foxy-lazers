@@ -11,11 +11,6 @@ import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 
-const ELEMENT_DATA: Element[] = [
-  {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
-  {id: '2', name: 'Helium', isin: '456', quantity: 100}
-];
-
 const ACTIVE_OFFERS: SecurityLandingContract[] = [
   {
     id: '1',
@@ -39,13 +34,6 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
   }
 ];
 
-export interface Element {
-  id: string;
-  name: string;
-  isin: string;
-  quantity: number;
-}
-
 export interface FeesDue {
   perSecond: number,
   atContractEnd: number
@@ -59,13 +47,10 @@ export const REFRESH_INTERVAL = 4000;
   styleUrls: ['./section-borrower.component.scss']
 })
 export class SectionBorrowerComponent implements OnInit {
-  displayedColumns = ['id', 'name', 'isin', 'quantity'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
-  displayedColumnsAwaitingValidationOffers = ['fees', 'actions'];
+  displayedColumnsAwaitingValidationOffers = ['startDate', 'endDate', 'fees', 'feesFrequency', 'actions'];
   dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
   public creationInProgress = false;
@@ -183,5 +168,22 @@ export class SectionBorrowerComponent implements OnInit {
     this.commonService.createLendingRequest(lendingRequest).subscribe(data => {
       this.creationInProgress = false;
     });
+  }
+
+  /**
+   * Translate fees frequency to text for UI
+   */
+  tranlateFeesFrequency(frequency: FeesFrequency): string {
+    switch (frequency) {
+      case FeesFrequency.SEC_10:
+        return "Every 10s";
+      case FeesFrequency.SEC_20:
+        return "Every 20s";
+      case FeesFrequency.SEC_30:
+        return "Every 30s";
+      case FeesFrequency.AT_CONTRACT_END:
+        return "When contract ends";
+    }
+    return '?';
   }
 }

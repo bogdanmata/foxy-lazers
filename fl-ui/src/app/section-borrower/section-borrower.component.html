@@ -3,10 +3,15 @@
   <div>
     <h2>Your balance</h2>
     <div class="fees">
-      <span class="fees-container">Your balance: <span class="fees-value positive">{{ businessUser.accountBalance }} $</span></span>
-      <span class="fees-container"><span class="fees-value negative">-{{ feesDue().perSecond }} $</span> / second</span>
-      <span class="fees-container"><span
-        class="fees-value negative">-{{ feesDue().atContractEnd }} $</span> at contract end</span>
+      <span class="fees-container">
+        Your balance: <span class="fees-value positive">{{ businessUser.accountBalance }} $</span>
+      </span>
+      <span class="fees-container">
+        <span class="fees-value negative">-{{ feesDue().perSecond }} $</span> / second
+      </span>
+      <span class="fees-container">
+        <span class="fees-value negative">-{{ feesDue().atContractEnd }} $</span> at contract end
+      </span>
     </div>
   </div>
 
@@ -57,16 +62,31 @@
     <h2>Offers awaiting validation</h2>
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSourceAwaitingValidationOffers">
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef> Start date </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.startDate }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef> End date </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.endDate }}</mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="fees">
-          <mat-header-cell *matHeaderCellDef> Fees</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.fees}}</mat-cell>
+          <mat-header-cell *matHeaderCellDef> Fees </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.fees }} $</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="feesFrequency">
+          <mat-header-cell *matHeaderCellDef> Frequency </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ tranlateFeesFrequency(element.feesFrequency) }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <mat-icon (click)="validateOffer(element)" class="positive">done</mat-icon>
-            <mat-icon (click)="rejectOffer(element)" class="negative">clear</mat-icon>
+            <mat-icon (click)="validateOffer(element)" class="positive click action">done</mat-icon>
+            <mat-icon (click)="rejectOffer(element)" class="negative click action">clear</mat-icon>
           </mat-cell>
         </ng-container>
 
@@ -96,34 +116,9 @@
     </div>
   </div>
 
-  <!--<div>-->
-    <!--<h2>All offers</h2>-->
-    <!--<div class="example-container mat-elevation-z8">-->
-      <!--<mat-table #table [dataSource]="dataSource">-->
-        <!--<ng-container matColumnDef="id">-->
-          <!--<mat-header-cell *matHeaderCellDef> ID</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="name">-->
-          <!--<mat-header-cell *matHeaderCellDef> Name</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="isin">-->
-          <!--<mat-header-cell *matHeaderCellDef> ISIN</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.isin}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="quantity">-->
-          <!--<mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
-        <!--<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
-      <!--</mat-table>-->
-    <!--</div>-->
-  <!--</div>-->
+  <div>
+    <h2>Portfolio</h2>
+    ...
+  </div>
 
 </app-fl-header>

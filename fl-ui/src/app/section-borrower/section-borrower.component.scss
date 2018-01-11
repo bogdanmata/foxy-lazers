@@ -20,21 +20,12 @@
   }
 }
 
-
-.fees {
-  .fees-container {
-    display: inline-block;
-    //background-color: $color4;
-    border: 0.2rem solid $color3;
-    padding: 1rem 1.8rem;
-    margin-right: 0.5rem;
-    color: $color3;
-    font-weight: 400;
-
-    .fees-value {
-      color: $color4;
-      //font-weight: 800;
-    }
+mat-table {
+  mat-row mat-icon.action {
+    opacity: 0.2;
+  }
+  mat-row:hover mat-icon.action {
+    display: inline;
+    opacity: 1.0;
   }
 }
-

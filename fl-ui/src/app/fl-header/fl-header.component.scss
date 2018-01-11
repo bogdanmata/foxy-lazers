@@ -21,6 +21,9 @@
 
   .login {
     font-size: 0.8rem;
+    margin: 1rem;
+    position: relative;
+    top: -0.4rem;
 
     .login-name {
       font-style: italic;
@@ -45,5 +48,11 @@
 }
 
 .below-topbar {
-  margin-top: 4.5rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem 1.4rem;
+}
+
+.align-right {
+  float: right;
+  margin: 0.7rem;
 }

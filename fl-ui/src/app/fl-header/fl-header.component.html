@@ -1,8 +1,10 @@
 <div class="top-bar-wrapper">
   <div class="top-bar" [ngClass]="className">
     <span class="app-name">{{ appName }}</span>
-    <span class="login">Logged in as <span class="login-name">{{ login }}</span></span> -
-    <a mat-tab-link routerLink="/">Logout</a>
+    <span class="align-right">
+    <span class="login">Logged in as <span class="login-name">{{ login }}</span></span>
+      <a mat-tab-link routerLink="/"><mat-icon>exit_to_app</mat-icon></a>
+    </span>
   </div>
 </div>
 

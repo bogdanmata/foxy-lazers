@@ -1,5 +1,5 @@
 @import "variables.scss";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 h1 {
@@ -9,7 +9,11 @@ h1 {
 }
 
 h2 {
+  margin-top: 2rem;
   color: $color3;
+  font-variant: small-caps;
+  letter-spacing: 0.05rem;
+  font-size: 1.4rem;
 }
 
 p {
@@ -53,4 +57,38 @@ nav {
 }
 .negative {
   color: red !important;
+}
+
+.click {
+  cursor: pointer;
+}
+
+mat-table {
+  background-color: rgba(180, 180, 180, 0.3) !important;
+}
+mat-cell {
+  color: $color4 !important;
+  font-size: 0.8rem !important;
+}
+mat-expansion-panel {
+  background-color: rgba(180, 180, 180, 0.3) !important;
+}
+
+
+.fees {
+  .fees-container {
+    display: inline-block;
+    border: 0.1rem dashed $color2;
+    background-color: rgba(216, 156, 70, 0.15);
+    padding: 1rem 1.4rem;
+    margin-right: 0.2rem;
+    color: $color3;
+    font-weight: 400;
+    font-size: 0.8rem;
+
+    .fees-value {
+      color: $color4;
+      font-weight: 600;
+    }
+  }
 }
