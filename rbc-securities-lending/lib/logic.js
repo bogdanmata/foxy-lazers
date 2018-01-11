@@ -139,6 +139,11 @@ function collectFees(contract)
     }
 }
 
+ /**
+ * A request for Sec lending will be created
+ * @param {com.rbc.hackathon.ExecuteContracts} executeContracts - the LendingRequest transaction
+ * @transaction
+ */
 function ExecuteContracts(executeContracts)
 {
     var NS = 'com.rbc.hackathon';
