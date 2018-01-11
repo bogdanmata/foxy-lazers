@@ -74,6 +74,7 @@ asset SecurityLendingContract identified by id {
   --> Bank bank optional
   --> Borrower borrower
 }
+
 asset SecurityLendingOffer identified by id {
   o String id
   o DateTime expirationDate

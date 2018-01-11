@@ -48,17 +48,20 @@ function offerLending(lendingOffer){
     var NS = 'com.rbc.hackathon';
     // need to tested to know if this a relationship or the real object behind
 
-    var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer','1');
-
-    securityLendingOffer.expirationDate = lendingOffer.expirationDate;
-    securityLendingOffer.fees = lendingOffer.fees;
-    securityLendingOffer.feesFrequency = lendingOffer.feesFrequency;
-    securityLendingOffer.securityLendingContract = lendingOffer.securityLendingContract;
-    securityLendingOffer.bank = lendingOffer.bank;
-
     return getAssetRegistry(NS + '.SecurityLendingOffer')
-    .then(function (SLOfferRegistry){
-        SLOfferRegistry.add(securityLendingOffer);
+        .then(function (SLOfferRegistry){
+            SLOfferRegistry.getAll().then(function(OfferColl){
+              // var lend = lendingRequest;
+            var id = (OfferColl.length | 0) + 1;
+
+            var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer',id);
+            securityLendingOffer.expirationDate = lendingOffer.expirationDate;
+            securityLendingOffer.fees = lendingOffer.fees;
+            securityLendingOffer.feesFrequency = lendingOffer.feesFrequency;
+            securityLendingOffer.securityLendingContract = lendingOffer.securityLendingContract;
+            securityLendingOffer.bank = lendingOffer.bank;
+            SLOfferRegistry.add(securityLendingOffer);   
+        })
     });
 }
 
