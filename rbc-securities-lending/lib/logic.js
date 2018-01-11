@@ -52,6 +52,10 @@ function offerLending(lendingOffer){
     securityLendingOffer.securityLendingContract = lendingOffer.securityLendingContract;
     securityLendingOffer.bank = lendingOffer.bank;
 
+    return getAssetRegistry(NS + '.SecurityLendingOffer')
+    .then(function (SLOfferRegistry){
+        SLOfferRegistry.add(securityLendingOffer);
+    });
 }
 
 /**
