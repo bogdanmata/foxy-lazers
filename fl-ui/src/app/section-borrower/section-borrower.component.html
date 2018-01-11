@@ -17,9 +17,9 @@
         <mat-expansion-panel-header>
           <span>Create new lending request&hellip;</span>
         </mat-expansion-panel-header>
-        <form [formGroup]="newOfferForm" novalidate class="form">
+        <form [formGroup]="newLendingForm" novalidate class="form">
           <mat-form-field>
-            <mat-select placeholder="Instrument">
+            <mat-select placeholder="Instrument" formControlName="instrument">
               <mat-option *ngFor="let instrument of instruments" [value]="instrument.isin">
                 {{ instrument.isin }} ({{ instrument.description }})
               </mat-option>
@@ -27,22 +27,18 @@
           </mat-form-field>
 
           <mat-form-field>
-            <input type="number" matInput placeholder="Quantity">
+            <input formControlName="quantity" type="number" matInput placeholder="Quantity">
           </mat-form-field>
 
-          <mat-form-field>
-            <input matInput [matDatepicker]="startDatePicker" placeholder="Start date">
-            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker></mat-datepicker>
+          <mat-form-field class="full-width">
+            <input formControlName="startDate" matInput placeholder="Start date" type="datetime-local">
           </mat-form-field>
 
-          <mat-form-field>
-            <input matInput [matDatepicker]="endDatePicker" placeholder="End date">
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker></mat-datepicker>
+          <mat-form-field class="full-width">
+            <input formControlName="endDate" matInput placeholder="End date" type="datetime-local">
           </mat-form-field>
 
-          <button mat-raised-button color="primary">Create lending request</button>
+          <button mat-raised-button color="primary" (click)="createLendingRequest()">Create lending request</button>
         </form>
       </mat-expansion-panel>
     </mat-accordion>

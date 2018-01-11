@@ -66,8 +66,12 @@ export class SectionBorrowerComponent implements OnInit {
 
   public instruments: Instrument[] = [];
 
-  public newOfferForm = new FormGroup({
-    frequency: new FormControl()
+  // new Lending form values
+  public newLendingForm = new FormGroup({
+    instrument: new FormControl(),
+    quantity: new FormControl(),
+    startDate: new FormControl(),
+    endDate: new FormControl()
   });
 
   public businessUser: BusinessUser;
@@ -127,5 +131,12 @@ export class SectionBorrowerComponent implements OnInit {
     });
 
     return fees;
+  }
+
+  /**
+   * Create a new lending request
+   */
+  createLendingRequest(): void {
+    console.log(this.newLendingForm);
   }
 }
