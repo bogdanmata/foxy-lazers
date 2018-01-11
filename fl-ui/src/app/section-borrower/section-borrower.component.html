@@ -38,7 +38,10 @@
             <input formControlName="endDate" matInput placeholder="End date" type="datetime-local">
           </mat-form-field>
 
-          <button mat-raised-button color="primary" (click)="createLendingRequest()">Create lending request</button>
+          <button mat-raised-button color="primary" (click)="createLendingRequest()">
+            Create lending request
+            <app-fl-spinner [showSpinner]="creationInProgress"></app-fl-spinner>
+          </button>
         </form>
       </mat-expansion-panel>
     </mat-accordion>

@@ -65,6 +65,7 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
+  public creationInProgress = false;
   public instruments: Instrument[] = [];
   public currentBorrower: string = "borrower1";
 
@@ -149,7 +150,7 @@ export class SectionBorrowerComponent implements OnInit {
    * Create a new lending request
    */
   createLendingRequest(): void {
-    console.log(this.newLendingForm);
+    // Convert form to LendingRequest instance
     let lendingRequest: LendingRequest = new LendingRequest(
       this.newLendingForm.get('startDate').value,
       this.newLendingForm.get('endDate').value,
@@ -157,7 +158,11 @@ export class SectionBorrowerComponent implements OnInit {
       new Instrument(this.newLendingForm.get('instrument').value, undefined),
       new BusinessUser(this.currentBorrower, undefined)
     );
+
     console.log(lendingRequest);
-    // TODO Call backend
+    this.creationInProgress = true;
+    this.commonService.createLendingRequest(lendingRequest).subscribe(data => {
+      this.creationInProgress = false;
+    });
   }
 }
