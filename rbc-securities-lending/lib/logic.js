@@ -9,37 +9,32 @@
  * @transaction
  */
 function requestLending(lendingRequest){
-    
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
 
-     getAssetRegistry(NS + '.SecurityLendingContract')
+    return getAssetRegistry(NS + '.SecurityLendingContract')
         .then(function (SLContractRegistry){
-            var ContractColl = SLContractRegistry.getAll();
-  /*          var idx = 1;
-            if (ContractColl.length>0)
-            {
-                idx = (+ContractColl[ContractColl.length-1].id + 1);
-            }
-*/
-            if (ContractColl==null){
-                ContractColl = [];
-              }
-            var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', ContractColl.length.toString()); 
-            securityLendingContract.startDate = lendingRequest.startDate ;
-            securityLendingContract.endDate   = lendingRequest.endDate  ;
-            securityLendingContract.quantity  = lendingRequest.quantity ;
-            securityLendingContract.instrument = lendingRequest.instrument ;
-            securityLendingContract.borrower  = lendingRequest.borrower ;
+            SLContractRegistry.getAll().then(function(ContractColl){
+              // var lend = lendingRequest;
+              var id = (ContractColl.length | 0) + 1;
 
-            securityLendingContract.status      = 'REQUESTED' ;
-            securityLendingContract.collateral  = null ;
-            securityLendingContract.fees        = null ;
-            securityLendingContract.feesFrequency = null ;
-            securityLendingContract.lastCollectedFeesTimestamp = null;
-            securityLendingContract.bank = null ;
-            
-            SLContractRegistry.add(securityLendingContract);
+              var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', "" + id);
+
+              securityLendingContract.startDate = lendingRequest.startDate ;
+              securityLendingContract.endDate   = lendingRequest.endDate  ;
+              securityLendingContract.quantity  = lendingRequest.quantity ;
+              securityLendingContract.instrument  = lendingRequest.instrument ;
+              securityLendingContract.borrower  = lendingRequest.borrower ;
+
+              securityLendingContract.status      = 'REQUESTED' ;
+              securityLendingContract.collateral  = null ;
+              securityLendingContract.fees        = null ;
+              securityLendingContract.feesFrequency = null ;
+              securityLendingContract.bank = null ;
+
+              SLContractRegistry.add(securityLendingContract);
+            });
+
         });
 }
 
@@ -52,7 +47,7 @@ function offerLending(lendingOffer){
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
     // need to tested to know if this a relationship or the real object behind
-     
+
     var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer','1');
 
     securityLendingOffer.expirationDate = lendingOffer.expirationDate;
@@ -138,7 +133,7 @@ function collectFees(contract)
             businessUserRegistry.updateAll([bank, borrower]);
             updateContract(contract);
         });
-    }   
+    }
 }
 
 function ExecuteContracts(executeContracts)
@@ -184,7 +179,7 @@ function ExecuteContracts(executeContracts)
 
         });
     })
-    
+
 
 /*
     return getAssetRegistry(NS + '.SecurityLendingContract')
@@ -229,7 +224,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     // create the banks
     var bank1 = factory.newResource(NS, 'Bank' ,'bank1');
     bank1.accountBalance = 2000;
-    
+
 
     console.log('___Creating Porfolio bank1');
     // portfolio creation
