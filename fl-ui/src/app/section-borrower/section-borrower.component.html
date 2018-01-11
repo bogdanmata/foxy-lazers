@@ -59,7 +59,7 @@
       <mat-table #table [dataSource]="dataSourceRequestsEmitted">
         <ng-container matColumnDef="instrument">
           <mat-header-cell *matHeaderCellDef> Instrument </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.instrument.isin }} - {{ element.instrument.description }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.instrument.split('#')[1] }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="startDate">

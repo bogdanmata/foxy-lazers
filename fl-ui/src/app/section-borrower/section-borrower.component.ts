@@ -113,6 +113,7 @@ export class SectionBorrowerComponent implements OnInit {
       this.securityLendingContracts = data;
       this.requestedSecurityLendingContracts = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.REQUESTED);
+      console.log(this.requestedSecurityLendingContracts);
       this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
     });
 
