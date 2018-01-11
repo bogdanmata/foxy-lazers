@@ -19,11 +19,11 @@ function requestLending(lendingRequest){
             var securityLendingContract = null;
             if (ContractColl.length>0)
             {
-                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', +ContractColl[ContractColl.length].id + 1);
+                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', (+ContractColl[ContractColl.length].id + 1).toString());
             }
             else
             {
-                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', 1);                
+                securityLendingContract =  factory.newResource(NS, 'SecurityLendingContract', '1');                
             }
             securityLendingContract.startDate = lendingRequest.startDate ;
             securityLendingContract.endDate   = lendingRequest.endDate  ;
