@@ -95,13 +95,22 @@ export class SectionBorrowerComponent implements OnInit {
       this.businessUser = data;
     });
 
+    // Retrieve lending contracts
     this.commonService.getSecurityLendingContracts().subscribe(data => {
       this.securityLendingContracts = data;
-
       this.requestedSecurityLendingContracts = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.REQUESTED);
     });
 
+    // Init form with default values
+    let currentDate: Date = new Date();
+    let currentDateStr: string = this.commonService.dateToISOString(currentDate);
+    this.newLendingForm.get('startDate').setValue(currentDateStr);
+
+    let endDate: Date = new Date(currentDate.getTime() + 2*60*1000); // +2 minutes;
+    this.newLendingForm.get('endDate').setValue(this.commonService.dateToISOString(endDate));
+
+    this.newLendingForm.get('quantity').setValue("100");
 
     // Setup automatic refresh
     setInterval(() => {
@@ -110,7 +119,6 @@ export class SectionBorrowerComponent implements OnInit {
       });
     }, REFRESH_INTERVAL);
   }
-
 
 
   /**

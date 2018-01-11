@@ -50,4 +50,11 @@ export class CommonService {
     // TODO Retrieve from backend
     // return this.http.get<BusinessUser>(environment.blockchain_api_path + '?');
   }
+
+  /**
+   * Convert date to ISO String for input component or blockchain backend
+   */
+  dateToISOString(date: Date): string {
+    return date.toISOString().split('.')[0];
+  }
 }
