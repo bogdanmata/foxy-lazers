@@ -12,6 +12,9 @@ export class FlHeaderComponent implements OnInit {
   @Input()
   login: string;
 
+  @Input()
+  className: string;
+
   constructor() { }
 
   ngOnInit() {

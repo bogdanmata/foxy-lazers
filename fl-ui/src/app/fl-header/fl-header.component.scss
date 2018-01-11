@@ -33,6 +33,14 @@
     }
   }
 }
+
+.bank {
+  border-left: 0.15em solid $color-bank;
+}
+.borrower {
+  border-left: 0.15em solid $color-borrower;
+}
+
 .below-topbar {
   margin-top: 4.5rem;
 }
