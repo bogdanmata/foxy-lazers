@@ -167,6 +167,18 @@ function ExecuteContracts(executeContracts)
                     if (contract.endDate>=Date.now)
                     {
                         contract.status='ENDED'
+                        if (contract.feesFrequency=='AT_CONTRACT_END')
+                        {
+                            return getAssetRegistry(NS +".BusinessUser")
+                            .then(function (businessUserRegistry){
+                                borrower = businessUserRegistry.get(contract.borrower.id);
+                                bank = businessUserRegistry.get(contract.bank.id);
+                                borrower.accountBalance -= contract.fees;
+                                bank.accountBalance += contract.fees;
+                                contract.lastCollectedFeesTimestamp=Date.now;
+                                businessUserRegistry.updateAll([bank, borrower]);
+                            });
+                        }
                         changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
                         updateContract(contract);
                     }
