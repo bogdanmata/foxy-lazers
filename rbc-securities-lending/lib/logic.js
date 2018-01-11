@@ -35,7 +35,7 @@ function requestLending(lendingRequest){
             securityLendingContract.collateral  = null ;
             securityLendingContract.fees        = null ;
             securityLendingContract.feesFrequency = null ;
-            contract.lastCollectedFeesTimestamp = null;
+            securityLendingContract.lastCollectedFeesTimestamp = null;
             securityLendingContract.bank = null ;
             
             SLContractRegistry.add(securityLendingContract);
