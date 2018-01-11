@@ -69,6 +69,7 @@ asset SecurityLendingContract identified by id {
   o SecurityLendingContractStatus status
   o Double fees
   o FeesFrequency feesFrequency 
+  o DateTime lastCollectedFeesTimestamp
   --> Instrument instrument
   --> Bank bank
   --> Borrower borrower
@@ -98,6 +99,10 @@ transaction LendingOffer {
 }
 transaction LendingOfferAgreement {
   --> SecurityLendingOffer securityLendingOffer
+}
+
+transaction ExecuteContracts {
+  --> Bank bank  
 }
 
 /**

@@ -29,6 +29,7 @@ function requestLending(lendingRequest){
             securityLendingContract.collateral  = null ;
             securityLendingContract.fees        = null ;
             securityLendingContract.feesFrequency = null ;
+            contract.lastCollectedFeesTimestamp = null;
             securityLendingContract.bank = null ;
             
             SLContractRegistry.add(securityLendingContract);
@@ -42,6 +43,7 @@ function requestLending(lendingRequest){
  */
 function offerLending(lendingOffer){
     
+    var NS = 'com.rbc.hackathon';
     // need to tested to know if this a relationship or the real object behind
      
     var securityLendingOffer = factory.newResource(NS, 'SecurityLendingOffer','1');
@@ -56,6 +58,128 @@ function offerLending(lendingOffer){
     .then(function (SLOfferRegistry){
         SLOfferRegistry.add(securityLendingOffer);
     });
+}
+
+function acceptOffer(lendingOfferAgreement) {
+    var NS = 'com.rbc.hackathon';
+    return getAssetRegistry(NS + '.SecurityLendingOffer')
+    .then(function (SLOfferRegistry){
+        relatedSecurityLendingOffer = SLOfferRegistry.get(lendingOfferAgreement.id);
+        return getAssetRegistry(NS + '.SecurityLendingContract')})
+    .then(function (SLContractRegistry){
+        var CurrentContract = SLContractRegistry.get(relatedSecurityLendingOffer.securityLendingContract.id);
+        CurrentContract.fees = relatedSecurityLendingOffer.fees
+        CurrentContract.feesFrequency = relatedSecurityLendingOffer.feesFrequency
+        CurrentContract.bank = relatedSecurityLendingOffer.bank
+        CurrentContract.status = 'ACCEPTED'
+        SLContractRegistry.update(CurrentContract)
+    });
+}
+
+function changeOwnership(intrumentId, fromId, toId, quantityToTransfer)
+{
+    // No error handling...
+
+    var NS = 'com.rbc.hackathon';
+    return getAssetRegistry(NS +".BusinessUser")
+    .then(function (businessUserRegistry){
+        fromParticipant = businessUserRegistry.get(fromId);
+        toParticipant = businessUserRegistry.get(toId);
+        foreach (item in fromParticipant.portfolio)
+        {
+            if (item.instrument.id==instrumentId)
+            {
+                item.quantity -= quantityToTransfer;
+            }
+        }
+        foreach (item in toParticipant.portfolio)
+        {
+            if (item.instrument.id==instrumentId)
+            {
+                item.quantity += quantityToTransfer;
+            }
+        }
+        businessUserRegistry.updateAll([fromParticipant, toParticipant]);
+    });
+}
+
+function updateContract(contract)
+{
+    return getAssetRegistry(NS + '.SecurityLendingContract')
+    .then(function (SLContractRegistry){
+         SLContractRegistry.update(contract)
+    });
+}
+
+function collectFees(contract)
+{
+    if (date.now-contract.lastCollectedFeesTimestamp>=contrat.feesFrequency)
+    {
+        var NS = 'com.rbc.hackathon';
+        return getAssetRegistry(NS +".BusinessUser")
+        .then(function (businessUserRegistry){
+            borrower = businessUserRegistry.get(contract.borrower.id);
+            bank = businessUserRegistry.get(contract.bank.id);
+            borrower.accountBalance -= contract.fees;
+            bank.accountBalance += contract.fees;
+            contract.lastCollectedFeesTimestamp=Date.now;
+            businessUserRegistry.updateAll([bank, borrower]);
+            updateContract(contract);
+        });
+    }   
+}
+
+function ExecuteContracts(executeContracts)
+{
+    var NS = 'com.rbc.hackathon';
+    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.id == _$bankId)');
+    return query(queryContracts, { bankId: executeContracts.bank.id })
+      .then(function (contracts) {
+        contracts.forEach(function (contract) {
+            switch (contract.status) {
+                case 'ACCEPTED':
+                // Accepted but not started, check if should be activated according to startDate
+                    if (contract.startDate>=Date.now)
+                    {
+                        contract.status='ACTIVE';
+                        contract.lastCollectedFeesTimestamp=Date.now;
+                        changeOwnership(contract.instrument.id, contract.bank.id, contract.borrower.id, contract.quantity);
+                        updateContract(contract);
+                    }
+                    break;
+                case 'ACTIVE':
+                // Active contract, check if it not expired then get fees, update status otherwise
+                    if (contract.endDate>=Date.now)
+                    {
+                        contract.status='ENDED'
+                        changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
+                        updateContract(contract);
+                    }
+                    else
+                    {
+                        collectFees(contract);
+                    }
+                    break;
+                case 'REQUESTED':
+                // if startdate is overdue, then change status to EXPIRED
+                    if (contract.startDate>=Date.now)
+                    {
+                        contract.status='EXPIRED';
+                        updateContract(contract);
+                    }
+                    break;
+            }
+
+        });
+    })
+    
+
+/*
+    return getAssetRegistry(NS + '.SecurityLendingContract')
+    .then(function (SLContractRegistry){
+        SLContractRegistry.query()
+    })
+*/
 }
 
 /**
