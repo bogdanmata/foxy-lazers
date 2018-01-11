@@ -40,6 +40,9 @@ function requestLending(lendingRequest){
             securityLendingContract.bank = null ;
             
             SLContractRegistry.add(securityLendingContract);
+
+            var eventCreated = factory.newEvent(NS, 'SecLendingCreated');
+            emit(eventCreated);
         });
 }
 
