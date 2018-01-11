@@ -110,3 +110,7 @@ transaction ExecuteContracts {
  */
 transaction SetupDemo {
 }
+
+event SecLendingCreated{
+  --> SecurityLendingContract securityLendingContract
+}
