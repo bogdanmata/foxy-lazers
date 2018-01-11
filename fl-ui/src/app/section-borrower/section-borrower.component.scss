@@ -20,10 +20,12 @@
   }
 }
 
-mat-table mat-row mat-icon.action {
-  display: none;
-}
-
-mat-table mat-row:hover mat-icon.action {
-  display: inline;
+mat-table {
+  mat-row mat-icon.action {
+    opacity: 0.2;
+  }
+  mat-row:hover mat-icon.action {
+    display: inline;
+    opacity: 1.0;
+  }
 }
