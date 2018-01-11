@@ -20,6 +20,8 @@ import {SectionRbcComponent} from './section-rbc/section-rbc.component';
 import {SectionBorrowerComponent} from './section-borrower/section-borrower.component';
 import {HomeComponent} from './home/home.component';
 import {CommonService} from "./common.service";
+import { FlHeaderComponent } from './fl-header/fl-header.component';
+import { FlSpinnerComponent } from './fl-spinner/fl-spinner.component';
 
 const appRoutes: Routes = [
   {path: 'bank', component: SectionRbcComponent},
@@ -32,7 +34,9 @@ const appRoutes: Routes = [
     AppComponent,
     SectionRbcComponent,
     SectionBorrowerComponent,
-    HomeComponent
+    HomeComponent,
+    FlHeaderComponent,
+    FlSpinnerComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

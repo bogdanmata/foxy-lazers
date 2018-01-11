@@ -17,3 +17,8 @@ To start UI, use `npm run start`
 # Foxy
 
 Foxy has been made on [Piskel](https://www.piskelapp.com/)
+
+# Docs
+
+## State diagram
+![](img/Foxy%20Lazers%20-%20State%20diagram.svg)

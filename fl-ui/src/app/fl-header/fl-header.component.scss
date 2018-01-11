@@ -1,0 +1,49 @@
+@import "../../variables.scss";
+
+.top-bar-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.top-bar {
+  background-color: $color4;
+  padding: 0.5rem 0.3rem;
+  color: $color2;
+
+  .app-name {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0 1rem;
+    letter-spacing: 0.2rem;
+  }
+
+  .login {
+    font-size: 0.8rem;
+
+    .login-name {
+      font-style: italic;
+    }
+  }
+
+  a {
+    font-size: 0.8rem;
+    color: $color1;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.bank {
+  border-left: 0.15em solid $color-bank;
+}
+.borrower {
+  border-left: 0.15em solid $color-borrower;
+}
+
+.below-topbar {
+  margin-top: 4.5rem;
+}

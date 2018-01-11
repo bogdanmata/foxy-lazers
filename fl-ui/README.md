@@ -14,7 +14,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-Run `npm run build:pages:win` or `npm run build:pages:unix` to build the application into `/docs` folder to publish it to github pages.
+Run `npm run build:pages:win` or `npm run build:pages:unix` to build the application into `/docs` folder to publish it to [github pages](https://bogdanmata.github.io/foxy-lazers/).
 
 ## Running unit tests
 

@@ -9,6 +9,7 @@ import {
 import {Instrument} from "../model/instrument.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
+import {LendingRequest} from "../model/lending-request.model";
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
@@ -64,13 +65,21 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
+  public creationInProgress = false;
   public instruments: Instrument[] = [];
+  public currentBorrower: string = "borrower1";
 
-  public newOfferForm = new FormGroup({
-    frequency: new FormControl()
+  // new Lending form values
+  public newLendingForm = new FormGroup({
+    instrument: new FormControl(),
+    quantity: new FormControl(),
+    startDate: new FormControl(),
+    endDate: new FormControl()
   });
 
   public businessUser: BusinessUser;
+  private securityLendingContracts: SecurityLandingContract[];
+  private requestedSecurityLendingContracts: SecurityLandingContract[];
 
   constructor(private commonService: CommonService) {
   }
@@ -85,6 +94,14 @@ export class SectionBorrowerComponent implements OnInit {
     this.commonService.updateBusinessUser().subscribe(data => {
       this.businessUser = data;
     });
+
+    this.commonService.getSecurityLendingContracts().subscribe(data => {
+      this.securityLendingContracts = data;
+
+      this.requestedSecurityLendingContracts = this.securityLendingContracts
+        .filter(contract => contract.status === ContractStatus.REQUESTED);
+    });
+
 
     // Setup automatic refresh
     setInterval(() => {
@@ -127,5 +144,25 @@ export class SectionBorrowerComponent implements OnInit {
     });
 
     return fees;
+  }
+
+  /**
+   * Create a new lending request
+   */
+  createLendingRequest(): void {
+    // Convert form to LendingRequest instance
+    let lendingRequest: LendingRequest = new LendingRequest(
+      this.newLendingForm.get('startDate').value,
+      this.newLendingForm.get('endDate').value,
+      this.newLendingForm.get('quantity').value,
+      this.newLendingForm.get('instrument').value,
+      this.currentBorrower
+    );
+
+    console.log(lendingRequest);
+    this.creationInProgress = true;
+    this.commonService.createLendingRequest(lendingRequest).subscribe(data => {
+      this.creationInProgress = false;
+    });
   }
 }
