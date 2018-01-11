@@ -1,5 +1,7 @@
-export interface BusinessUser {
-  name: string;
-  accountBalance: number;
+export class BusinessUser {
+  constructor(name: string,
+              accountBalance: number) {
+  }
+
   //portfolio: PortfolioItem[]
 }

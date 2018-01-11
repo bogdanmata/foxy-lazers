@@ -1,4 +1,6 @@
-export interface Instrument {
-  isin: string;
-  description: string;
+export class Instrument {
+  constructor(isin: string,
+              description: string) {
+
+  }
 }
