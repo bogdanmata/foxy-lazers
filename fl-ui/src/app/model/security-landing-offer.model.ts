@@ -1,5 +1,5 @@
 import {SecurityLandingContract} from './security-landing-contract.model';
-import {Bank} from './bank.model';
+import {Bank} from "./business-user.model";
 
 export class SecurityLendingOffer {
   id: string;

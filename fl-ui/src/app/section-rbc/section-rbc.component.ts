@@ -3,7 +3,7 @@ import {MatTableDataSource} from '@angular/material';
 import { FormControl } from '@angular/forms';
 import {
   FeesFrequency, SecurityLandingContract,
-  ContractStatus
+  ContractStatus, Collateral
 } from "../model/security-landing-contract.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
@@ -14,20 +14,43 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     startDate: '??',
     endDate: '??',
     quantity: 156,
-    collateral: '?',
+    collateral: <Collateral> { id: '?' },
     status: ContractStatus.ACTIVE,
     fees: 50,
-    feesFrequency: FeesFrequency.SEC_10
+    feesFrequency: FeesFrequency.SEC_10,
+    lastCollectedFeesTimestamp: '?',
+    instrument: {
+      isin: 'isin 01010',
+      description: 'desc 74874747'
+    },
+    bank: {
+      name: 'bank 12121',
+
+    },
+    borrower: {
+      name: 'borrow 11212'
+    }
   },
   {
     id: '2',
     startDate: '??',
     endDate: '??',
     quantity: 333,
-    collateral: '?',
+    collateral: <Collateral> { id: '?' },
     status: ContractStatus.ACTIVE,
     fees: 1233,
-    feesFrequency: FeesFrequency.AT_CONTRACT_END
+    feesFrequency: FeesFrequency.AT_CONTRACT_END,
+    lastCollectedFeesTimestamp: '?',
+    instrument: {
+      isin: 'isin 01010',
+      description: 'desc 74874747'
+    },
+    bank: {
+      name: 'bank 12121'
+    },
+    borrower: {
+      name: 'borrow 11212'
+    }
   }
 ];
 

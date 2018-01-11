@@ -62,6 +62,11 @@
     <h2>Offers awaiting validation</h2>
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSourceAwaitingValidationOffers">
+        <ng-container matColumnDef="instrument">
+          <mat-header-cell *matHeaderCellDef> Instrument </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.instrument.isin }} - {{ element.instrument.description }}</mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="startDate">
           <mat-header-cell *matHeaderCellDef> Start date </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.startDate }}</mat-cell>

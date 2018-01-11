@@ -4,10 +4,10 @@ import {MatTableDataSource} from '@angular/material';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
   FeesFrequency, SecurityLandingContract,
-  ContractStatus
+  ContractStatus, Collateral
 } from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
-import {BusinessUser} from "../model/business-user.model";
+import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 
@@ -17,20 +17,42 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
     startDate: '??',
     endDate: '??',
     quantity: 156,
-    collateral: '?',
+    collateral: <Collateral> { id: '?' },
     status: ContractStatus.ACTIVE,
     fees: 50,
-    feesFrequency: FeesFrequency.SEC_10
+    feesFrequency: FeesFrequency.SEC_10,
+    lastCollectedFeesTimestamp: '?',
+    instrument: <Instrument>{
+      isin: 'isin 123',
+      description: 'desc 456'
+    },
+    bank: <Bank>{
+      name: 'bank 1'
+    },
+    borrower: <Borrower>{
+      name: 'borrow 1'
+    }
   },
   {
     id: '2',
     startDate: '??',
     endDate: '??',
     quantity: 333,
-    collateral: '?',
+    collateral: <Collateral> { id: '?' },
     status: ContractStatus.ACTIVE,
     fees: 1233,
-    feesFrequency: FeesFrequency.AT_CONTRACT_END
+    feesFrequency: FeesFrequency.AT_CONTRACT_END,
+    lastCollectedFeesTimestamp: '?',
+    instrument: <Instrument>{
+      isin: 'isin 01010',
+      description: 'desc 74874747'
+    },
+    bank: <Bank>{
+      name: 'bank 12121'
+    },
+    borrower: <Borrower>{
+      name: 'borrow 11212'
+    }
   }
 ];
 
@@ -50,7 +72,7 @@ export class SectionBorrowerComponent implements OnInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
-  displayedColumnsAwaitingValidationOffers = ['startDate', 'endDate', 'fees', 'feesFrequency', 'actions'];
+  displayedColumnsAwaitingValidationOffers = ['instrument', 'startDate', 'endDate', 'fees', 'feesFrequency', 'actions'];
   dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
   public creationInProgress = false;
@@ -95,7 +117,7 @@ export class SectionBorrowerComponent implements OnInit {
     let currentDateStr: string = this.commonService.dateToISOString(currentDate);
     this.newLendingForm.get('startDate').setValue(currentDateStr);
 
-    let endDate: Date = new Date(currentDate.getTime() + 2*60*1000); // +2 minutes;
+    let endDate: Date = new Date(currentDate.getTime() + 2 * 60 * 1000); // +2 minutes;
     this.newLendingForm.get('endDate').setValue(this.commonService.dateToISOString(endDate));
 
     this.newLendingForm.get('quantity').setValue("100");
