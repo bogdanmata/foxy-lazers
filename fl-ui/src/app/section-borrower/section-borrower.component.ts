@@ -155,8 +155,8 @@ export class SectionBorrowerComponent implements OnInit {
       this.newLendingForm.get('startDate').value,
       this.newLendingForm.get('endDate').value,
       this.newLendingForm.get('quantity').value,
-      new Instrument(this.newLendingForm.get('instrument').value, undefined),
-      new BusinessUser(this.currentBorrower, undefined)
+      this.newLendingForm.get('instrument').value,
+      this.currentBorrower
     );
 
     console.log(lendingRequest);
