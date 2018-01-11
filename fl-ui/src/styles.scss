@@ -118,3 +118,9 @@ a {
     color: darken($color2, 10%) !important;
   }
 }
+
+p {
+  a {
+    color: $color2;
+  }
+}

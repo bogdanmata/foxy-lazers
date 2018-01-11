@@ -11,6 +11,12 @@ div.home {
   width: 100%;
   padding-bottom: 3rem;
 
+  p {
+    a {
+      font-size: 0.8em;
+    }
+  }
+
   .menu-item-left {
     border-top: $nav-border-width solid $color2;
     &:hover {
