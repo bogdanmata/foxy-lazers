@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 import {LendingRequest} from "./model/lending-request.model";
 import {SecurityLendingContract} from './model/security-landing-contract.model';
 import {LendingOffer, SecurityLendingOffer} from './model/security-landing-offer.model';
+import {LendingOfferAgreement} from "./model/lending-offer-agreement.model";
 
 @Injectable()
 export class CommonService {
@@ -42,9 +43,12 @@ export class CommonService {
     return this.http.get<LendingOffer[]>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOffer');
   }
 
-  // updateLendingOffer() {
-  //   return this.http.post<LendingRequest>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOfferAgreement', lendingRequest);
-  // }
+  /**
+   * Update lending offer to validate or reject
+   */
+  updateLendingOffer(lendingOfferAgreement: LendingOfferAgreement): Observable<LendingOffer> {
+    return this.http.post<LendingOffer>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOfferAgreement', lendingOfferAgreement);
+  }
 
   /**
    * Create new SecurityLendingOffer

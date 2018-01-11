@@ -2,7 +2,7 @@ import {SecurityLendingContract} from './security-landing-contract.model';
 import {Bank} from "./business-user.model";
 
 export class SecurityLendingOffer {
-  static $class = "com.rbc.hackathon.LendingOffer";
+  static $class = "com.rbc.hackathon.SecurityLendingOffer";
 
   id: string;
   expirationDate: string;
@@ -13,6 +13,7 @@ export class SecurityLendingOffer {
 }
 
 export class LendingOffer {
+  static $class: string = "com.rbc.hackathon.LendingOffer";
   expirationDate: string;
   fees: number;
   feesFrequency: FeesFrequency;
