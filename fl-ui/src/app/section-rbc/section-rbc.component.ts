@@ -88,8 +88,12 @@ export class SectionRbcComponent implements OnInit {
   public selectSecurityLandingContracts(row: SecurityLendingContract): void {
     this.selectedSecurityLandingContract = row;
 
+    let expirationDate: Date = new Date();
+    expirationDate.setMinutes(expirationDate.getMinutes() + 2);
+    let expirationDateStr: string = this.commonService.dateToISOString(expirationDate);
+
     this.newOffer = new FormGroup({
-      expirationDate: new FormControl(),
+      expirationDate: new FormControl(expirationDateStr),
       fees: new FormControl(),
       feesFrequency: new FormControl(),
     });
