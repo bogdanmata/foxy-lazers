@@ -1,5 +1,7 @@
 export class Instrument {
-  constructor(isin: string,
-              description: string) {
+  public $class = "com.rbc.hackathon.Instrument";
+
+  constructor(public isin: string,
+              public description: string) {
   }
 }

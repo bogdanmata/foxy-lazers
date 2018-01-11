@@ -1,6 +1,8 @@
 export class BusinessUser {
-  constructor(name: string,
-              accountBalance: number) {
+  public $class = "com.rbc.hackathon.BusinessUser";
+
+  constructor(public name: string,
+              public accountBalance: number) {
   }
 
   //portfolio: PortfolioItem[]
