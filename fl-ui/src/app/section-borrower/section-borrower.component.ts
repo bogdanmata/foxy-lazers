@@ -9,6 +9,7 @@ import {
 import {Instrument} from "../model/instrument.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
+import {LendingRequest} from "../model/lending-request.model";
 
 const ELEMENT_DATA: Element[] = [
   {id: '1', name: 'Coca-Cola', isin: '123', quantity: 200},
@@ -65,6 +66,7 @@ export class SectionBorrowerComponent implements OnInit {
   dataSourceActiveOffers = new MatTableDataSource<SecurityLandingContract>(ACTIVE_OFFERS);
 
   public instruments: Instrument[] = [];
+  public currentBorrower: string = "borrower1";
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -138,5 +140,14 @@ export class SectionBorrowerComponent implements OnInit {
    */
   createLendingRequest(): void {
     console.log(this.newLendingForm);
+    let lendingRequest: LendingRequest = new LendingRequest(
+      this.newLendingForm.get('startDate').value,
+      this.newLendingForm.get('endDate').value,
+      this.newLendingForm.get('quantity').value,
+      new Instrument(this.newLendingForm.get('instrument').value, undefined),
+      new BusinessUser(this.currentBorrower, undefined)
+    );
+    console.log(lendingRequest);
+    // TODO Call backend
   }
 }
