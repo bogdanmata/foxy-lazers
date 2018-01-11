@@ -1,12 +1,23 @@
+import {Instrument} from "./instrument.model";
+import {Bank, Borrower} from "./business-user.model";
+
 export interface SecurityLandingContract {
   id: string;
   startDate: string;
   endDate: string;
   quantity: number;
-  collateral: string;
+  collateral: Collateral;
   status: ContractStatus;
   fees: number;
   feesFrequency: FeesFrequency;
+  lastCollectedFeesTimestamp: string,
+  instrument: Instrument,
+  bank: Bank,
+  borrower: Borrower
+}
+
+export interface Collateral {
+  id: string
 }
 
 export enum ContractStatus {
