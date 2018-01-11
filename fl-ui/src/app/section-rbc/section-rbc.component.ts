@@ -66,6 +66,7 @@ export class SectionRbcComponent implements OnInit {
   public businessUser: BusinessUser;
   rbcComponentControl: FormControl = new FormControl();
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
+  displayedColumnsSecurityLandingContracts = ['instrument', 'startDate', 'endDate'];
   public securityLandingContracts: MatTableDataSource<SecurityLandingContract>;
   public selectedSecurityLandingContract: SecurityLandingContract;
   public creationInProgress: boolean;
