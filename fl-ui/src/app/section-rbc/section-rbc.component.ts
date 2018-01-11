@@ -73,6 +73,7 @@ export class SectionRbcComponent implements OnInit {
   public creationInProgress: boolean;
 
   public currentBank: string = "bank1";
+  public loginList: string[] = [];
 
   constructor(private commonService: CommonService) {
   }
@@ -80,10 +81,20 @@ export class SectionRbcComponent implements OnInit {
   ngOnInit() {
     this.getDataFromServer();
 
+    // Init login list
+    this.commonService.getBanks().subscribe(data => {
+      this.loginList = data.map(bank => bank.name);
+    });
+
     // Setup automatic refresh
     setInterval(() => {
       this.getDataFromServer();
     }, REFRESH_INTERVAL);
+  }
+
+  loginUpdated(newLogin: string) {
+    console.log("New login for Bank: ", newLogin);
+    this.currentBank = newLogin;
   }
 
   public getDataFromServer(): void {

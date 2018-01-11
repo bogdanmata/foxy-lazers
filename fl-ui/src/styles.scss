@@ -109,3 +109,12 @@ mat-expansion-panel {
     }
   }
 }
+
+
+a {
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: darken($color2, 10%) !important;
+  }
+}

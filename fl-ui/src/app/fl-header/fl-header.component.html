@@ -2,7 +2,17 @@
   <div class="top-bar" [ngClass]="className">
     <span class="app-name">{{ appName }}</span>
     <span class="align-right">
-    <span class="login">Logged in as <span class="login-name">{{ login }}</span></span>
+      <span class="login">
+        Logged in as <a *ngIf="!isChangingUser" (click)="changeUser()"><span class="login-name">{{ login }}</span></a>
+        <span *ngIf="isChangingUser" class="login">
+          <mat-form-field>
+            <mat-select [(value)]="newLogin">
+              <mat-option *ngFor="let currentLogin of loginList" [value]="currentLogin">{{ currentLogin }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <a (click)="validateUser()"><mat-icon>done</mat-icon></a>
+        </span>
+      </span>
       <a mat-tab-link routerLink="/"><mat-icon>exit_to_app</mat-icon></a>
     </span>
   </div>

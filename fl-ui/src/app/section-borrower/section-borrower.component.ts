@@ -82,6 +82,7 @@ export class SectionBorrowerComponent implements OnInit {
   public creationInProgress = false;
   public instruments: Instrument[] = [];
   public currentBorrower: string = "borrower1";
+  public loginList: string[] = [];
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -115,6 +116,11 @@ export class SectionBorrowerComponent implements OnInit {
 
     this.newLendingForm.get('quantity').setValue("100");
 
+    // Init login list
+    this.commonService.getBorrowers().subscribe(data => {
+      this.loginList = data.map(borrower => borrower.name);
+    });
+
     // Setup automatic refresh
     setInterval(() => {
       this.getDataFromServer();
@@ -146,6 +152,12 @@ export class SectionBorrowerComponent implements OnInit {
       this.dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
     });
   }
+
+  loginUpdated(newLogin: string) {
+    console.log("New login for Borrower: ", newLogin);
+    this.currentBorrower = newLogin;
+  }
+
 
   validateOffer(offer: SecurityLendingOffer): void {
     console.log('Validating offer: ', offer);

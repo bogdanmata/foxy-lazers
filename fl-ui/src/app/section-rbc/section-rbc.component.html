@@ -1,4 +1,5 @@
-<app-fl-header appName="Bank app" [login]="currentBank" className="bank">
+<app-fl-header appName="Bank app" className="bank"
+               [login]="currentBank" [loginList]="loginList" (loginUpdated)="loginUpdated($event)">
   <div>
     <h2>Your balance</h2>
     <div class="fees">
