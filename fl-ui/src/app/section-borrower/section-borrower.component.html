@@ -54,6 +54,26 @@
   </div>
 
   <div>
+    <h2>Active contracts</h2>
+    <div class="example-container mat-elevation-z2">
+      <mat-table #table [dataSource]="dataSourceActiveOffers">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsActiveOffers"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsActiveOffers;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+
+  <div>
     <h2>Requests emitted</h2>
     <div class="example-container mat-elevation-z2">
       <mat-table #table [dataSource]="dataSourceRequestsEmitted">
@@ -142,26 +162,6 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsAwaitingValidationOffers"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsAwaitingValidationOffers;"></mat-row>
-      </mat-table>
-    </div>
-  </div>
-
-  <div>
-    <h2>Offers active</h2>
-    <div class="example-container mat-elevation-z2">
-      <mat-table #table [dataSource]="dataSourceActiveOffers">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="quantity">
-          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumnsActiveOffers"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumnsActiveOffers;"></mat-row>
       </mat-table>
     </div>
   </div>

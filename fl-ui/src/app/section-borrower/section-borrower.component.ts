@@ -11,6 +11,7 @@ import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {LendingOffer, SecurityLendingOffer} from "../model/security-landing-offer.model";
+import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
 
 const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
@@ -74,9 +75,9 @@ export class SectionBorrowerComponent implements OnInit {
   dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(ACTIVE_OFFERS);
 
   // Offers waiting validation
-  private offersAwaitingValidation: LendingOffer[] = [];
+  private offersAwaitingValidation: SecurityLendingOffer[] = [];
   displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
-  dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
+  dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
 
   public creationInProgress = false;
   public instruments: Instrument[] = [];
@@ -140,14 +141,15 @@ export class SectionBorrowerComponent implements OnInit {
     });
 
     // Retrieve lending offers
-    this.commonService.getLendingOffers().subscribe(data => {
+    this.commonService.getSecurityLendingOffers().subscribe(data => {
       this.offersAwaitingValidation = data;
-      this.dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
+      this.dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
     });
   }
 
-  validateOffer(offer: SecurityLendingContract): void {
+  validateOffer(offer: SecurityLendingOffer): void {
     console.log('Validating offer: ', offer);
+    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe();
   }
 
   rejectOffer(offer: SecurityLendingContract): void {
