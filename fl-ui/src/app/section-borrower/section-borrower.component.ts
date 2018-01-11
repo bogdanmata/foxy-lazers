@@ -77,6 +77,8 @@ export class SectionBorrowerComponent implements OnInit {
   });
 
   public businessUser: BusinessUser;
+  private securityLendingContracts: SecurityLandingContract[];
+  private requestedSecurityLendingContracts: SecurityLandingContract[];
 
   constructor(private commonService: CommonService) {
   }
@@ -91,6 +93,14 @@ export class SectionBorrowerComponent implements OnInit {
     this.commonService.updateBusinessUser().subscribe(data => {
       this.businessUser = data;
     });
+
+    this.commonService.getSecurityLendingContracts().subscribe(data => {
+      this.securityLendingContracts = data;
+
+      this.requestedSecurityLendingContracts = this.securityLendingContracts
+        .filter(contract => contract.status === ContractStatus.REQUESTED);
+    });
+
 
     // Setup automatic refresh
     setInterval(() => {
