@@ -39,6 +39,7 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsSecurityLandingContracts"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsSecurityLandingContracts;"
+                 class="click" [class.selected]="row?.id === selectedSecurityLandingContract?.id"
                  (click)="selectSecurityLandingContracts(row)"></mat-row>
       </mat-table>
     </div>

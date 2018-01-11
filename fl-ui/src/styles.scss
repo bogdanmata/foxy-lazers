@@ -65,6 +65,17 @@ nav {
 
 mat-table {
   background-color: rgba(180, 180, 180, 0.3) !important;
+
+  mat-row.click:hover {
+    background-color: $color2;
+  }
+  mat-row.click.selected {
+    background-color: $color3;
+
+    mat-cell {
+      color: white !important;
+    }
+  }
 }
 mat-cell {
   color: $color4 !important;
@@ -85,7 +96,7 @@ mat-expansion-panel {
   .fees-container {
     display: inline-block;
     border: 0.1rem dashed $color2;
-    background-color: rgba(216, 156, 70, 0.15);
+    background-color: $feesBackground;
     padding: 1rem 1.4rem;
     margin-right: 0.2rem;
     color: $color3;
