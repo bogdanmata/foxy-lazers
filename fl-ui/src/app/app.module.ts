@@ -22,6 +22,8 @@ import {HomeComponent} from './home/home.component';
 import {CommonService} from "./common.service";
 import {FlHeaderComponent} from './fl-header/fl-header.component';
 import {FlSpinnerComponent} from './fl-spinner/fl-spinner.component';
+import {FinalCountdownPipe} from './pipe/final-countdown.pipe';
+import {FinalCountdownComponent} from './components/final-countdown/final-countdown.component';
 
 const appRoutes: Routes = [
   {path: 'bank', component: SectionRbcComponent},
@@ -36,7 +38,9 @@ const appRoutes: Routes = [
     SectionBorrowerComponent,
     HomeComponent,
     FlHeaderComponent,
-    FlSpinnerComponent
+    FlSpinnerComponent,
+    FinalCountdownPipe,
+    FinalCountdownComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
