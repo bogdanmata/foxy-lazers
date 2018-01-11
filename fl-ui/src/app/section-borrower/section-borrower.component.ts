@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource, MatSort} from '@angular/material';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
   FeesFrequency, SecurityLendingContract,
@@ -70,9 +70,10 @@ export const REFRESH_INTERVAL = 4000;
   templateUrl: './section-borrower.component.html',
   styleUrls: ['./section-borrower.component.scss']
 })
-export class SectionBorrowerComponent implements OnInit {
+export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(ACTIVE_OFFERS);
+  @ViewChild(MatSort) sort: MatSort;
 
   // Offers waiting validation
   private offersAwaitingValidation: SecurityLendingOffer[] = [];
@@ -125,6 +126,10 @@ export class SectionBorrowerComponent implements OnInit {
     setInterval(() => {
       this.getDataFromServer();
     }, REFRESH_INTERVAL);
+  }
+
+  ngAfterViewInit() {
+    this.dataSourceActiveOffers.sort = this.sort;
   }
 
   getDataFromServer(): void {
