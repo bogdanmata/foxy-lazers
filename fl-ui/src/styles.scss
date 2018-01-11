@@ -73,6 +73,9 @@ mat-cell {
 mat-header-row {
   background-color: rgba(115, 96, 56, 0.3) !important;
 }
+mat-header-cell {
+  font-weight: 600 !important;
+}
 mat-expansion-panel {
   background-color: rgba(180, 180, 180, 0.3) !important;
 }
@@ -86,12 +89,12 @@ mat-expansion-panel {
     padding: 1rem 1.4rem;
     margin-right: 0.2rem;
     color: $color3;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 0.8rem;
 
     .fees-value {
       color: $color4;
-      font-weight: 600;
+      font-weight: 800;
     }
   }
 }

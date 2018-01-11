@@ -91,7 +91,7 @@ export class SectionBorrowerComponent implements OnInit {
   private securityLendingContracts: SecurityLandingContract[];
 
   private requestedSecurityLendingContracts: SecurityLandingContract[];
-  displayedColumnsRequestsEmitted = ['instrument', 'startDate', 'endDate'];
+  displayedColumnsRequestsEmitted = ['instrument', 'quantity', 'startDate', 'endDate'];
   dataSourceRequestsEmitted = new MatTableDataSource<SecurityLandingContract>(this.requestedSecurityLendingContracts);
 
   constructor(private commonService: CommonService) {

@@ -62,6 +62,11 @@
           <mat-cell *matCellDef="let element">{{ element.instrument.split('#')[1] }}</mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="startDate">
           <mat-header-cell *matHeaderCellDef> Start date </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.startDate }}</mat-cell>
