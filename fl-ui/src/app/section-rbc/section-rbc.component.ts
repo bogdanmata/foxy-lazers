@@ -5,6 +5,8 @@ import {
   FeesFrequency, SecurityLandingContract,
   ContractStatus
 } from "../model/security-landing-contract.model";
+import {BusinessUser} from "../model/business-user.model";
+import {CommonService} from "../common.service";
 
 const ACTIVE_OFFERS: SecurityLandingContract[] = [
   {
@@ -32,15 +34,21 @@ const ACTIVE_OFFERS: SecurityLandingContract[] = [
 @Component({
   selector: 'app-section-rbc',
   templateUrl: './section-rbc.component.html',
-  styleUrls: ['./section-rbc.component.css']
+  styleUrls: ['./section-rbc.component.scss']
 })
 export class SectionRbcComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private commonService: CommonService) {
   }
 
+  ngOnInit() {
+    // Get business user
+    this.commonService.updateBusinessUser().subscribe(data => {
+      this.businessUser = data;
+    });
+  }
+
+  public businessUser: BusinessUser;
   rbcComponentControl: FormControl = new FormControl();
 
   institutions = [

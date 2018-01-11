@@ -20,23 +20,6 @@
   }
 }
 
-
-.fees {
-  .fees-container {
-    display: inline-block;
-    border: 0.1rem dashed $color2;
-    background-color: rgba(216, 156, 70, 0.15);
-    padding: 1rem 1.8rem;
-    margin-right: 0.5rem;
-    color: $color3;
-    font-weight: 400;
-
-    .fees-value {
-      color: $color4;
-    }
-  }
-}
-
 mat-table mat-row mat-icon.action {
   display: none;
 }
