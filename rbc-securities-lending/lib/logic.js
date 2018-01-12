@@ -86,6 +86,7 @@ function acceptOffer(lendingOfferAgreement) {
             CurrentContract.status = 'ACCEPTED';
             SLContractRegistry.update(CurrentContract);
             var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted');
+            eventOfferAccepted.securityLendingContract = CurrentContract;
             emit(eventOfferAccepted);
           });
         });
@@ -165,7 +166,7 @@ function collectFees(contract)
 function ExecuteContracts(executeContracts)
 {
     var NS = 'com.rbc.hackathon';
-    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.name == _$bankId)');
+    var queryContracts = buildQuery('SELECT '+ NS +'.SecurityLendingContract WHERE (bank.name == _$bankId)');
     return query(queryContracts, { bankId: executeContracts.bank.name })
       .then(function (contracts) {
         contracts.forEach(function (contract) {
