@@ -128,7 +128,9 @@
         <mat-header-row *matHeaderRowDef="displayedColumnsRequestsEmitted"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsRequestsEmitted;"></mat-row>
         </mat-table>
-        <div class="no-results" *ngIf="dataSourceRequestsEmitted === undefined || dataSourceRequestsEmitted.length == 0">No results</div>
+      <div class="no-results"
+           *ngIf="dataSourceRequestsEmitted === undefined || dataSourceRequestsEmitted.data.length == 0">No results
+      </div>
     </div>
   </div>
 
@@ -176,7 +178,10 @@
         <mat-header-row *matHeaderRowDef="displayedColumnsAwaitingValidationOffers"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsAwaitingValidationOffers;"></mat-row>
       </mat-table>
-      <div class="no-results" *ngIf="dataSourceAwaitingValidationOffers === undefined || dataSourceAwaitingValidationOffers.length == 0">No results</div>
+      <div class="no-results"
+           *ngIf="dataSourceAwaitingValidationOffers === undefined || dataSourceAwaitingValidationOffers.data.length == 0">
+        No results
+      </div>
     </div>
   </div>
 

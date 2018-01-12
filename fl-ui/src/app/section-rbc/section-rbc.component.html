@@ -49,7 +49,8 @@
                  class="click" [class.selected]="row?.id === selectedSecurityLandingContract?.id"
                  (click)="selectSecurityLandingContracts(row)"></mat-row>
       </mat-table>
-      <div class="no-results" *ngIf="securityLandingContracts === undefined || securityLandingContracts.length == 0">No
+      <div class="no-results"
+           *ngIf="securityLandingContracts === undefined || securityLandingContracts.data.length == 0">No
         results
       </div>
     </div>
