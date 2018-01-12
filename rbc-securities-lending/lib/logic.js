@@ -11,13 +11,13 @@
 function requestLending(lendingRequest){
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
-
+    logEvent('lending request'); 
     return getAssetRegistry(NS + '.SecurityLendingContract')
         .then(function (SLContractRegistry){
             SLContractRegistry.getAll().then(function(ContractColl){
-              // var lend = lendingRequest;
+              logEvent('Collection length = ' + ContractColl.length);              
               var id = (ContractColl.length | 0) + 1;
-
+              logEvent('calculated id = ' + id);             
               var securityLendingContract = factory.newResource(NS, 'SecurityLendingContract', "" + id);
 
               securityLendingContract.startDate = lendingRequest.startDate ;
@@ -34,7 +34,6 @@ function requestLending(lendingRequest){
 
               SLContractRegistry.add(securityLendingContract);
             });
-
         });
 }
 
@@ -357,6 +356,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
 
 function logEvent(message) {
+    var NS = 'com.rbc.hackathon';
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
     var ev = factory.newEvent(NS, 'BasicEvent');

@@ -1,12 +1,9 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
-import {
-  Collateral, ContractStatus, FeesFrequency,
-  SecurityLendingContract
-} from "../model/security-landing-contract.model";
+import {ContractStatus, FeesFrequency, SecurityLendingContract} from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
-import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
+import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {SecurityLendingOffer} from "../model/security-landing-offer.model";
@@ -27,16 +24,16 @@ export const REFRESH_INTERVAL = 5000;
 })
 export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   // Active offers
-  private activeOffers: SecurityLendingContract[] = [];
-  displayedColumnsActiveOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate'];
-  dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
+  public activeOffers: SecurityLendingContract[] = [];
+  public dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
+  public displayedColumnsActiveOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate'];
 
   @ViewChild(MatSort) sort: MatSort;
 
   // Offers waiting validation
   private offersAwaitingValidation: SecurityLendingOffer[] = [];
-  displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
-  dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
+  public displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
+  public dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
 
   public creationInProgress = false;
   public instruments: Instrument[] = [];
