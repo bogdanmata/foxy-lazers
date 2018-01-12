@@ -188,7 +188,10 @@
 
         <ng-container matColumnDef="instrument">
           <mat-header-cell *matHeaderCellDef> Instrument</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.instrument.split('#')[1] }}</mat-cell>
+          <mat-cell *matCellDef="let element">
+            {{ getInstrumentFromRelationship(element.instrument).isin }}<br/>
+            <span class="second-line">{{ getInstrumentFromRelationship(element.instrument).description }}</span>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="quantity">

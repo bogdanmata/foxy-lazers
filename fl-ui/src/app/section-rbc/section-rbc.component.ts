@@ -7,6 +7,7 @@ import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
 import {PortfolioItem} from '../model/portfolio-item.model';
+import {Instrument} from "../model/instrument.model";
 
 @Component({
   selector: 'app-section-rbc',
@@ -31,6 +32,8 @@ export class SectionRbcComponent implements OnInit {
   public currentBank: string = "bank1";
   public loginList: string[] = [];
 
+  public instruments: Instrument[] = [];
+
   constructor(private commonService: CommonService) {
   }
 
@@ -54,6 +57,11 @@ export class SectionRbcComponent implements OnInit {
   }
 
   public getDataFromServer(): void {
+    // Retrieve available bonds
+    this.commonService.getBonds().subscribe(data => {
+      this.instruments = data;
+    });
+
     // Get business user
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
@@ -94,8 +102,17 @@ export class SectionRbcComponent implements OnInit {
       this.creationInProgress = false;
       this.selectedSecurityLandingContract = undefined;
 
-      this.ngOnInit();
+      this.getDataFromServer();
     });
   }
 
+  getInstrumentFromRelationship(relationship:string): Instrument {
+    let instrumentId: string = relationship.split('#')[1];
+    let instrument = this.instruments.filter(instrument => instrument.isin === instrumentId)[0];
+    if (instrument === undefined) {
+      return {isin: '?', description: '?'};
+    } else {
+      return instrument;
+    }
+  }
 }
