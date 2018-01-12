@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map'
 @Component({
   selector: 'app-final-countdown',
   templateUrl: './final-countdown.component.html',
-  styleUrls: ['./final-countdown.component.css']
+  styleUrls: ['./final-countdown.component.scss']
 })
 export class FinalCountdownComponent implements OnInit {
 
