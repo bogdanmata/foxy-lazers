@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/interval'
+import 'rxjs/add/operator/map'
 
 @Component({
   selector: 'app-final-countdown',
@@ -10,12 +13,14 @@ export class FinalCountdownComponent implements OnInit {
   @Input()
   public endDate: string;
 
-  public date = Date;
+  private counter: Observable<string>;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.counter = Observable.interval(1000)
+      .map(() => this.getCountDown());
   }
 
   public getCountDown(): string {
@@ -31,8 +36,6 @@ export class FinalCountdownComponent implements OnInit {
     if (secondsToGo <= 0) {
       return 'Overdue!';
     }
-
-    let res = '';
 
     let days = Math.floor(secondsToGo / (1000 * 60 * 60 * 24));
     let hours = Math.floor((secondsToGo % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
