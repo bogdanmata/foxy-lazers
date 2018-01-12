@@ -85,7 +85,7 @@ function offerLending(lendingOffer){
     then(function(SLContractRegistry){
       _this.SLContractRegistry = SLContractRegistry;
       return SLContractRegistry.get(_this.relatedSecurityLendingOffer.securityLendingContract.getIdentifier());
-    }).-
+    }).
     then(function(CurrentContract){
       return updateSecurityLendingContract(CurrentContract, _this.relatedSecurityLendingOffer, _this.SLContractRegistry);
     })
