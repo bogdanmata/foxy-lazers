@@ -136,6 +136,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     // Retrieve available bonds
     this.commonService.getBonds().subscribe(data => {
       this.instruments = data;
+      if (this.newLendingForm.get('instrument').value == null) {
+        this.newLendingForm.get('instrument').setValue(this.instruments[0].isin);
+      }
     });
 
     // Get business user
