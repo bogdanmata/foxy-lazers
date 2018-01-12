@@ -45,8 +45,8 @@
         <mat-row *matRowDef="let row; columns: displayedColumnsSecurityLandingContracts;"
                  class="click" [class.selected]="row?.id === selectedSecurityLandingContract?.id"
                  (click)="selectSecurityLandingContracts(row)"></mat-row>
-        <div class="no-results" *ngIf="securityLandingContracts === undefined || securityLandingContracts.length == 0">No results</div>
       </mat-table>
+      <div class="no-results" *ngIf="securityLandingContracts === undefined || securityLandingContracts.length == 0">No results</div>
     </div>
   </div>
 
@@ -99,6 +99,9 @@
         <mat-header-row *matHeaderRowDef="displayedColumnsPortfolios"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
       </mat-table>
+      <div class="no-results" *ngIf="businessUser === undefined || businessUser.portfolio === undefined || businessUser.portfolio.length === 0">
+        No results
+      </div>
     </div>
   </div>
 

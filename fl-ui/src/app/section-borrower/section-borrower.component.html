@@ -127,8 +127,8 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsRequestsEmitted"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsRequestsEmitted;"></mat-row>
+        </mat-table>
         <div class="no-results" *ngIf="dataSourceRequestsEmitted === undefined || dataSourceRequestsEmitted.length == 0">No results</div>
-      </mat-table>
     </div>
   </div>
 
@@ -175,8 +175,8 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsAwaitingValidationOffers"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsAwaitingValidationOffers;"></mat-row>
-        <div class="no-results" *ngIf="dataSourceAwaitingValidationOffers === undefined || dataSourceAwaitingValidationOffers.length == 0">No results</div>
       </mat-table>
+      <div class="no-results" *ngIf="dataSourceAwaitingValidationOffers === undefined || dataSourceAwaitingValidationOffers.length == 0">No results</div>
     </div>
   </div>
 
@@ -199,6 +199,9 @@
         <mat-header-row *matHeaderRowDef="displayedColumnsPortfolios"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
       </mat-table>
+      <div class="no-results" *ngIf="businessUser === undefined || businessUser.portfolio === undefined || businessUser.portfolio.length === 0">
+        No results
+      </div>
     </div>
   </div>
 
