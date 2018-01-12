@@ -13,7 +13,7 @@ export class FinalCountdownComponent implements OnInit {
   @Input()
   public endDate: string;
 
-  private counter: Observable<string>;
+  public counter: Observable<string>;
 
   constructor() {
     this.counter = Observable.interval(1000)
