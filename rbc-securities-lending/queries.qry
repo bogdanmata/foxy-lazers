@@ -4,17 +4,3 @@ query SelectRequestedSecLendingContract {
       SELECT com.rbc.hackathon.SecurityLendingContract
         WHERE (status == 'REQUESTED')
 }
-query SelectBorrowerActiveOffer {
-  description: "Select all active offers for a borrower"
-  statement:
-      SELECT com.rbc.hackathon.SecurityLendingOffer
-        WHERE (SecurityLendingContract.status == 'REQUESTED' 
-        AND securityLendingContract.borrower.name == _$borrower)
-}
-query SelectBankActiveOffers {
-  description: "Select all active offers for a bank"
-  statement:
-      SELECT com.rbc.hackathon.SecurityLendingOffer
-        WHERE (SecurityLendingContract.status == 'REQUESTED' 
-        AND bank.name == _$bank)
-}
