@@ -29,8 +29,8 @@ enum FeesFrequency {
  */
 abstract participant BusinessUser identified by name {
   o String name
-  o Double accountBalance
-  o PortfolioItem[] portfolio
+  --> Account account
+  --> Portfolio portfolio
 }
 
 participant Bank extends BusinessUser {
@@ -43,6 +43,16 @@ concept PortfolioItem {
   o Double quantity
   --> Instrument instrument
  }
+
+asset Portfolio identified by owner {
+    o String owner
+    o PortfolioItem[] portfolio
+}
+
+asset Account identified by owner {
+    o String owner
+    o Double accountBalance
+}
 
 abstract asset Instrument identified by isin {
   o String isin
