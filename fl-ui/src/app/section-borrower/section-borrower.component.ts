@@ -166,7 +166,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
 
   validateOffer(offer: SecurityLendingOffer): void {
     console.log('Validating offer: ', offer);
-    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe();
+    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe(data => {
+      this.getDataFromServer();
+    });
   }
 
   rejectOffer(offer: SecurityLendingContract): void {
