@@ -1,16 +1,15 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {MatTableDataSource, MatSort} from '@angular/material';
-import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatSort, MatTableDataSource} from '@angular/material';
+import {FormControl, FormGroup} from '@angular/forms';
 import {
-  FeesFrequency, SecurityLendingContract,
-  ContractStatus, Collateral
+  Collateral, ContractStatus, FeesFrequency,
+  SecurityLendingContract
 } from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
 import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
-import {LendingOffer, SecurityLendingOffer} from "../model/security-landing-offer.model";
+import {SecurityLendingOffer} from "../model/security-landing-offer.model";
 import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
 
 const ACTIVE_OFFERS: SecurityLendingContract[] = [
@@ -84,6 +83,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   public instruments: Instrument[] = [];
   public currentBorrower: string = "borrower1";
   public loginList: string[] = [];
+  public newLendingRequest: boolean = false;
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -224,6 +224,8 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     this.creationInProgress = true;
     this.commonService.createLendingRequest(lendingRequest).subscribe(data => {
       this.creationInProgress = false;
+      this.newLendingRequest = false;
+      this.ngOnInit();
     });
   }
 

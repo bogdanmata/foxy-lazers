@@ -19,7 +19,9 @@
   <div>
     <h2>New lending request</h2>
     <mat-accordion>
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="newLendingRequest"
+                           (opened)="newLendingRequest = true"
+                           (closed)="newLendingRequest = false">
         <mat-expansion-panel-header>
           <span>Create new lending request&hellip;</span>
         </mat-expansion-panel-header>
