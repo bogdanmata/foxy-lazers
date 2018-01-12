@@ -1,60 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
-import {
-  Collateral, ContractStatus, FeesFrequency,
-  SecurityLendingContract
-} from "../model/security-landing-contract.model";
+import {SecurityLendingContract} from "../model/security-landing-contract.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
-
-const ACTIVE_OFFERS: SecurityLendingContract[] = [
-  {
-    id: '1',
-    startDate: '??',
-    endDate: '??',
-    quantity: 156,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 50,
-    feesFrequency: FeesFrequency.SEC_10,
-    lastCollectedFeesTimestamp: '?',
-    instrument: {
-      isin: 'isin 01010',
-      description: 'desc 74874747'
-    },
-    bank: {
-      name: 'bank 12121',
-
-    },
-    borrower: {
-      name: 'borrow 11212'
-    }
-  },
-  {
-    id: '2',
-    startDate: '??',
-    endDate: '??',
-    quantity: 333,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 1233,
-    feesFrequency: FeesFrequency.AT_CONTRACT_END,
-    lastCollectedFeesTimestamp: '?',
-    instrument: {
-      isin: 'isin 01010',
-      description: 'desc 74874747'
-    },
-    bank: {
-      name: 'bank 12121'
-    },
-    borrower: {
-      name: 'borrow 11212'
-    }
-  }
-];
+import {PortfolioItem} from '../model/portfolio-item.model';
 
 @Component({
   selector: 'app-section-rbc',
@@ -68,7 +20,9 @@ export class SectionRbcComponent implements OnInit {
   rbcComponentControl: FormControl = new FormControl();
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   displayedColumnsSecurityLandingContracts = ['borrower', 'instrument', 'quantity', 'startDate', 'endDate'];
+  public displayedColumnsPortfolios = ['instrument', 'quantity'];
   public securityLandingContracts: MatTableDataSource<SecurityLendingContract>;
+  public portfolios: MatTableDataSource<PortfolioItem>;
   public selectedSecurityLandingContract: SecurityLendingContract;
   public creationInProgress: boolean;
 
@@ -101,6 +55,7 @@ export class SectionRbcComponent implements OnInit {
     // Get business user
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
+      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
     });
 
     // Get lending contracts

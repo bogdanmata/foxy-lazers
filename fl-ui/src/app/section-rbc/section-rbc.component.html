@@ -80,4 +80,25 @@
     </div>
   </div>
 
+  <div>
+    <h2>Pportfolio</h2>
+    <div class="example-container mat-elevation-z2">
+      <mat-table [dataSource]="portfolios">
+
+        <ng-container matColumnDef="instrument">
+          <mat-header-cell *matHeaderCellDef> Instrument</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.instrument.split('#')[1] }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsPortfolios"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+
 </app-fl-header>
