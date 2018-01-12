@@ -1,6 +1,9 @@
 <div class="top-bar-wrapper">
   <div class="top-bar" [ngClass]="className">
-    <span class="app-name">{{ appName }}</span>
+    <span class="app-name">
+      <mat-icon *ngIf="className == 'bank'">account_balance</mat-icon>
+      <mat-icon *ngIf="className == 'borrower'">card_travel</mat-icon>
+      {{ appName }}</span>
     <span class="align-right">
       <span class="login">
         Logged in as <a *ngIf="!isChangingUser" (click)="changeUser()"><span class="login-name">{{ login }}</span></a>

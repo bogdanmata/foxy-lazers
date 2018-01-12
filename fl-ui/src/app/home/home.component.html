@@ -12,8 +12,12 @@
   </div>
   <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="/bank" routerLinkActive="active" class="menu-item-left"
-       (mouseover)="mouseOver('_l')" (mouseleave)="mouseLeave()">Bank app</a>
+       (mouseover)="mouseOver('_l')" (mouseleave)="mouseLeave()">
+      <mat-icon>account_balance</mat-icon><br />Bank app
+    </a>
     <a mat-tab-link routerLink="/borrower" routerLinkActive="active" class="menu-item-right"
-       (mouseover)="mouseOver('_r')" (mouseleave)="mouseLeave()">Borrower app</a>
+       (mouseover)="mouseOver('_r')" (mouseleave)="mouseLeave()">
+      <mat-icon>card_travel</mat-icon><br />Borrower app
+    </a>
   </nav>
 </div>
