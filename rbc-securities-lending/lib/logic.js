@@ -107,30 +107,47 @@ function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOf
     });
 }
 
-function changeOwnership(intrumentId, fromId, toId, quantityToTransfer)
+function changeOwnershipToBorrower1(intrumentId, fromId, toId, quantityToTransfer)
 {
     // No error handling...
-
+    logEvent(fromId + ' - ' + toId + ' - ' + quantityToTransfer);
     var NS = 'com.rbc.hackathon';
-    return getAssetRegistry(NS +".BusinessUser")
-    .then(function (businessUserRegistry){
-        fromParticipant = businessUserRegistry.get(fromId);
-        toParticipant = businessUserRegistry.get(toId);
-        foreach (item in fromParticipant.portfolio)
-        {
-            if (item.instrument.id==instrumentId)
-            {
-                item.quantity -= quantityToTransfer;
-            }
-        }
-        foreach (item in toParticipant.portfolio)
-        {
-            if (item.instrument.id==instrumentId)
-            {
-                item.quantity += quantityToTransfer;
-            }
-        }
-        businessUserRegistry.updateAll([fromParticipant, toParticipant]);
+    return getParticipantRegistry(NS +".Borrower")
+        .then(function (borrowerRegistry){
+            return borrowerRegistry.get(toId).then(function (toParticipant) {
+                logEvent(toParticipant.portfolio.length);
+                foreach (item in toParticipant.portfolio)
+                {
+                    if (item.instrument.getIdentifier()==instrumentId)
+                    {
+                        item.quantity += quantityToTransfer;
+                    }
+                }
+                borrowerRegistry.update(toParticipant);
+        });
+
+    });
+}
+
+function changeOwnershipToBorrower2(intrumentId, fromId, toId, quantityToTransfer)
+{
+    // No error handling...
+    logEvent(fromId + ' - ' + toId + ' - ' + quantityToTransfer);
+    var NS = 'com.rbc.hackathon';
+    return getParticipantRegistry(NS +".Bank")
+        .then(function (bankRegistry){
+            return bankRegistry.get(fromId).then(function (fromParticipant) {
+                logEvent(fromParticipant.portfolio.length);
+                foreach (item in fromParticipant.portfolio)
+                {
+                    if (item.instrument.getIdentifier()==instrumentId)
+                    {
+                        item.quantity -= quantityToTransfer;
+                    }
+                }
+                bankRegistry.update(fromParticipant);
+        });
+
     });
 }
 
@@ -186,9 +203,7 @@ function ExecuteContracts(executeContracts)
         .then(function (SLContractRegistry){
          SLContractRegistry.getAll().then(function(contracts) {
 
-            var bevent = factory.newEvent(NS, 'BasicEvent');
-            bevent.content = 'contracts found ' + contracts.length;
-            emit(bevent);
+            logEvent('contracts found ' + contracts.length);
 
             contracts.forEach(function (contract) {
                 if (contract.bank.getIdentifier() == executeContracts.bank.getIdentifier()) {
@@ -199,11 +214,12 @@ function ExecuteContracts(executeContracts)
                             if (contract.endDate.valueOf()>=new Date().valueOf())
                             {
                                 logEvent('in accepted if');
-                                contract.status=SecurityLendingContractStatus.ACTIVE;
+                                contract.status='ACTIVE';
                                 logEvent('1');
                                 contract.lastCollectedFeesTimestamp=new Date();
                                 logEvent('2');
-                                changeOwnership(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
+                                changeOwnershipToBorrower1(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
+                                changeOwnershipToBorrower2(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
                                 logEvent('3');
                                 updateContract(contract);
                                 logEvent('4');
@@ -257,14 +273,22 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Borrowers');
 
+    var portfolioItemBorrower1 = factory.newConcept(NS, 'PortfolioItem');
+    portfolioItemBorrower1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
+    portfolioItemBorrower1.quantity = 0 ;
+
+    var portfolioItemBorrower2 = factory.newConcept(NS, 'PortfolioItem');
+    portfolioItemBorrower2.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
+    portfolioItemBorrower2.quantity = 0 ;
+
     // create the borrowers
     var borrower1 = factory.newResource(NS, 'Borrower', 'borrower1');
     borrower1.accountBalance = 2000;
-    borrower1.portfolio = [];
+    borrower1.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
 
     var borrower2 = factory.newResource(NS, 'Borrower', 'borrower2');
     borrower2.accountBalance = 2000;
-    borrower2.portfolio = [];
+    borrower2.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
 
     console.log('Creating Bonds');
 
@@ -334,6 +358,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
 function logEvent(message) {
     var factory = getFactory();
+    var NS = 'com.rbc.hackathon';
     var ev = factory.newEvent(NS, 'BasicEvent');
     ev.content = message;
     emit(ev);
