@@ -20,9 +20,11 @@ export class SectionRbcComponent implements OnInit {
   rbcComponentControl: FormControl = new FormControl();
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   displayedColumnsSecurityLandingContracts = ['borrower', 'instrument', 'quantity', 'startDate', 'endDate'];
-  public displayedColumnsPortfolios = ['instrument', 'quantity'];
   public securityLandingContracts: MatTableDataSource<SecurityLendingContract>;
+
+  public displayedColumnsPortfolios = ['instrument', 'quantity'];
   public portfolios: MatTableDataSource<PortfolioItem>;
+
   public selectedSecurityLandingContract: SecurityLendingContract;
   public creationInProgress: boolean;
 

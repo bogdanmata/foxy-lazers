@@ -11,6 +11,7 @@ import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {SecurityLendingOffer} from "../model/security-landing-offer.model";
 import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
+import {PortfolioItem} from '../model/portfolio-item.model';
 
 const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
@@ -85,6 +86,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   public loginList: string[] = [];
   public newLendingRequest: boolean = false;
 
+  public displayedColumnsPortfolios = ['instrument', 'quantity'];
+  public portfolios: MatTableDataSource<PortfolioItem>;
+
   // new Lending form values
   public newLendingForm = new FormGroup({
     instrument: new FormControl(),
@@ -144,6 +148,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     // Get business user
     this.commonService.getBorrowers().subscribe(data => {
       this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
+      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
     });
 
     // Retrieve lending contracts
