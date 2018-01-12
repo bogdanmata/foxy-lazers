@@ -35,7 +35,9 @@
 
         <ng-container matColumnDef="endDate">
           <mat-header-cell *matHeaderCellDef> End date</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.endDate | date: 'dd/MM/yyyy HH:mm'}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.endDate | date: 'dd/MM/yyyy HH:mm'}} -
+            <app-final-countdown [endDate]="element.endDate"></app-final-countdown>
+          </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumnsSecurityLandingContracts"></mat-header-row>
