@@ -96,14 +96,18 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     this.commonService.getBonds().subscribe(data => {
       this.instruments = data;
       if (this.newLendingForm.get('instrument').value == null) {
-        this.newLendingForm.get('instrument').setValue(this.instruments[0].isin);
+        if (this.instruments[0] !== undefined) {
+          this.newLendingForm.get('instrument').setValue(this.instruments[0].isin);
+        }
       }
     });
 
     // Get business user
     this.commonService.getBorrowers().subscribe(data => {
       this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
-      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
+      if (this.businessUser !== undefined) {
+        this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
+      }
     });
 
     // Retrieve lending contracts
@@ -217,8 +221,13 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     return '?';
   }
 
-  getInstrumentFromRelationship(relationship:string): Instrument {
+  getInstrumentFromRelationship(relationship: string): Instrument {
     let instrumentId: string = relationship.split('#')[1];
-    return this.instruments.filter(instrument => instrument.isin === instrumentId)[0];
+    let instrument: Instrument = this.instruments.filter(instrument => instrument.isin === instrumentId)[0];
+    if (instrument === undefined) {
+      return {isin: '?', description: '?'};
+    } else {
+      return instrument;
+    }
   }
 }

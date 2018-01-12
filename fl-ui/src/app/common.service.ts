@@ -15,6 +15,17 @@ export class CommonService {
   }
 
   /**
+   * Execute contract (called regularly to update blockchain)
+   */
+  executeContracts(): Observable<any> {
+    return this.http.post<any>(environment.blockchain_api_path + 'com.rbc.hackathon.ExecuteContracts', {
+      $class: "com.rbc.hackathon.ExecuteContracts",
+      bank: "bank1",
+      borrower: "borrower1"
+    });
+  }
+
+  /**
    * Retrieve list of bonds
    */
   getBonds(): Observable<Instrument[]> {

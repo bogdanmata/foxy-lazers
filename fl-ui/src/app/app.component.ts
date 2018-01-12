@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {CommonService} from "./common.service";
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(public commonService: CommonService) {
+    // Execute contracts called regularly
+    this.callExecuteContracts();
+  }
+
+  callExecuteContracts() {
+    setTimeout(() => {
+      console.log('Executing contracts...');
+      this.commonService.executeContracts().subscribe(data => {
+        this.callExecuteContracts();
+      });
+    }, 10000)
+  }
 }
