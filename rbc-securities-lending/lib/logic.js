@@ -173,19 +173,19 @@ function ExecuteContracts(executeContracts)
             switch (contract.status) {
                 case 'ACCEPTED':
                 // Accepted but not started, check if should be activated according to startDate
-                    if (contract.startDate>=Date.now)
+					if (contract.startDate.getTime() >= Date.now())
                     {
                         contract.status='ACTIVE';
-                        contract.lastCollectedFeesTimestamp=Date.now;
+						contract.lastCollectedFeesTimestamp = Date.now();
                         changeOwnership(contract.instrument.id, contract.bank.id, contract.borrower.id, contract.quantity);
                         updateContract(contract);
                     }
                     break;
                 case 'ACTIVE':
                 // Active contract, check if it not expired then get fees, update status otherwise
-                    if (contract.endDate>=Date.now)
+					if (contract.endDate.getTime() >= Date.now())
                     {
-                        contract.status='ENDED'
+						contract.status = 'ENDED';
                         changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
                         updateContract(contract);
                     }
@@ -196,7 +196,7 @@ function ExecuteContracts(executeContracts)
                     break;
                 case 'REQUESTED':
                 // if startdate is overdue, then change status to EXPIRED
-                    if (contract.startDate>=Date.now)
+					if (contract.startDate.getTime() >= Date.now())
                     {
                         contract.status='EXPIRED';
                         updateContract(contract);
