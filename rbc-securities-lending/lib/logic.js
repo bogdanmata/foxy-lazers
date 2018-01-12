@@ -270,25 +270,6 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     var factory = getFactory();
     var NS = 'com.rbc.hackathon';
 
-    console.log('Creating Borrowers');
-
-    var portfolioItemBorrower1 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItemBorrower1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
-    portfolioItemBorrower1.quantity = 0 ;
-
-    var portfolioItemBorrower2 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItemBorrower2.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
-    portfolioItemBorrower2.quantity = 0 ;
-
-    // create the borrowers
-    var borrower1 = factory.newResource(NS, 'Borrower', 'borrower1');
-    borrower1.accountBalance = 2000;
-    borrower1.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
-
-    var borrower2 = factory.newResource(NS, 'Borrower', 'borrower2');
-    borrower2.accountBalance = 2000;
-    borrower2.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
-
     console.log('Creating Bonds');
 
     var bond2  = factory.newResource(NS, 'Bond','bond1');
@@ -298,12 +279,47 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     // var bond10 = factory.newResource(NS, 'GTDEM10Y:GOV');
     // bond10.description = 'Germany Bund 10 Year Yield';
 
+    console.log('Creating Borrowers');
+
+    var portfolioItemBorrower1 = factory.newConcept(NS, 'PortfolioItem');
+    portfolioItemBorrower1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
+    portfolioItemBorrower1.quantity = 0 ;
+
+  
+
+    var portfolioItemBorrower2 = factory.newConcept(NS, 'PortfolioItem');
+    portfolioItemBorrower2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
+    portfolioItemBorrower2.quantity = 0 ;
+
+      // create the portfolio
+      var portfolio1 = factory.newResource(NS, 'Portfolio', 'borrower1');
+      portfolio1.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
+      
+      //var portfolio2 = factory.newResource(NS, 'Porfolio', 'borrower2');
+      //portfolio2.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
+
+      // create the account
+     var accountBorrower1 = factory.newResource(NS, 'Account', 'borrower1');
+     var accountBank1 = factory.newResource(NS, 'Account', 'borrower1');
+     accountBorrower1.accountBalance = 2000 ;
+     accountBank1.accountBalance = 2000 ;
+
+    // create the borrowers
+    var borrower1 = factory.newResource(NS, 'Borrower', 'borrower1');
+   ;
+    borrower1.portfolio = factory.newRelationship(NS, 'Portfolio', 'borrower1');
+    borrower1.account = factory.newRelationship(NS, 'Account', 'borrower1');
+
+    //var borrower2 = factory.newResource(NS, 'Borrower', 'borrower2');
+    //borrower2.accountBalance = 2000;
+    //borrower2.portfolio = factory.newRelationship(NS, 'Porfolio', 'borrower1');
 
     console.log('Creating Banks');
     // create the banks
     var bank1 = factory.newResource(NS, 'Bank' ,'bank1');
-    bank1.accountBalance = 2000;
 
+    var portfolio2 = factory.newResource(NS, 'Portfolio', 'bank1');
+   
 
     console.log('___Creating Porfolio bank1');
     // portfolio creation
@@ -315,35 +331,40 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItem_RBC2.quantity = 1000 ;
 
+    portfolio2.portfolio = [portfolioItem_RBC1, portfolioItem_RBC2];
 
-    console.log('___Attach Porfolio bank1');
-    bank1.portfolio=[];
-    bank1.portfolio.push(portfolioItem_RBC1);
-    bank1.portfolio.push(portfolioItem_RBC2);
+    bank1.account = factory.newRelationship(NS, 'Account', 'bank1');
+    bank1.portfolio = factory.newRelationship(NS, 'Portfolio', 'bank1');
+    
+
+    console.log('___Attach Portfolio bank1');
+
+    //bank1.portfolio.push(portfolioItem_RBC1);
+    //bank1.portfolio.push(portfolioItem_RBC2);
 
 
-    var bank2 = factory.newResource(NS, 'Bank', 'bank2');
-    bank2.accountBalance = 2000;
-    var portfolioItem1 = factory.newConcept(NS, 'PortfolioItem');
-    portfolioItem1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2Y:GOV');
-    portfolioItem1.quantity = 10 ;
+    //var bank2 = factory.newResource(NS, 'Bank', 'bank2');
+    // bank2.accountBalance = 2000;
+    // var portfolioItem1 = factory.newConcept(NS, 'PortfolioItem');
+    //portfolioItem1.instrument = factory.newRelationship(NS, 'Bond', 'GTDEM2Y:GOV');
+    // portfolioItem1.quantity = 10 ;
 
-    bank2.portfolio=[];
-    bank2.portfolio.push(portfolioItem1);
+    // bank2.portfolio=[];
+    //bank2.portfolio.push(portfolioItem1);
 
     console.log('-------Done--------');
 
     return getParticipantRegistry(NS + '.Borrower')
         .then(function (borrowerRegistry) {
             // add the borrowers
-            return borrowerRegistry.addAll([borrower1, borrower2]);
+            return borrowerRegistry.addAll([borrower1]);
         })
         .then(function() {
             return getParticipantRegistry(NS + '.Bank');
         })
         .then(function (bankRegistry) {
             // add the banks
-            return bankRegistry.addAll([bank1, bank2]);
+            return bankRegistry.addAll([bank1]);
         })
         .then(function() {
             return getAssetRegistry(NS + '.Bond');
@@ -351,6 +372,20 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
         .then(function (bondRegistry) {
             // add the bonds
             return bondRegistry.addAll([bond2, bond5]);
+        })
+        .then(function() {
+            return getAssetRegistry(NS + '.Portfolio');
+        })
+        .then(function (portfolioRegistry) {
+            // add the bonds
+            return portfolioRegistry.addAll([portfolio1, portfolio2]);
+        })
+        .then(function() {
+            return getAssetRegistry(NS + '.Account');
+        })
+        .then(function (accountRegistry) {
+            // add the bonds
+            return accountRegistry.addAll([accountBorrower1, accountBank1]);
         });
 }
 
