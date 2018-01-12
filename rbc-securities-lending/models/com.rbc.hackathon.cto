@@ -119,3 +119,7 @@ event OfferAccepted {
 event SecLendingCreated {
   --> SecurityLendingContract securityLendingContract
 }
+
+event BasicEvent {
+  o String content
+}

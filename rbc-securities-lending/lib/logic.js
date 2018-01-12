@@ -179,47 +179,62 @@ function collectFees(contract)
  */
 function ExecuteContracts(executeContracts)
 {
+    var factory = getFactory();
     var NS = 'com.rbc.hackathon';
-    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.name == _$bankId)');
-    return query(queryContracts, { bankId: executeContracts.bank.name })
-      .then(function (contracts) {
-        contracts.forEach(function (contract) {
-            switch (contract.status) {
-                case 'ACCEPTED':
-                // Accepted but not started, check if should be activated according to startDate
-                    if (contract.startDate>=Date.now)
-                    {
-                        contract.status='ACTIVE';
-                        contract.lastCollectedFeesTimestamp=Date.now;
-                        changeOwnership(contract.instrument.id, contract.bank.id, contract.borrower.id, contract.quantity);
-                        updateContract(contract);
-                    }
-                    break;
-                case 'ACTIVE':
-                // Active contract, check if it not expired then get fees, update status otherwise
-                    if (contract.endDate>=Date.now)
-                    {
-                        contract.status='ENDED'
-                        changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
-                        updateContract(contract);
-                    }
-                    else
-                    {
-                        collectFees(contract);
-                    }
-                    break;
-                case 'REQUESTED':
-                // if startdate is overdue, then change status to EXPIRED
-                    if (contract.startDate>=Date.now)
-                    {
-                        contract.status='EXPIRED';
-                        updateContract(contract);
-                    }
-                    break;
-            }
 
-        });
-    })
+    getAssetRegistry(NS + '.SecurityLendingContract')
+        .then(function (SLContractRegistry){
+         SLContractRegistry.getAll().then(function(contracts) {
+
+            var bevent = factory.newEvent(NS, 'BasicEvent');
+            bevent.content = 'contracts found ' + contracts.length;
+            emit(bevent);
+
+            contracts.forEach(function (contract) {
+                if (contract.bank.getIdentifier() == executeContracts.bank.getIdentifier()) {
+                    logEvent('contract found for bank1 ' + contract.getIdentifier() + ' with status ' + contract.status + ' - with condition ' + (contract.endDate.valueOf()>=new Date().valueOf()));
+                    switch (contract.status) {
+                        case 'ACCEPTED':
+                        // Accepted but not started, check if should be activated according to startDate
+                            if (contract.endDate.valueOf()>=new Date().valueOf())
+                            {
+                                logEvent('in accepted if');
+                                contract.status=SecurityLendingContractStatus.ACTIVE;
+                                logEvent('1');
+                                contract.lastCollectedFeesTimestamp=new Date();
+                                logEvent('2');
+                                changeOwnership(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
+                                logEvent('3');
+                                updateContract(contract);
+                                logEvent('4');
+                            }
+                            break;
+                        case 'ACTIVE':
+                        // Active contract, check if it not expired then get fees, update status otherwise
+                            if (contract.endDate.valueOf()>=new Date().valueOf())
+                            {
+                                contract.status='ENDED'
+                                changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
+                                updateContract(contract);
+                            }
+                            else
+                            {
+                                collectFees(contract);
+                            }
+                            break;
+                        case 'REQUESTED':
+                        // if startdate is overdue, then change status to EXPIRED
+                            if (contract.endDate.valueOf()>=new Date().valueOf())
+                            {
+                                contract.status='EXPIRED';
+                                updateContract(contract);
+                            }
+                            break;
+                    }
+                }    
+            });
+         })
+    });
 
 
 /*
@@ -314,4 +329,12 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
             // add the bonds
             return bondRegistry.addAll([bond2, bond5]);
         });
+}
+
+
+function logEvent(message) {
+    var factory = getFactory();
+    var ev = factory.newEvent(NS, 'BasicEvent');
+    ev.content = message;
+    emit(ev);
 }
