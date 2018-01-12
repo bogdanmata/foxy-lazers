@@ -103,6 +103,7 @@ transaction LendingOfferAgreement {
 }
 
 transaction ExecuteContracts {
+  --> Borrower borrower
   --> Bank bank
 }
 
