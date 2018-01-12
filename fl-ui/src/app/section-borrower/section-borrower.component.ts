@@ -62,7 +62,7 @@ export interface FeesDue {
   atContractEnd: number
 }
 
-export const REFRESH_INTERVAL = 4000;
+export const REFRESH_INTERVAL = 400000;
 
 @Component({
   selector: 'app-section-borrower',
