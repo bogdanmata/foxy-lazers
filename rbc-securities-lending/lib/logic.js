@@ -71,25 +71,38 @@ function offerLending(lendingOffer){
  * @param {com.rbc.hackathon.LendingOfferAgreement} lendingOfferAgreement - the lendingOfferAgreement transaction
  * @transaction
  */
-function acceptOffer(lendingOfferAgreement) {
-    var NS = 'com.rbc.hackathon';
-    return getAssetRegistry(NS + '.SecurityLendingOffer')
-    .then(function (SLOfferRegistry){
-        return SLOfferRegistry.get(lendingOfferAgreement.securityLendingOffer.id);
+ function acceptOffer(lendingOfferAgreement) {
+   var _this = this;
+   var NS = 'com.rbc.hackathon';
+   return getAssetRegistry(NS + '.SecurityLendingOffer').
+    then(function(SLOfferRegistry){
+      return SLOfferRegistry.get(lendingOfferAgreement.securityLendingOffer.id);
+    }).
+    then(function(relatedSecurityLendingOffer){
+      _this.relatedSecurityLendingOffer = relatedSecurityLendingOffer;
+      return getAssetRegistry(NS + '.SecurityLendingContract');
+    }).
+    then(function(SLContractRegistry){
+      _this.SLContractRegistry = SLContractRegistry;
+      return SLContractRegistry.get(_this.relatedSecurityLendingOffer.securityLendingContract.getIdentifier());
+    }).-
+    then(function(CurrentContract){
+      return updateSecurityLendingContract(CurrentContract, _this.relatedSecurityLendingOffer, _this.SLContractRegistry);
     })
-    .then(function(relatedSecurityLendingOffer){
-        getAssetRegistry(NS + '.SecurityLendingContract').then(function(SLContractRegistry){
-          SLContractRegistry.get(relatedSecurityLendingOffer.securityLendingContract.id).then(function(CurrentContract){
-            CurrentContract.fees = relatedSecurityLendingOffer.fees;
-            CurrentContract.feesFrequency = relatedSecurityLendingOffer.feesFrequency;
-            CurrentContract.bank = relatedSecurityLendingOffer.bank;
-            CurrentContract.status = 'ACCEPTED';
-            SLContractRegistry.update(CurrentContract);
-            var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted');
-            eventOfferAccepted.securityLendingContract = CurrentContract;
-            emit(eventOfferAccepted);
-          });
-        });
+    ;
+ }
+
+function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOffer, SLContractRegistry){
+  var NS = 'com.rbc.hackathon';
+  CurrentContract.fees = relatedSecurityLendingOffer.fees;
+  CurrentContract.feesFrequency = relatedSecurityLendingOffer.feesFrequency;
+  CurrentContract.bank = relatedSecurityLendingOffer.bank;
+  CurrentContract.status = 'ACCEPTED';
+  return SLContractRegistry.update(CurrentContract)
+    .then(function(updatedContract){
+      var factory = getFactory();
+      var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted', {SecurityLendingContract: updatedContract});
+      emit(eventOfferAccepted);
     });
 }
 
@@ -166,26 +179,26 @@ function collectFees(contract)
 function ExecuteContracts(executeContracts)
 {
     var NS = 'com.rbc.hackathon';
-    var queryContracts = buildQuery('SELECT '+ NS +'.SecurityLendingContract WHERE (bank.name == _$bankId)');
+    var queryContracts = buildQuery('SELECT '+NS+'.SecurityLendingContract WHERE (bank.name == _$bankId)');
     return query(queryContracts, { bankId: executeContracts.bank.name })
       .then(function (contracts) {
         contracts.forEach(function (contract) {
             switch (contract.status) {
                 case 'ACCEPTED':
                 // Accepted but not started, check if should be activated according to startDate
-					if (contract.startDate.getTime() >= Date.now())
+                    if (contract.startDate>=Date.now)
                     {
                         contract.status='ACTIVE';
-						contract.lastCollectedFeesTimestamp = Date.now();
+                        contract.lastCollectedFeesTimestamp=Date.now;
                         changeOwnership(contract.instrument.id, contract.bank.id, contract.borrower.id, contract.quantity);
                         updateContract(contract);
                     }
                     break;
                 case 'ACTIVE':
                 // Active contract, check if it not expired then get fees, update status otherwise
-					if (contract.endDate.getTime() >= Date.now())
+                    if (contract.endDate>=Date.now)
                     {
-						contract.status = 'ENDED';
+                        contract.status='ENDED'
                         changeOwnership(contract.instrument.id, contract.borrower.id, contract.bank.id, contract.quantity);
                         updateContract(contract);
                     }
@@ -196,7 +209,7 @@ function ExecuteContracts(executeContracts)
                     break;
                 case 'REQUESTED':
                 // if startdate is overdue, then change status to EXPIRED
-					if (contract.startDate.getTime() >= Date.now())
+                    if (contract.startDate>=Date.now)
                     {
                         contract.status='EXPIRED';
                         updateContract(contract);
