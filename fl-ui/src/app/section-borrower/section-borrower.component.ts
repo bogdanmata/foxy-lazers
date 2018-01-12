@@ -245,4 +245,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     }
     return '?';
   }
+
+  getInstrumentFromRelationship(relationship:string): Instrument {
+    let instrumentId: string = relationship.split('#')[1];
+    return this.instruments.filter(instrument => instrument.isin === instrumentId)[0];
+  }
 }
