@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <h2>All requests</h2>
+    <h2>Lending requests available</h2>
     <div class="example-container mat-elevation-z2">
       <mat-table #table [dataSource]="securityLandingContracts">
         <ng-container matColumnDef="borrower">
@@ -20,7 +20,10 @@
 
         <ng-container matColumnDef="instrument">
           <mat-header-cell *matHeaderCellDef> Instrument</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.instrument.split('#')[1] }}</mat-cell>
+          <mat-cell *matCellDef="let element">
+            {{ getInstrumentFromRelationship(element.instrument).isin }}<br/>
+            <span class="second-line">{{ getInstrumentFromRelationship(element.instrument).description }}</span>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="quantity">
@@ -36,7 +39,7 @@
         <ng-container matColumnDef="endDate">
           <mat-header-cell *matHeaderCellDef> End date</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.endDate | date: 'dd/MM/yyyy HH:mm'}}<br />
+            {{ element.endDate | date: 'dd/MM/yyyy HH:mm'}}<br/>
             <app-final-countdown [endDate]="element.endDate"></app-final-countdown>
           </mat-cell>
         </ng-container>
@@ -46,6 +49,9 @@
                  class="click" [class.selected]="row?.id === selectedSecurityLandingContract?.id"
                  (click)="selectSecurityLandingContracts(row)"></mat-row>
       </mat-table>
+      <div class="no-results" *ngIf="securityLandingContracts === undefined || securityLandingContracts.length == 0">No
+        results
+      </div>
     </div>
   </div>
 
@@ -77,6 +83,34 @@
           <button mat-raised-button color="warn" (click)="selectedSecurityLandingContract = undefined">Cancel</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div>
+    <h2>Portfolio</h2>
+    <div class="example-container mat-elevation-z2">
+      <mat-table [dataSource]="portfolios">
+
+        <ng-container matColumnDef="instrument">
+          <mat-header-cell *matHeaderCellDef> Instrument</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ getInstrumentFromRelationship(element.instrument).isin }}<br/>
+            <span class="second-line">{{ getInstrumentFromRelationship(element.instrument).description }}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsPortfolios"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
+      </mat-table>
+      <div class="no-results"
+           *ngIf="businessUser === undefined || businessUser.portfolio === undefined || businessUser.portfolio.length === 0">
+        No results
+      </div>
     </div>
   </div>
 

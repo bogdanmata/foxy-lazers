@@ -90,6 +90,9 @@ mat-header-cell {
 mat-expansion-panel {
   background-color: rgba(180, 180, 180, 0.3) !important;
 }
+.mat-expansion-panel-body {
+  padding-top: 1rem !important;
+}
 
 
 .fees {
@@ -128,4 +131,10 @@ p {
 .second-line {
   font-size: 0.7rem;
   color: $color3
+}
+
+.no-results {
+  color: $color4;
+  padding: 1rem;
+  font-size: 0.8rem;
 }

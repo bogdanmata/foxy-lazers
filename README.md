@@ -1,6 +1,10 @@
 # foxy-lazers
 
+## UI
 https://bogdanmata.github.io/foxy-lazers/
+
+## Backend
+http://144.217.100.36:8080/test
 
 Install
 

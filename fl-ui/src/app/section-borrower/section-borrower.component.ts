@@ -11,51 +11,7 @@ import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {SecurityLendingOffer} from "../model/security-landing-offer.model";
 import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
-
-const ACTIVE_OFFERS: SecurityLendingContract[] = [
-  {
-    id: '1',
-    startDate: '??',
-    endDate: '??',
-    quantity: 156,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 50,
-    feesFrequency: FeesFrequency.SEC_10,
-    lastCollectedFeesTimestamp: '?',
-    instrument: <Instrument>{
-      isin: 'isin 123',
-      description: 'desc 456'
-    },
-    bank: <Bank>{
-      name: 'bank 1'
-    },
-    borrower: <Borrower>{
-      name: 'borrow 1'
-    }
-  },
-  {
-    id: '2',
-    startDate: '??',
-    endDate: '??',
-    quantity: 333,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 1233,
-    feesFrequency: FeesFrequency.AT_CONTRACT_END,
-    lastCollectedFeesTimestamp: '?',
-    instrument: <Instrument>{
-      isin: 'isin 01010',
-      description: 'desc 74874747'
-    },
-    bank: <Bank>{
-      name: 'bank 12121'
-    },
-    borrower: <Borrower>{
-      name: 'borrow 11212'
-    }
-  }
-];
+import {PortfolioItem} from '../model/portfolio-item.model';
 
 export interface FeesDue {
   perSecond: number,
@@ -70,8 +26,11 @@ export const REFRESH_INTERVAL = 5000;
   styleUrls: ['./section-borrower.component.scss']
 })
 export class SectionBorrowerComponent implements OnInit, AfterViewInit {
-  displayedColumnsActiveOffers = ['id', 'quantity'];
-  dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(ACTIVE_OFFERS);
+  // Active offers
+  private activeOffers: SecurityLendingContract[] = [];
+  displayedColumnsActiveOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate'];
+  dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
+
   @ViewChild(MatSort) sort: MatSort;
 
   // Offers waiting validation
@@ -84,6 +43,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   public currentBorrower: string = "borrower1";
   public loginList: string[] = [];
   public newLendingRequest: boolean = false;
+
+  public displayedColumnsPortfolios = ['instrument', 'quantity'];
+  public portfolios: MatTableDataSource<PortfolioItem>;
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -136,19 +98,29 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     // Retrieve available bonds
     this.commonService.getBonds().subscribe(data => {
       this.instruments = data;
+      if (this.newLendingForm.get('instrument').value == null) {
+        this.newLendingForm.get('instrument').setValue(this.instruments[0].isin);
+      }
     });
 
     // Get business user
     this.commonService.getBorrowers().subscribe(data => {
       this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
+      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
     });
 
     // Retrieve lending contracts
     this.commonService.getSecurityLendingContracts().subscribe(data => {
       this.securityLendingContracts = data;
+      // Requested contracts
       this.requestedSecurityLendingContracts = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.REQUESTED);
       this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
+
+      // Active contracts
+      this.requestedSecurityLendingContracts = this.securityLendingContracts
+        .filter(contract => contract.status === ContractStatus.ACTIVE);
+      this.dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
     });
 
     // Retrieve lending offers
@@ -166,7 +138,9 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
 
   validateOffer(offer: SecurityLendingOffer): void {
     console.log('Validating offer: ', offer);
-    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe();
+    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe(data => {
+      this.getDataFromServer();
+    });
   }
 
   rejectOffer(offer: SecurityLendingContract): void {
@@ -183,7 +157,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
       atContractEnd: 0
     };
 
-    ACTIVE_OFFERS.forEach(contract => {
+    this.activeOffers.forEach(contract => {
       let divisor = 0;
       switch (contract.feesFrequency) {
         case FeesFrequency.SEC_10:

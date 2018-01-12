@@ -1,60 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
-import {
-  Collateral, ContractStatus, FeesFrequency,
-  SecurityLendingContract
-} from "../model/security-landing-contract.model";
+import {SecurityLendingContract} from "../model/security-landing-contract.model";
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
-
-const ACTIVE_OFFERS: SecurityLendingContract[] = [
-  {
-    id: '1',
-    startDate: '??',
-    endDate: '??',
-    quantity: 156,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 50,
-    feesFrequency: FeesFrequency.SEC_10,
-    lastCollectedFeesTimestamp: '?',
-    instrument: {
-      isin: 'isin 01010',
-      description: 'desc 74874747'
-    },
-    bank: {
-      name: 'bank 12121',
-
-    },
-    borrower: {
-      name: 'borrow 11212'
-    }
-  },
-  {
-    id: '2',
-    startDate: '??',
-    endDate: '??',
-    quantity: 333,
-    collateral: <Collateral> {id: '?'},
-    status: ContractStatus.ACTIVE,
-    fees: 1233,
-    feesFrequency: FeesFrequency.AT_CONTRACT_END,
-    lastCollectedFeesTimestamp: '?',
-    instrument: {
-      isin: 'isin 01010',
-      description: 'desc 74874747'
-    },
-    bank: {
-      name: 'bank 12121'
-    },
-    borrower: {
-      name: 'borrow 11212'
-    }
-  }
-];
+import {PortfolioItem} from '../model/portfolio-item.model';
+import {Instrument} from "../model/instrument.model";
 
 @Component({
   selector: 'app-section-rbc',
@@ -69,11 +22,17 @@ export class SectionRbcComponent implements OnInit {
   displayedColumns = ['id', 'name', 'isin', 'quantity'];
   displayedColumnsSecurityLandingContracts = ['borrower', 'instrument', 'quantity', 'startDate', 'endDate'];
   public securityLandingContracts: MatTableDataSource<SecurityLendingContract>;
+
+  public displayedColumnsPortfolios = ['instrument', 'quantity'];
+  public portfolios: MatTableDataSource<PortfolioItem>;
+
   public selectedSecurityLandingContract: SecurityLendingContract;
   public creationInProgress: boolean;
 
   public currentBank: string = "bank1";
   public loginList: string[] = [];
+
+  public instruments: Instrument[] = [];
 
   constructor(private commonService: CommonService) {
   }
@@ -98,9 +57,15 @@ export class SectionRbcComponent implements OnInit {
   }
 
   public getDataFromServer(): void {
+    // Retrieve available bonds
+    this.commonService.getBonds().subscribe(data => {
+      this.instruments = data;
+    });
+
     // Get business user
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
+      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
     });
 
     // Get lending contracts
@@ -137,8 +102,17 @@ export class SectionRbcComponent implements OnInit {
       this.creationInProgress = false;
       this.selectedSecurityLandingContract = undefined;
 
-      this.ngOnInit();
+      this.getDataFromServer();
     });
   }
 
+  getInstrumentFromRelationship(relationship:string): Instrument {
+    let instrumentId: string = relationship.split('#')[1];
+    let instrument = this.instruments.filter(instrument => instrument.isin === instrumentId)[0];
+    if (instrument === undefined) {
+      return {isin: '?', description: '?'};
+    } else {
+      return instrument;
+    }
+  }
 }
