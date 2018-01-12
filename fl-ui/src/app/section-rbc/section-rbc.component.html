@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <h2>All requests</h2>
+    <h2>Lending requests available</h2>
     <div class="example-container mat-elevation-z2">
       <mat-table #table [dataSource]="securityLandingContracts">
         <ng-container matColumnDef="borrower">
@@ -45,6 +45,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumnsSecurityLandingContracts;"
                  class="click" [class.selected]="row?.id === selectedSecurityLandingContract?.id"
                  (click)="selectSecurityLandingContracts(row)"></mat-row>
+        <div class="no-results" *ngIf="securityLandingContracts === undefined || securityLandingContracts.length == 0">No results</div>
       </mat-table>
     </div>
   </div>
