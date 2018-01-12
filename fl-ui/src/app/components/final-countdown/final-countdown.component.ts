@@ -16,11 +16,11 @@ export class FinalCountdownComponent implements OnInit {
   private counter: Observable<string>;
 
   constructor() {
+    this.counter = Observable.interval(1000)
+      .map(() => this.getCountDown());
   }
 
   ngOnInit() {
-    this.counter = Observable.interval(1000)
-      .map(() => this.getCountDown());
   }
 
   public getCountDown(): string {
