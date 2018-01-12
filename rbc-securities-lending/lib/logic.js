@@ -101,7 +101,8 @@ function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOf
   return SLContractRegistry.update(CurrentContract)
     .then(function(updatedContract){
       var factory = getFactory();
-      var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted', {SecurityLendingContract: updatedContract});
+      var eventOfferAccepted = factory.newEvent(NS, 'OfferAccepted');
+      eventOfferAccepted.securityLendingContract = CurrentContract;
       emit(eventOfferAccepted);
     });
 }

@@ -11,9 +11,9 @@ enum SecurityLendingContractStatus {
   o REQUESTED
   o RESPONDED
   o ACCEPTED
-  o REJECTED 
+  o REJECTED
   o EXPIRED
-  o ACTIVE  
+  o ACTIVE
   o ENDED
 }
 
@@ -42,7 +42,7 @@ participant Borrower extends BusinessUser {
 concept PortfolioItem {
   o Double quantity
   --> Instrument instrument
- } 
+ }
 
 abstract asset Instrument identified by isin {
   o String isin
@@ -79,7 +79,7 @@ asset SecurityLendingOffer identified by id {
   o String id
   o DateTime expirationDate
   o Double fees
-  o FeesFrequency feesFrequency 
+  o FeesFrequency feesFrequency
   --> SecurityLendingContract securityLendingContract
   --> Bank bank
 }
@@ -94,7 +94,7 @@ transaction LendingRequest {
 transaction LendingOffer {
   o DateTime expirationDate
   o Double fees
-  o FeesFrequency feesFrequency 
+  o FeesFrequency feesFrequency
   --> SecurityLendingContract securityLendingContract
   --> Bank bank
 }
@@ -103,7 +103,7 @@ transaction LendingOfferAgreement {
 }
 
 transaction ExecuteContracts {
-  --> Bank bank  
+  --> Bank bank
 }
 
 /**
@@ -112,6 +112,10 @@ transaction ExecuteContracts {
 transaction SetupDemo {
 }
 
-event SecLendingCreated{
+event OfferAccepted {
+  --> SecurityLendingContract securityLendingContract
+}
+
+event SecLendingCreated {
   --> SecurityLendingContract securityLendingContract
 }
