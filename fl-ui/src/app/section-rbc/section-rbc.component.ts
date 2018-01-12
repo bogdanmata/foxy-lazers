@@ -8,6 +8,7 @@ import {
 import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
+import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
 
 const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
@@ -71,15 +72,38 @@ export class SectionRbcComponent implements OnInit {
   public selectedSecurityLandingContract: SecurityLendingContract;
   public creationInProgress: boolean;
 
+  public currentBank: string = "bank1";
+  public loginList: string[] = [];
+
   constructor(private commonService: CommonService) {
   }
 
   ngOnInit() {
-    // Get business user
-    this.commonService.updateBusinessUser().subscribe(data => {
-      this.businessUser = data;
+    this.getDataFromServer();
+
+    // Init login list
+    this.commonService.getBanks().subscribe(data => {
+      this.loginList = data.map(bank => bank.name);
     });
 
+    // Setup automatic refresh
+    setInterval(() => {
+      this.getDataFromServer();
+    }, REFRESH_INTERVAL);
+  }
+
+  loginUpdated(newLogin: string) {
+    console.log("New login for Bank: ", newLogin);
+    this.currentBank = newLogin;
+  }
+
+  public getDataFromServer(): void {
+    // Get business user
+    this.commonService.getBanks().subscribe(data => {
+      this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
+    });
+
+    // Get lending contracts
     this.commonService.getSecurityLendingContracts().subscribe((data) => {
       this.securityLandingContracts = new MatTableDataSource<SecurityLendingContract>(data);
     })

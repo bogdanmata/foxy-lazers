@@ -23,10 +23,12 @@ import {CommonService} from "./common.service";
 import {FlHeaderComponent} from './fl-header/fl-header.component';
 import {FlSpinnerComponent} from './fl-spinner/fl-spinner.component';
 import {FinalCountdownComponent} from './components/final-countdown/final-countdown.component';
+import {TellMeMoreComponent} from "./tell-me-more/tell-me-more.component";
 
 const appRoutes: Routes = [
   {path: 'bank', component: SectionRbcComponent},
   {path: 'borrower', component: SectionBorrowerComponent},
+  {path: 'tell-me-more', component: TellMeMoreComponent},
   {path: '**', component: HomeComponent}
 ];
 
@@ -36,6 +38,7 @@ const appRoutes: Routes = [
     SectionRbcComponent,
     SectionBorrowerComponent,
     HomeComponent,
+    TellMeMoreComponent,
     FlHeaderComponent,
     FlSpinnerComponent,
     FinalCountdownComponent

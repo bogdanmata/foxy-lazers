@@ -1,9 +1,10 @@
-<app-fl-header appName="Borrower app" [login]="currentBorrower" className="borrower">
+<app-fl-header appName="Borrower app" className="borrower"
+               [login]="currentBorrower" [loginList]="loginList" (loginUpdated)="loginUpdated($event)">
 
   <div>
     <h2>Your balance</h2>
     <div class="fees">
-      <span class="fees-container">
+      <span class="fees-container" *ngIf="businessUser !== undefined">
         Your balance: <span class="fees-value positive">{{ businessUser.accountBalance }} $</span>
       </span>
       <span class="fees-container">
@@ -51,6 +52,26 @@
       </mat-expansion-panel>
     </mat-accordion>
 
+  </div>
+
+  <div>
+    <h2>Active contracts</h2>
+    <div class="example-container mat-elevation-z2">
+      <mat-table #table [dataSource]="dataSourceActiveOffers" matSort>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> ID</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsActiveOffers"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsActiveOffers;"></mat-row>
+      </mat-table>
+    </div>
   </div>
 
   <div>
@@ -146,26 +167,6 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsAwaitingValidationOffers"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumnsAwaitingValidationOffers;"></mat-row>
-      </mat-table>
-    </div>
-  </div>
-
-  <div>
-    <h2>Offers active</h2>
-    <div class="example-container mat-elevation-z2">
-      <mat-table #table [dataSource]="dataSourceActiveOffers">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="quantity">
-          <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumnsActiveOffers"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumnsActiveOffers;"></mat-row>
       </mat-table>
     </div>
   </div>

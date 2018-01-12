@@ -28,15 +28,19 @@
     .login-name {
       font-style: italic;
     }
+
+
+    ::ng-deep .mat-select-value {
+      color: $color1 !important;
+    }
+    ::ng-deep .mat-select-arrow {
+      color: $color2 !important;
+    }
   }
 
   a {
     font-size: 0.8rem;
     color: $color1;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
 

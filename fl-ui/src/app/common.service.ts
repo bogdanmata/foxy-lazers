@@ -1,4 +1,4 @@
-import {BusinessUser} from "./model/business-user.model";
+import {Bank, Borrower, BusinessUser} from "./model/business-user.model";
 import {Instrument} from "./model/instrument.model";
 import {environment} from "../environments/environment";
 import {Injectable} from "@angular/core";
@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 import {LendingRequest} from "./model/lending-request.model";
 import {SecurityLendingContract} from './model/security-landing-contract.model';
 import {LendingOffer, SecurityLendingOffer} from './model/security-landing-offer.model';
+import {LendingOfferAgreement} from "./model/lending-offer-agreement.model";
 
 @Injectable()
 export class CommonService {
@@ -42,9 +43,12 @@ export class CommonService {
     return this.http.get<LendingOffer[]>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOffer');
   }
 
-  // updateLendingOffer() {
-  //   return this.http.post<LendingRequest>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOfferAgreement', lendingRequest);
-  // }
+  /**
+   * Update lending offer to validate or reject
+   */
+  updateLendingOffer(lendingOfferAgreement: LendingOfferAgreement): Observable<LendingOffer> {
+    return this.http.post<LendingOffer>(environment.blockchain_api_path + 'com.rbc.hackathon.LendingOfferAgreement', lendingOfferAgreement);
+  }
 
   /**
    * Create new SecurityLendingOffer
@@ -54,20 +58,18 @@ export class CommonService {
   }
 
   /**
-   * Retrieve business user with its balance and portfolio
+   * Retrieve borrowers
    */
-  updateBusinessUser(): Observable<BusinessUser> {
-    return Observable.create(observer => {
-      observer.next({
-        accountBalance: 2000,
-        name: '??'
-      });
-      observer.complete();
-    });
+  getBorrowers(): Observable<Borrower[]> {
+    return this.http.get<Borrower[]>(environment.blockchain_api_path + 'com.rbc.hackathon.Borrower');
+  };
 
-    // TODO Retrieve from backend
-    // return this.http.get<BusinessUser>(environment.blockchain_api_path + '?');
-  }
+  /**
+   * Retrieve banks
+   */
+  getBanks(): Observable<Bank[]> {
+    return this.http.get<Bank[]>(environment.blockchain_api_path + 'com.rbc.hackathon.Bank');
+  };
 
   /**
    * Convert date to ISO String for input component or blockchain backend

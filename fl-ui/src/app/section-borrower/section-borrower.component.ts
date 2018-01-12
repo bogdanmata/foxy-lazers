@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource, MatSort} from '@angular/material';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {
   FeesFrequency, SecurityLendingContract,
@@ -11,6 +11,7 @@ import {Bank, Borrower, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {LendingOffer, SecurityLendingOffer} from "../model/security-landing-offer.model";
+import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
 
 const ACTIVE_OFFERS: SecurityLendingContract[] = [
   {
@@ -69,19 +70,20 @@ export const REFRESH_INTERVAL = 4000;
   templateUrl: './section-borrower.component.html',
   styleUrls: ['./section-borrower.component.scss']
 })
-export class SectionBorrowerComponent implements OnInit {
+export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   displayedColumnsActiveOffers = ['id', 'quantity'];
   dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(ACTIVE_OFFERS);
+  @ViewChild(MatSort) sort: MatSort;
 
   // Offers waiting validation
-  private offersAwaitingValidation: LendingOffer[] = [];
-  // displayedColumnsAwaitingValidationOffers = ['instrument', 'bank', /*'startDate', 'endDate', */'fees', 'feesFrequency', 'actions'];
+  private offersAwaitingValidation: SecurityLendingOffer[] = [];
   displayedColumnsAwaitingValidationOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate', 'actions'];
-  dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
+  dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
 
   public creationInProgress = false;
   public instruments: Instrument[] = [];
   public currentBorrower: string = "borrower1";
+  public loginList: string[] = [];
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -103,29 +105,7 @@ export class SectionBorrowerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Retrieve available bonds
-    this.commonService.getBonds().subscribe(data => {
-      this.instruments = data;
-    });
-
-    // Get business user
-    this.commonService.updateBusinessUser().subscribe(data => {
-      this.businessUser = data;
-    });
-
-    // Retrieve lending contracts
-    this.commonService.getSecurityLendingContracts().subscribe(data => {
-      this.securityLendingContracts = data;
-      this.requestedSecurityLendingContracts = this.securityLendingContracts
-        .filter(contract => contract.status === ContractStatus.REQUESTED);
-      this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
-    });
-
-    // Retrieve lending offers
-    this.commonService.getLendingOffers().subscribe(data => {
-      this.offersAwaitingValidation = data;
-      this.dataSourceAwaitingValidationOffers = new MatTableDataSource<LendingOffer>(this.offersAwaitingValidation);
-    });
+    this.getDataFromServer();
 
     // Init form with default values
     let currentDate: Date = new Date();
@@ -137,16 +117,56 @@ export class SectionBorrowerComponent implements OnInit {
 
     this.newLendingForm.get('quantity').setValue("100");
 
+    // Init login list
+    this.commonService.getBorrowers().subscribe(data => {
+      this.loginList = data.map(borrower => borrower.name);
+    });
+
     // Setup automatic refresh
     setInterval(() => {
-      this.commonService.updateBusinessUser().subscribe(data => {
-        this.businessUser = data;
-      });
+      this.getDataFromServer();
     }, REFRESH_INTERVAL);
   }
 
-  validateOffer(offer: SecurityLendingContract): void {
+  ngAfterViewInit() {
+    this.dataSourceActiveOffers.sort = this.sort;
+  }
+
+  getDataFromServer(): void {
+    // Retrieve available bonds
+    this.commonService.getBonds().subscribe(data => {
+      this.instruments = data;
+    });
+
+    // Get business user
+    this.commonService.getBorrowers().subscribe(data => {
+      this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
+    });
+
+    // Retrieve lending contracts
+    this.commonService.getSecurityLendingContracts().subscribe(data => {
+      this.securityLendingContracts = data;
+      this.requestedSecurityLendingContracts = this.securityLendingContracts
+        .filter(contract => contract.status === ContractStatus.REQUESTED);
+      this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
+    });
+
+    // Retrieve lending offers
+    this.commonService.getSecurityLendingOffers().subscribe(data => {
+      this.offersAwaitingValidation = data;
+      this.dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
+    });
+  }
+
+  loginUpdated(newLogin: string) {
+    console.log("New login for Borrower: ", newLogin);
+    this.currentBorrower = newLogin;
+  }
+
+
+  validateOffer(offer: SecurityLendingOffer): void {
     console.log('Validating offer: ', offer);
+    this.commonService.updateLendingOffer(new LendingOfferAgreement(offer.id)).subscribe();
   }
 
   rejectOffer(offer: SecurityLendingContract): void {
