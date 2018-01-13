@@ -210,13 +210,13 @@ function ExecuteContracts(executeContracts)
                     switch (contract.status) {
                         case 'ACCEPTED':
                         // Accepted but not started, check if should be activated according to startDate
-                            if (contract.startDate.valueOf()<=new Date().valueOf())
+                            if (contract.endDate.valueOf()>=new Date().valueOf())
                             {
                                 logEvent('in accepted if');
                                 contract.status='ACTIVE';
                                 logEvent('1');
                                 contract.lastCollectedFeesTimestamp=new Date();
-                                logEvent('2');
+                                logEvent('2' );
                                 changeOwnershipToBorrower1(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
                                 changeOwnershipToBorrower2(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
                                 logEvent('3');
