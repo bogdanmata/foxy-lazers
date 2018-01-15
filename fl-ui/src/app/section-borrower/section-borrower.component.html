@@ -208,10 +208,9 @@
         <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
       </mat-table>
       <div class="no-results"
-           *ngIf="businessUser === undefined
-           || businessUser.portfolio === undefined
-           || businessUser.portfolio.portfolio === undefined
-           || businessUser.portfolio.portfolio.length === 0">
+           *ngIf="portfolios === undefined
+           || portfolios.data === undefined
+           || portfolios.data.length === 0">
         No results
       </div>
     </div>
