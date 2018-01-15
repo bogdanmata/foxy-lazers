@@ -4,8 +4,8 @@
   <div>
     <h2>Your balance</h2>
     <div class="fees">
-      <span class="fees-container" *ngIf="businessUser !== undefined">
-        Your balance: <span class="fees-value positive">{{ businessUser.accountBalance }} $</span>
+      <span class="fees-container" *ngIf="account !== undefined && account.accountBalance !== undefined">
+        Your balance: <span class="fees-value positive">{{ account.accountBalance }} $</span>
       </span>
       <span class="fees-container">
         <span class="fees-value negative">-{{ feesDue().perSecond }} $</span> / second

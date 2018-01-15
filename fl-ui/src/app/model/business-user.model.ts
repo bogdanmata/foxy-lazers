@@ -1,14 +1,18 @@
-import {Portfolio} from "./portfolio-item.model";
-
 export class BusinessUser {
   public static $class = "com.rbc.hackathon.BusinessUser";
 
   constructor(public name: string,
-              public accountBalance?: number,
-              public portfolio?: Portfolio) {
+              public account?: /*Account*/string,
+              public portfolio?: string) {
   }
 
   //portfolio: PortfolioItem[]
+}
+
+export class Account {
+  constructor(public owner: string,
+              public accountBalance: number) {
+  }
 }
 
 export class Borrower extends BusinessUser {

@@ -1,4 +1,4 @@
-import {Bank, Borrower, BusinessUser} from "./model/business-user.model";
+import {Account, Bank, Borrower} from "./model/business-user.model";
 import {Instrument} from "./model/instrument.model";
 import {environment} from "../environments/environment";
 import {Injectable} from "@angular/core";
@@ -8,6 +8,7 @@ import {LendingRequest} from "./model/lending-request.model";
 import {SecurityLendingContract} from './model/security-landing-contract.model';
 import {LendingOffer, SecurityLendingOffer} from './model/security-landing-offer.model';
 import {LendingOfferAgreement} from "./model/lending-offer-agreement.model";
+import {Portfolio, PortfolioItem} from './model/portfolio-item.model';
 
 @Injectable()
 export class CommonService {
@@ -87,5 +88,17 @@ export class CommonService {
    */
   dateToISOString(date: Date): string {
     return date.toISOString().split('.')[0];
+  }
+
+  getPortfolio(id: string): Observable<Portfolio> {
+    return this.http.get<Portfolio>(`${environment.blockchain_api_path}com.rbc.hackathon.Portfolio/${id}`);
+  }
+
+  getPortfolioItem(id: string): Observable<PortfolioItem> {
+    return this.http.get<PortfolioItem>(`${environment.blockchain_api_path}com.rbc.hackathon.PortfolioItem/${id}`);
+  }
+
+  getAccount(id: string): Observable<Account> {
+    return this.http.get<Account>(`${environment.blockchain_api_path}com.rbc.hackathon.Account/${id}`);
   }
 }

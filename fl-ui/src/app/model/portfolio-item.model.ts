@@ -9,6 +9,6 @@ export interface PortfolioItem {
 
 export class Portfolio {
   constructor(public owner: string,
-              public portfolio: PortfolioItem[]) {
+              public portfolio: string[]/*PortfolioItem[]*/) {
   }
 }

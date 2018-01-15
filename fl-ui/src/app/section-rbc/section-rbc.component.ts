@@ -6,7 +6,7 @@ import {BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
-import {PortfolioItem} from '../model/portfolio-item.model';
+import {Portfolio, PortfolioItem} from '../model/portfolio-item.model';
 import {Instrument} from "../model/instrument.model";
 
 @Component({
@@ -65,7 +65,18 @@ export class SectionRbcComponent implements OnInit {
     // Get business user
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
-      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio.portfolio);
+      if (this.businessUser !== undefined) {
+        this.commonService.getPortfolio(this.businessUser.portfolio.split('#')[1]).subscribe((portfolio: Portfolio) => {
+          this.portfolios = new MatTableDataSource<PortfolioItem>();
+
+          for (let i = 0; i < portfolio.portfolio.length; i++) {
+            this.commonService.getPortfolioItem(portfolio.portfolio[i].split('#')[1])
+              .subscribe((portfolioItem: PortfolioItem) => {
+                this.portfolios.data.push(portfolioItem);
+              })
+          }
+        })
+      }
     });
 
     // Get lending contracts

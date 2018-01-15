@@ -3,12 +3,12 @@ import {MatSort, MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ContractStatus, FeesFrequency, SecurityLendingContract} from "../model/security-landing-contract.model";
 import {Instrument} from "../model/instrument.model";
-import {BusinessUser} from "../model/business-user.model";
+import {Account, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingRequest} from "../model/lending-request.model";
 import {SecurityLendingOffer} from "../model/security-landing-offer.model";
 import {LendingOfferAgreement} from "../model/lending-offer-agreement.model";
-import {PortfolioItem} from '../model/portfolio-item.model';
+import {Portfolio, PortfolioItem} from '../model/portfolio-item.model';
 
 export interface FeesDue {
   perSecond: number,
@@ -43,6 +43,8 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
 
   public displayedColumnsPortfolios = ['instrument', 'quantity'];
   public portfolios: MatTableDataSource<PortfolioItem>;
+
+  public account: Account;
 
   // new Lending form values
   public newLendingForm = new FormGroup({
@@ -106,7 +108,20 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     this.commonService.getBorrowers().subscribe(data => {
       this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
       if (this.businessUser !== undefined) {
-        this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio.portfolio);
+        this.commonService.getAccount(this.businessUser.account.split('#')[1]).subscribe((account: Account) => {
+          this.account = account;
+        });
+
+        this.commonService.getPortfolio(this.businessUser.portfolio.split('#')[1]).subscribe((portfolio: Portfolio) => {
+          this.portfolios = new MatTableDataSource<PortfolioItem>();
+
+          for (let i = 0; i < portfolio.portfolio.length; i++) {
+            this.commonService.getPortfolioItem(portfolio.portfolio[i].split('#')[1])
+              .subscribe((portfolioItem: PortfolioItem) => {
+                this.portfolios.data.push(portfolioItem);
+              })
+          }
+        })
       }
     });
 
