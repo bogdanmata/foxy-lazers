@@ -26,7 +26,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
   // Active offers
   public activeOffers: SecurityLendingContract[] = [];
   public dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
-  public displayedColumnsActiveOffers = ['bank', 'securityLendingContract', 'fees', 'feesFrequency', 'expirationDate'];
+  public displayedColumnsActiveOffers = ['bank', 'instrument', 'fees', 'feesFrequency', 'endDate'];
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -135,14 +135,14 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
       this.dataSourceRequestsEmitted = new MatTableDataSource<SecurityLendingContract>(this.requestedSecurityLendingContracts);
 
       // Active contracts
-      this.requestedSecurityLendingContracts = this.securityLendingContracts
+      this.activeOffers = this.securityLendingContracts
         .filter(contract => contract.status === ContractStatus.ACTIVE);
       this.dataSourceActiveOffers = new MatTableDataSource<SecurityLendingContract>(this.activeOffers);
     });
 
     // Retrieve lending offers
-    this.commonService.getSecurityLendingOffers().subscribe(data => {
-      this.offersAwaitingValidation = data;
+    this.commonService.getSecurityLendingOffers().subscribe((data: SecurityLendingOffer[]) => {
+      this.offersAwaitingValidation = data;//.filter((offer: SecurityLendingOffer) => offer.);
       this.dataSourceAwaitingValidationOffers = new MatTableDataSource<SecurityLendingOffer>(this.offersAwaitingValidation);
     });
   }
