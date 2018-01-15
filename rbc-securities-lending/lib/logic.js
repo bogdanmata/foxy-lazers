@@ -122,10 +122,10 @@ function changeOwnershipFromBank(changeOwnershipFromBank)
                 logEvent(' ChangeOwner : '+ bankParticipant +' : '+bankParticipant.portfolio +' : ' + bankParticipant.portfolio.length);  
                 return getAssetRegistry(NS +".Portfolio").then(function(portfolioRegistry) {
                     return portfolioRegistry.get(bankParticipant.portfolio.getIdentifier()).then(function(p) {
-                        logEvent(p.owner);
-                        for(var i = 0; i < p.portfolio.length; i++) {
-                            var item = p[i];
-                            logEvent(item + '');
+                        logEvent(p.owner + ' : ' + p.portfolio);
+                        for(var i in p.portfolio) {
+                            //var item = p[i];
+                            logEvent(i);
                             // if (item.instrument.getIdentifier()==changeOwnershipFromBank.instrument.getIdentifier())
                             // {
                             //     item.quantity -= changeOwnershipFromBank.quantityToTransfer;
@@ -164,7 +164,7 @@ function changeOwnershipToBorrower2(intrumentId, fromId, toId, quantityToTransfe
     return getParticipantRegistry(NS +".Bank")
         .then(function (bankRegistry){
             return bankRegistry.get(fromId).then(function (fromParticipant) {
-                logEvent(fromParticipant.portfolio.length);
+                logEvent(fromParticipant.portfolio);
                 foreach (item in fromParticipant.portfolio)
                 {
                     if (item.instrument.getIdentifier()==instrumentId)
@@ -309,13 +309,13 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Borrowers');
 
-    var portfolioItemBorrower1 = factory.newAsset(NS, 'PortfolioItem', '1');
+    var portfolioItemBorrower1 = factory.newResource(NS, 'PortfolioItem', '1');
     portfolioItemBorrower1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
     portfolioItemBorrower1.quantity = 0 ;
 
   
 
-    var portfolioItemBorrower2 = factory.newAsset(NS, 'PortfolioItem', '2');
+    var portfolioItemBorrower2 = factory.newResource(NS, 'PortfolioItem', '2');
     portfolioItemBorrower2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItemBorrower2.quantity = 0 ;
 
@@ -351,11 +351,11 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('___Creating Porfolio bank1');
     // portfolio creation
-    var portfolioItem_RBC1 = factory.newAsset(NS, 'PortfolioItem', '3');
+    var portfolioItem_RBC1 = factory.newResource(NS, 'PortfolioItem', '3');
     portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
     portfolioItem_RBC1.quantity = 200 ;
 
-    var portfolioItem_RBC2 = factory.newAsset(NS, 'PortfolioItem', '4');
+    var portfolioItem_RBC2 = factory.newResource(NS, 'PortfolioItem', '4');
     portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItem_RBC2.quantity = 1000 ;
 
