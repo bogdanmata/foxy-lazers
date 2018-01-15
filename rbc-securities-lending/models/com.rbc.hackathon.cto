@@ -39,7 +39,8 @@ participant Bank extends BusinessUser {
 participant Borrower extends BusinessUser {
 }
 
-concept PortfolioItem {
+asset PortfolioItem identified by id {
+  o String id
   o Double quantity
   --> Instrument instrument
  }
@@ -117,7 +118,7 @@ transaction ExecuteContracts {
   --> Bank bank
 }
 
-transaction changeOwnershipFromBank {
+transaction ChangeOwnershipFromBank {
   --> Instrument intrument
   --> Bank bank
   --> Borrower borrower

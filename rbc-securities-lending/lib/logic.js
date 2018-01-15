@@ -106,16 +106,35 @@ function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOf
     });
 }
 
-function changeOwnershipFromBank(intrumentId, bank, borrower, quantityToTransfer)
+/**
+ * An offer on lending will be created
+ * @param {com.rbc.hackathon.ChangeOwnershipFromBank} changeOwnershipFromBank - the lendingOfferAgreement transaction
+ * @transaction
+ */
+function changeOwnershipFromBank(changeOwnershipFromBank)
 {
     // No error handling...
-    logEvent(' ChangeOwner : ' + bank + ' - ' + borrower + ' - ' + quantityToTransfer);
+    logEvent(' ChangeOwner : ' + changeOwnershipFromBank.bank.getIdentifier() + ' - ' + changeOwnershipFromBank.borrower.getIdentifier() + ' - ' + changeOwnershipFromBank.quantityToTransfer);
     var NS = 'com.rbc.hackathon';
     return getParticipantRegistry(NS +".Bank")
         .then(function (bankRegistry){
-            return bankRegistry.get(toId).then(function (toParticipant) {
-                logEvent(' ChangeOwner : '+ toParticipant.portfolio.length);   
-                borrowerRegistry.update(toParticipant);
+            return bankRegistry.get(changeOwnershipFromBank.bank.getIdentifier()).then(function (bankParticipant) {
+                logEvent(' ChangeOwner : '+ bankParticipant +' : '+bankParticipant.portfolio +' : ' + bankParticipant.portfolio.length);  
+                return getAssetRegistry(NS +".Portfolio").then(function(portfolioRegistry) {
+                    return portfolioRegistry.get(bankParticipant.portfolio.getIdentifier()).then(function(p) {
+                        logEvent(p.owner);
+                        for(var i = 0; i < p.portfolio.length; i++) {
+                            var item = p[i];
+                            logEvent(item + '');
+                            // if (item.instrument.getIdentifier()==changeOwnershipFromBank.instrument.getIdentifier())
+                            // {
+                            //     item.quantity -= changeOwnershipFromBank.quantityToTransfer;
+                            // }
+                        }
+                    });
+                });
+
+                bankRegistry.update(bankParticipant);
         });
 
     });
@@ -290,13 +309,13 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('Creating Borrowers');
 
-    var portfolioItemBorrower1 = factory.newConcept(NS, 'PortfolioItem');
+    var portfolioItemBorrower1 = factory.newAsset(NS, 'PortfolioItem', '1');
     portfolioItemBorrower1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
     portfolioItemBorrower1.quantity = 0 ;
 
   
 
-    var portfolioItemBorrower2 = factory.newConcept(NS, 'PortfolioItem');
+    var portfolioItemBorrower2 = factory.newAsset(NS, 'PortfolioItem', '2');
     portfolioItemBorrower2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItemBorrower2.quantity = 0 ;
 
@@ -332,11 +351,11 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     console.log('___Creating Porfolio bank1');
     // portfolio creation
-    var portfolioItem_RBC1 = factory.newConcept(NS, 'PortfolioItem');
+    var portfolioItem_RBC1 = factory.newAsset(NS, 'PortfolioItem', '3');
     portfolioItem_RBC1.instrument = factory.newRelationship(NS, 'Bond', 'bond1');
     portfolioItem_RBC1.quantity = 200 ;
 
-    var portfolioItem_RBC2 = factory.newConcept(NS, 'PortfolioItem');
+    var portfolioItem_RBC2 = factory.newAsset(NS, 'PortfolioItem', '4');
     portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItem_RBC2.quantity = 1000 ;
 
