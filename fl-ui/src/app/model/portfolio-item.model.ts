@@ -6,3 +6,9 @@ export interface PortfolioItem {
   instrument: Instrument;
   id: string;
 }
+
+export class Portfolio {
+  constructor(public owner: string,
+              public portfolio: PortfolioItem[]) {
+  }
+}

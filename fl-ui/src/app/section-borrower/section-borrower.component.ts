@@ -106,7 +106,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
     this.commonService.getBorrowers().subscribe(data => {
       this.businessUser = data.filter(borrower => borrower.name === this.currentBorrower)[0];
       if (this.businessUser !== undefined) {
-        this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
+        this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio.portfolio);
       }
     });
 

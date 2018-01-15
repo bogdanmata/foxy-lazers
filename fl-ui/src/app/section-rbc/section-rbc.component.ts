@@ -65,7 +65,7 @@ export class SectionRbcComponent implements OnInit {
     // Get business user
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
-      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio);
+      this.portfolios = new MatTableDataSource<PortfolioItem>(this.businessUser.portfolio.portfolio);
     });
 
     // Get lending contracts

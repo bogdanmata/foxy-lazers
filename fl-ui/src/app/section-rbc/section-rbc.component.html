@@ -109,7 +109,10 @@
         <mat-row *matRowDef="let row; columns: displayedColumnsPortfolios;"></mat-row>
       </mat-table>
       <div class="no-results"
-           *ngIf="businessUser === undefined || businessUser.portfolio === undefined || businessUser.portfolio.length === 0">
+           *ngIf="businessUser === undefined
+           || businessUser.portfolio === undefined
+           ||businessUser.portfolio.portfolio === undefined
+           || businessUser.portfolio.portfolio.length === 0">
         No results
       </div>
     </div>

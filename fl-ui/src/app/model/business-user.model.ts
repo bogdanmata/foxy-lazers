@@ -1,11 +1,11 @@
-import {PortfolioItem} from "./portfolio-item.model";
+import {Portfolio} from "./portfolio-item.model";
 
 export class BusinessUser {
   public static $class = "com.rbc.hackathon.BusinessUser";
 
   constructor(public name: string,
               public accountBalance?: number,
-              public portfolio?: PortfolioItem[]) {
+              public portfolio?: Portfolio) {
   }
 
   //portfolio: PortfolioItem[]
