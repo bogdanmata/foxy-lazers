@@ -156,7 +156,7 @@ function changeOwnershipToBorrower(changeOwnershipToBorrower)
   var NS = 'com.rbc.hackathon';
   return getParticipantRegistry(NS +".Borrower")
       .then(function (borrowerRegistry){
-          return borrowerRegistry.get(changeOwnershipToBorrower.bank.getIdentifier()).then(function (borrowerParticipant) {
+          return borrowerRegistry.get(changeOwnershipToBorrower.borrower.getIdentifier()).then(function (borrowerParticipant) {
              // logEvent(' ChangeOwner : '+ borrowerParticipant +' : '+borrowerParticipant.portfolio +' : ' + borrowerParticipant.portfolio.length);  
               return getAssetRegistry(NS +".Portfolio").then(function(portfolioRegistry) {
                   return portfolioRegistry.get(borrowerParticipant.portfolio.getIdentifier()).then(function(p) {
