@@ -119,6 +119,7 @@ export class SectionBorrowerComponent implements OnInit, AfterViewInit {
             this.commonService.getPortfolioItem(portfolio.portfolio[i].split('#')[1])
               .subscribe((portfolioItem: PortfolioItem) => {
                 this.portfolios.data.push(portfolioItem);
+                this.portfolios = new MatTableDataSource<PortfolioItem>(this.portfolios.data);
               })
           }
         })
