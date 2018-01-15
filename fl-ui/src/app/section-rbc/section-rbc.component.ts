@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
 import {SecurityLendingContract} from "../model/security-landing-contract.model";
-import {BusinessUser} from "../model/business-user.model";
+import {Account, BusinessUser} from "../model/business-user.model";
 import {CommonService} from "../common.service";
 import {LendingOffer} from '../model/security-landing-offer.model';
 import {REFRESH_INTERVAL} from "../section-borrower/section-borrower.component";
@@ -33,6 +33,8 @@ export class SectionRbcComponent implements OnInit {
   public loginList: string[] = [];
 
   public instruments: Instrument[] = [];
+
+  public account: Account;
 
   constructor(private commonService: CommonService) {
   }
@@ -66,6 +68,10 @@ export class SectionRbcComponent implements OnInit {
     this.commonService.getBanks().subscribe(data => {
       this.businessUser = data.filter(bank => bank.name === this.currentBank)[0];
       if (this.businessUser !== undefined) {
+        this.commonService.getAccount(this.businessUser.account.split('#')[1]).subscribe((account: Account) => {
+          this.account = account;
+        });
+
         this.commonService.getPortfolio(this.businessUser.portfolio.split('#')[1]).subscribe((portfolio: Portfolio) => {
           this.portfolios = new MatTableDataSource<PortfolioItem>();
 
