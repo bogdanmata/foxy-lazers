@@ -144,6 +144,45 @@ function changeOwnershipFromBank(changeOwnershipFromBank)
     });
 }
 
+/**
+ * An offer on lending will be created
+ * @param {com.rbc.hackathon.ChangeOwnershipToBorrower} changeOwnershipToBorrower - the lendingOfferAgreement transaction
+ * @transaction
+ */
+function changeOwnershipToBorrower(changeOwnershipToBorrower)
+{
+        // No error handling...
+  //  logEvent(' ChangeOwner : ' + changeOwnershipToBorrower.bank.getIdentifier() + ' - ' + changeOwnershipToBorrower.borrower.getIdentifier() + ' - ' + changeOwnershipToBorrower.quantityToTransfer);
+  var NS = 'com.rbc.hackathon';
+  return getParticipantRegistry(NS +".Borrower")
+      .then(function (borrowerRegistry){
+          return borrowerRegistry.get(changeOwnershipToBorrower.bank.getIdentifier()).then(function (borrowerParticipant) {
+             // logEvent(' ChangeOwner : '+ borrowerParticipant +' : '+borrowerParticipant.portfolio +' : ' + borrowerParticipant.portfolio.length);  
+              return getAssetRegistry(NS +".Portfolio").then(function(portfolioRegistry) {
+                  return portfolioRegistry.get(borrowerParticipant.portfolio.getIdentifier()).then(function(p) {
+                    //  logEvent(p.owner + ' : ' + p.portfolio);
+                    return getAssetRegistry(NS +".PortfolioItem").then(function(portfolioItemRegistry) {
+                          p.portfolio.forEach(function(item) {
+                          return portfolioItemRegistry.get(item.getIdentifier()).then(function (ptfItem) {
+                              logEvent(ptfItem.instrument + ' : ' + changeOwnershipToBorrower.intrument)
+                              if (ptfItem.instrument.getIdentifier() == changeOwnershipToBorrower.intrument.getIdentifier()) {
+                                  logEvent('in if');
+                                  ptfItem.quantity += changeOwnershipToBorrower.quantityToTransfer;
+                                      logEvent('update');
+                                      portfolioItemRegistry.update(ptfItem).then(function(result) {
+                                          logEvent(' ' + result);
+                                      });
+                                  }});
+                          });
+                          borrowerRegistry.update(borrowerParticipant);
+                      });
+                  });
+              });
+          });
+  });
+
+}
+
 function changeOwnershipToBorrower1(intrumentId, fromId, toId, quantityToTransfer)
 {
     // No error handling...

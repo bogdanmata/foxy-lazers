@@ -126,6 +126,14 @@ transaction ChangeOwnershipFromBank {
   
 }
 
+transaction ChangeOwnershipToBorrower {
+  --> Instrument intrument
+  --> Bank bank
+  --> Borrower borrower
+  o Double quantityToTransfer
+  
+}
+
 /**
  * JUST FOR INITIALIZING A DEMO
  */
