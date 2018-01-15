@@ -47,7 +47,7 @@ asset PortfolioItem identified by id {
 
 asset Portfolio identified by owner {
     o String owner
-    o PortfolioItem[] portfolio
+    --> PortfolioItem[] portfolio
 }
 
 asset Account identified by owner {

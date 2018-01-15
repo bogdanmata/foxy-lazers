@@ -114,29 +114,33 @@ function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOf
 function changeOwnershipFromBank(changeOwnershipFromBank)
 {
     // No error handling...
-    logEvent(' ChangeOwner : ' + changeOwnershipFromBank.bank.getIdentifier() + ' - ' + changeOwnershipFromBank.borrower.getIdentifier() + ' - ' + changeOwnershipFromBank.quantityToTransfer);
+  //  logEvent(' ChangeOwner : ' + changeOwnershipFromBank.bank.getIdentifier() + ' - ' + changeOwnershipFromBank.borrower.getIdentifier() + ' - ' + changeOwnershipFromBank.quantityToTransfer);
     var NS = 'com.rbc.hackathon';
     return getParticipantRegistry(NS +".Bank")
         .then(function (bankRegistry){
             return bankRegistry.get(changeOwnershipFromBank.bank.getIdentifier()).then(function (bankParticipant) {
-                logEvent(' ChangeOwner : '+ bankParticipant +' : '+bankParticipant.portfolio +' : ' + bankParticipant.portfolio.length);  
+               // logEvent(' ChangeOwner : '+ bankParticipant +' : '+bankParticipant.portfolio +' : ' + bankParticipant.portfolio.length);  
                 return getAssetRegistry(NS +".Portfolio").then(function(portfolioRegistry) {
                     return portfolioRegistry.get(bankParticipant.portfolio.getIdentifier()).then(function(p) {
-                        logEvent(p.owner + ' : ' + p.portfolio);
-                        for(var i in p.portfolio) {
-                            //var item = p[i];
-                            logEvent(i);
-                            // if (item.instrument.getIdentifier()==changeOwnershipFromBank.instrument.getIdentifier())
-                            // {
-                            //     item.quantity -= changeOwnershipFromBank.quantityToTransfer;
-                            // }
-                        }
+                      //  logEvent(p.owner + ' : ' + p.portfolio);
+                      return getAssetRegistry(NS +".PortfolioItem").then(function(portfolioItemRegistry) {
+                            p.portfolio.forEach(function(item) {
+                            return portfolioItemRegistry.get(item.getIdentifier()).then(function (ptfItem) {
+                                logEvent(ptfItem.instrument + ' : ' + changeOwnershipFromBank.intrument)
+                                if (ptfItem.instrument.getIdentifier() == changeOwnershipFromBank.intrument.getIdentifier()) {
+                                    logEvent('in if');
+                                    ptfItem.quantity -= changeOwnershipFromBank.quantityToTransfer;
+                                        logEvent('update');
+                                        portfolioItemRegistry.update(ptfItem).then(function(result) {
+                                            logEvent(' ' + result);
+                                        });
+                                    }});
+                            });
+                            bankRegistry.update(bankParticipant);
+                        });
                     });
                 });
-
-                bankRegistry.update(bankParticipant);
-        });
-
+            });
     });
 }
 
@@ -320,23 +324,23 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     portfolioItemBorrower2.quantity = 0 ;
 
       // create the portfolio
-      var portfolio1 = factory.newResource(NS, 'Portfolio', 'borrower1');
-      portfolio1.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
+      var portfolio1 = factory.newResource(NS, 'Portfolio', 'PortfolioBorrower1');
+      portfolio1.portfolio = [factory.newRelationship(NS, 'PortfolioItem', '1'), factory.newRelationship(NS, 'PortfolioItem', '2')];
       
       //var portfolio2 = factory.newResource(NS, 'Porfolio', 'borrower2');
       //portfolio2.portfolio = [portfolioItemBorrower1, portfolioItemBorrower2];
 
       // create the account
-     var accountBorrower1 = factory.newResource(NS, 'Account', 'borrower1');
-     var accountBank1 = factory.newResource(NS, 'Account', 'borrower1');
+     var accountBorrower1 = factory.newResource(NS, 'Account', 'AccountBorrower1');
+     var accountBank1 = factory.newResource(NS, 'Account', 'AccountBank1');
      accountBorrower1.accountBalance = 2000 ;
      accountBank1.accountBalance = 2000 ;
 
     // create the borrowers
     var borrower1 = factory.newResource(NS, 'Borrower', 'borrower1');
    ;
-    borrower1.portfolio = factory.newRelationship(NS, 'Portfolio', 'borrower1');
-    borrower1.account = factory.newRelationship(NS, 'Account', 'borrower1');
+    borrower1.portfolio = factory.newRelationship(NS, 'Portfolio', 'PortfolioBorrower1');
+    borrower1.account = factory.newRelationship(NS, 'Account', 'AccountBorrower1');
 
     //var borrower2 = factory.newResource(NS, 'Borrower', 'borrower2');
     //borrower2.accountBalance = 2000;
@@ -346,7 +350,7 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     // create the banks
     var bank1 = factory.newResource(NS, 'Bank' ,'bank1');
 
-    var portfolio2 = factory.newResource(NS, 'Portfolio', 'bank1');
+    var portfolio2 = factory.newResource(NS, 'Portfolio', 'PortfolioBank1');
    
 
     console.log('___Creating Porfolio bank1');
@@ -359,10 +363,10 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
     portfolioItem_RBC2.instrument = factory.newRelationship(NS, 'Bond', 'bond2');
     portfolioItem_RBC2.quantity = 1000 ;
 
-    portfolio2.portfolio = [portfolioItem_RBC1, portfolioItem_RBC2];
+    portfolio2.portfolio = [factory.newRelationship(NS, 'PortfolioItem', '3'), factory.newRelationship(NS, 'PortfolioItem', '4')];
 
-    bank1.account = factory.newRelationship(NS, 'Account', 'bank1');
-    bank1.portfolio = factory.newRelationship(NS, 'Portfolio', 'bank1');
+    bank1.account = factory.newRelationship(NS, 'Account', 'AccountBank1');
+    bank1.portfolio = factory.newRelationship(NS, 'Portfolio', 'PortfolioBank1');
     
 
     console.log('___Attach Portfolio bank1');
@@ -400,6 +404,13 @@ function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
         .then(function (bondRegistry) {
             // add the bonds
             return bondRegistry.addAll([bond2, bond5]);
+        })
+        .then(function() {
+            return getAssetRegistry(NS + '.PortfolioItem');
+        })
+        .then(function (portfolioItemRegistry) {
+            // add the bonds
+            return portfolioItemRegistry.addAll([portfolioItem_RBC1, portfolioItem_RBC2, portfolioItemBorrower1, portfolioItemBorrower2]);
         })
         .then(function() {
             return getAssetRegistry(NS + '.Portfolio');
