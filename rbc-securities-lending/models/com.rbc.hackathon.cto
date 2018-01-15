@@ -117,6 +117,14 @@ transaction ExecuteContracts {
   --> Bank bank
 }
 
+transaction changeOwnershipFromBank {
+  --> Instrument intrument
+  --> Bank bank
+  --> Borrower borrower
+  o Double quantityToTransfer
+  
+}
+
 /**
  * JUST FOR INITIALIZING A DEMO
  */

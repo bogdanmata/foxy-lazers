@@ -106,22 +106,31 @@ function updateSecurityLendingContract(CurrentContract, relatedSecurityLendingOf
     });
 }
 
+function changeOwnershipFromBank(intrumentId, bank, borrower, quantityToTransfer)
+{
+    // No error handling...
+    logEvent(' ChangeOwner : ' + bank + ' - ' + borrower + ' - ' + quantityToTransfer);
+    var NS = 'com.rbc.hackathon';
+    return getParticipantRegistry(NS +".Bank")
+        .then(function (bankRegistry){
+            return bankRegistry.get(toId).then(function (toParticipant) {
+                logEvent(' ChangeOwner : '+ toParticipant.portfolio.length);   
+                borrowerRegistry.update(toParticipant);
+        });
+
+    });
+}
+
 function changeOwnershipToBorrower1(intrumentId, fromId, toId, quantityToTransfer)
 {
     // No error handling...
-    logEvent(fromId + ' - ' + toId + ' - ' + quantityToTransfer);
+    logEvent(' ChangeOwner : ' + fromId + ' - ' + toId + ' - ' + quantityToTransfer);
     var NS = 'com.rbc.hackathon';
     return getParticipantRegistry(NS +".Borrower")
         .then(function (borrowerRegistry){
             return borrowerRegistry.get(toId).then(function (toParticipant) {
-                logEvent(toParticipant.portfolio.length);
-                foreach (item in toParticipant.portfolio)
-                {
-                    if (item.instrument.getIdentifier()==instrumentId)
-                    {
-                        item.quantity += quantityToTransfer;
-                    }
-                }
+                logEvent(' ChangeOwner : '+ toParticipant.portfolio.length);
+                
                 borrowerRegistry.update(toParticipant);
         });
 
@@ -216,9 +225,9 @@ function ExecuteContracts(executeContracts)
                                 contract.status='ACTIVE';
                                 logEvent('1');
                                 contract.lastCollectedFeesTimestamp=new Date();
-                                logEvent('2' );
+                                logEvent('2');
                                 changeOwnershipToBorrower1(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
-                                changeOwnershipToBorrower2(contract.instrument.getIdentifier(), contract.bank.getIdentifier(), contract.borrower.getIdentifier(), contract.quantity);
+
                                 logEvent('3');
                                 SLContractRegistry.update(contract);
                                 logEvent('4');
